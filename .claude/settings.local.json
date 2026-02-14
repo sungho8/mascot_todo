@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "mcp__notion__API-retrieve-a-page",
+      "mcp__notion__API-get-block-children",
+      "Bash(else echo \"lib 폴더가 존재하지 않습니다\")",
+      "Bash(fi)",
+      "Bash(flutter pub get:*)",
+      "Bash(flutter pub run build_runner build:*)",
+      "Bash(dart run:*)",
+      "Bash(flutter run:*)",
+      "Bash(flutter analyze:*)",
+      "mcp__notion__API-post-search",
+      "Bash(/Users/sungho/Documents/mascot_todo/lib/presentation/views/statistics/statistics_view.dart << 'EOF'\nimport 'package:flutter/material.dart';\nimport '../../../core/design_system/design_system.dart';\n\n/// 통계 화면\nclass StatisticsView extends StatelessWidget {\n  const StatisticsView\\({super.key}\\);\n\n  @override\n  Widget build\\(BuildContext context\\) {\n    return Scaffold\\(\n      appBar: AppBar\\(\n        title: const Text\\('통계'\\),\n      \\),\n      body: const Center\\(\n        child: Text\\('통계 화면', style: AppTypography.h2\\),\n      \\),\n    \\);\n  }\n}\nEOF)",
+      "Bash(/Users/sungho/Documents/mascot_todo/lib/presentation/views/settings/settings_view.dart << 'EOF'\nimport 'package:flutter/material.dart';\nimport '../../../core/design_system/design_system.dart';\n\n/// 설정 화면\nclass SettingsView extends StatelessWidget {\n  const SettingsView\\({super.key}\\);\n\n  @override\n  Widget build\\(BuildContext context\\) {\n    return Scaffold\\(\n      appBar: AppBar\\(\n        title: const Text\\('설정'\\),\n      \\),\n      body: const Center\\(\n        child: Text\\('설정 화면', style: AppTypography.h2\\),\n      \\),\n    \\);\n  }\n}\nEOF)",
+      "Bash(/Users/sungho/Documents/mascot_todo/lib/presentation/views/main/main_view.dart << 'EOF'\nimport 'package:flutter/material.dart';\nimport '../home/home_view.dart';\nimport '../mascot/mascot_view.dart';\nimport '../statistics/statistics_view.dart';\nimport '../settings/settings_view.dart';\n\n/// 메인 화면 \\(바텀 네비게이션 포함\\)\nclass MainView extends StatefulWidget {\n  const MainView\\({super.key}\\);\n\n  @override\n  State<MainView> createState\\(\\) => _MainViewState\\(\\);\n}\n\nclass _MainViewState extends State<MainView> {\n  int _currentIndex = 0;\n\n  final List<Widget> _pages = const [\n    HomeView\\(\\),\n    MascotView\\(\\),\n    StatisticsView\\(\\),\n    SettingsView\\(\\),\n  ];\n\n  @override\n  Widget build\\(BuildContext context\\) {\n    return Scaffold\\(\n      body: IndexedStack\\(\n        index: _currentIndex,\n        children: _pages,\n      \\),\n      bottomNavigationBar: BottomNavigationBar\\(\n        currentIndex: _currentIndex,\n        onTap: \\(index\\) {\n          setState\\(\\(\\) {\n            _currentIndex = index;\n          }\\);\n        },\n        type: BottomNavigationBarType.fixed,\n        items: const [\n          BottomNavigationBarItem\\(\n            icon: Icon\\(Icons.home\\),\n            label: '홈',\n          \\),\n          BottomNavigationBarItem\\(\n            icon: Icon\\(Icons.pets\\),\n            label: '마스코트',\n          \\),\n          BottomNavigationBarItem\\(\n            icon: Icon\\(Icons.bar_chart\\),\n            label: '통계',\n          \\),\n          BottomNavigationBarItem\\(\n            icon: Icon\\(Icons.settings\\),\n            label: '설정',\n          \\),\n        ],\n      \\),\n    \\);\n  }\n}\nEOF)",
+      "Bash(fvm dart run build_runner build:*)",
+      "Bash(fvm flutter:*)",
+      "Bash(curl:*)",
+      "Bash(unzip:*)",
+      "Bash(git add:*)"
+    ]
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd /Users/sungho/Documents/mascot_todo && fvm flutter analyze"
+          }
+        ]
+      }
+    ]
+  }
+}
