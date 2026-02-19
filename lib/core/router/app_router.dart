@@ -4,6 +4,7 @@ import '../../presentation/views/home/home_view.dart';
 import '../../presentation/views/collection/collection_view.dart';
 import '../../presentation/views/statistics/statistics_view.dart';
 import '../../presentation/views/settings/settings_view.dart';
+import '../../presentation/views/auth/login_view.dart';
 import '../constants/route_path.dart';
 
 /// App router configuration
@@ -11,8 +12,17 @@ class AppRouter {
   AppRouter._();
 
   static final GoRouter router = GoRouter(
-    initialLocation: RoutePath.home,
+    initialLocation: RoutePath.login,
     routes: [
+      // 로그인
+      GoRoute(
+        path: RoutePath.login,
+        pageBuilder: (context, state) => const NoTransitionPage(
+          child: LoginView(),
+        ),
+      ),
+
+      // 메인 앱 (인증 필요)
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return MainView(navigationShell: navigationShell);

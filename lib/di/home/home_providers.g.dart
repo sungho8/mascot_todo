@@ -7,7 +7,7 @@ part of 'home_providers.dart';
 // **************************************************************************
 
 String _$todoLocalDataSourceHash() =>
-    r'967dc0d4e6a7014ce3a596702264c7845719d669';
+    r'294a9153458e3ba5c80085388b65b85c13ea48d9';
 
 /// DataSource Providers
 ///
@@ -28,7 +28,7 @@ final todoLocalDataSourceProvider =
 // ignore: unused_element
 typedef TodoLocalDataSourceRef = AutoDisposeProviderRef<TodoLocalDataSource>;
 String _$mascotLocalDataSourceHash() =>
-    r'8b4d3f821b30cc379f6b06990b838536d10578ce';
+    r'ceff46b699eb8bd507a63c044cecb401333a84bf';
 
 /// See also [mascotLocalDataSource].
 @ProviderFor(mascotLocalDataSource)
@@ -48,7 +48,7 @@ final mascotLocalDataSourceProvider =
 typedef MascotLocalDataSourceRef =
     AutoDisposeProviderRef<MascotLocalDataSource>;
 String _$categoryLocalDataSourceHash() =>
-    r'624861855d6f0209256094b6cbc5b23a99487c68';
+    r'd16082a2b16b248f6dd18aa8635814c8ea8ab29e';
 
 /// See also [categoryLocalDataSource].
 @ProviderFor(categoryLocalDataSource)
@@ -68,7 +68,7 @@ final categoryLocalDataSourceProvider =
 typedef CategoryLocalDataSourceRef =
     AutoDisposeProviderRef<CategoryLocalDataSource>;
 String _$userLocalDataSourceHash() =>
-    r'82069f0eae6610dab6feaac247bdc6debfb2f114';
+    r'ea10891454b1ef7e608292d4954ff390acb54169';
 
 /// See also [userLocalDataSource].
 @ProviderFor(userLocalDataSource)
@@ -86,7 +86,7 @@ final userLocalDataSourceProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef UserLocalDataSourceRef = AutoDisposeProviderRef<UserLocalDataSource>;
-String _$todoRepositoryHash() => r'bdd22245d70c426ca8afc555ffdc2b0e447b030b';
+String _$todoRepositoryHash() => r'b384ab93eab77d541acb3cc00184f982068db1e8';
 
 /// Repository Providers
 ///
@@ -105,7 +105,7 @@ final todoRepositoryProvider = AutoDisposeProvider<TodoRepository>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef TodoRepositoryRef = AutoDisposeProviderRef<TodoRepository>;
-String _$mascotRepositoryHash() => r'3ccaa0a3e04af2721d1efeb48537c1798448c2b3';
+String _$mascotRepositoryHash() => r'6ec6ebccea5c089b3a63fed24d9ed384f4ba78c8';
 
 /// See also [mascotRepository].
 @ProviderFor(mascotRepository)
@@ -123,7 +123,7 @@ final mascotRepositoryProvider = AutoDisposeProvider<MascotRepository>.internal(
 // ignore: unused_element
 typedef MascotRepositoryRef = AutoDisposeProviderRef<MascotRepository>;
 String _$categoryRepositoryHash() =>
-    r'1168df0dff01e8bf707251512c74bd343c5bf2be';
+    r'b483296b273454ebbbf93770391d80630302fcb1';
 
 /// See also [categoryRepository].
 @ProviderFor(categoryRepository)
@@ -141,7 +141,7 @@ final categoryRepositoryProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef CategoryRepositoryRef = AutoDisposeProviderRef<CategoryRepository>;
-String _$userRepositoryHash() => r'917d34c3a2ad0b7d741c8e4ccf3c6589dbf81ee9';
+String _$userRepositoryHash() => r'7191b5e47897302c372a1bc45527e7e7049ec37f';
 
 /// See also [userRepository].
 @ProviderFor(userRepository)
@@ -159,7 +159,7 @@ final userRepositoryProvider = AutoDisposeProvider<UserRepository>.internal(
 // ignore: unused_element
 typedef UserRepositoryRef = AutoDisposeProviderRef<UserRepository>;
 String _$getHomeDataUseCaseHash() =>
-    r'69e1d5ce4da2237701d55f3a56616827cd85b820';
+    r'b4594e4734d0017c0ec02a330d2f5e6782bef303';
 
 /// UseCase Providers
 ///
@@ -180,7 +180,7 @@ final getHomeDataUseCaseProvider =
 // ignore: unused_element
 typedef GetHomeDataUseCaseRef = AutoDisposeProviderRef<GetHomeDataUseCase>;
 String _$completeTodoUseCaseHash() =>
-    r'f7a373d3aec604843f5d1f55472c6e9ae721badd';
+    r'07a10e62e98bc96b9332fda37bdc13049960bc26';
 
 /// See also [completeTodoUseCase].
 @ProviderFor(completeTodoUseCase)

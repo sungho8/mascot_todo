@@ -1,28 +1,28 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'home_viewmodel.dart';
+part of 'auth_viewmodel.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$homeViewModelHash() => r'c4275dfc1ddbbc53d80afbad26b6285d579f039e';
+String _$authViewModelHash() => r'ffe9648f83db2a37e9236719d2047be8b51e5669';
 
-/// 홈 화면 ViewModel
+/// 인증 ViewModel
 ///
-/// Copied from [HomeViewModel].
-@ProviderFor(HomeViewModel)
-final homeViewModelProvider =
-    AutoDisposeNotifierProvider<HomeViewModel, HomeState>.internal(
-      HomeViewModel.new,
-      name: r'homeViewModelProvider',
+/// Copied from [AuthViewModel].
+@ProviderFor(AuthViewModel)
+final authViewModelProvider =
+    AutoDisposeNotifierProvider<AuthViewModel, AuthState>.internal(
+      AuthViewModel.new,
+      name: r'authViewModelProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$homeViewModelHash,
+          : _$authViewModelHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
-typedef _$HomeViewModel = AutoDisposeNotifier<HomeState>;
+typedef _$AuthViewModel = AutoDisposeNotifier<AuthState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

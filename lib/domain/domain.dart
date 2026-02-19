@@ -3,19 +3,12 @@
 library;
 
 /// Entities
-// Export entity files here (alphabetically)
-// Example:
-// export 'entities/todo/todo_entity.dart';
-// export 'entities/mascot/mascot_entity.dart';
+export 'entities/auth/user_entity.dart';
 
 /// Repositories
-// Export repository interface files here (alphabetically)
-// Example:
-// export 'repositories/todo/todo_repository.dart';
-// export 'repositories/mascot/mascot_repository.dart';
+export 'repositories/auth/auth_repository.dart';
 
 /// UseCases
-// Export use case files here (alphabetically)
-// Example:
-// export 'usecases/todo/create_todo_usecase.dart';
-// export 'usecases/todo/get_todos_usecase.dart';
+export 'usecases/auth/get_current_user_usecase.dart';
+export 'usecases/auth/sign_in_with_kakao_usecase.dart';
+export 'usecases/auth/sign_out_usecase.dart';
