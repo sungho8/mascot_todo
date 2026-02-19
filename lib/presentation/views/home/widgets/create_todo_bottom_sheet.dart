@@ -195,17 +195,13 @@ class _CreateTodoBottomSheetState
                       duration: const Duration(milliseconds: 150),
                       padding: const EdgeInsets.symmetric(
                         horizontal: AppSpacing.md,
-                        vertical: AppSpacing.xxs,
                       ),
+                      alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? color.withValues(alpha: 0.15)
+                            ? color.withValues(alpha: 0.1)
                             : AppColors.backgroundSecondary,
                         borderRadius: AppRadius.borderCircle,
-                        border: Border.all(
-                          color: isSelected ? color : Colors.transparent,
-                          width: 1.5,
-                        ),
                       ),
                       child: Text(
                         category.name,
@@ -213,9 +209,6 @@ class _CreateTodoBottomSheetState
                           color: isSelected
                               ? color
                               : AppColors.textSecondary,
-                          fontWeight: isSelected
-                              ? FontWeight.w600
-                              : FontWeight.normal,
                         ),
                       ),
                     ),
