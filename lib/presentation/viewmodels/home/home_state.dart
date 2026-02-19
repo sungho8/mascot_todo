@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import '../../../domain/entities/category/category_entity.dart';
 import '../../../domain/entities/todo/todo_entity.dart';
 import '../../../domain/entities/mascot/mascot_entity.dart';
 import '../../../domain/entities/user/user_entity.dart';
@@ -14,6 +15,7 @@ abstract class HomeState with _$HomeState {
     @Default([]) List<TodoEntity> todos,
     TodoEntity? focusTodo,
     MascotEntity? mainMascot,
+    @Default([]) List<CategoryEntity> categories,
     String? errorMessage,
   }) = _HomeState;
 }

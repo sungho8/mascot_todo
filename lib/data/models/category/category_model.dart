@@ -1,3 +1,4 @@
+// ignore_for_file: invalid_annotation_target
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../domain/entities/category/category_entity.dart';
 
@@ -12,8 +13,8 @@ abstract class CategoryModel with _$CategoryModel {
   const factory CategoryModel({
     required String id,
     required String name,
-    required String colorHex,
-    String? iconName,
+    @JsonKey(name: 'color_hex') required String colorHex,
+    @JsonKey(name: 'icon_name') String? iconName,
   }) = _CategoryModel;
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) =>

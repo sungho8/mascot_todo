@@ -22,14 +22,26 @@ TodoModel _$TodoModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TodoModel {
   String get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'user_id')
+  String get userId => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_completed')
   bool get isCompleted => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_focus')
+  bool get isFocus => throw _privateConstructorUsedError;
+  @JsonKey(name: 'linked_mascot_id')
   String? get linkedMascotId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'category_id')
   String? get categoryId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'target_date')
   String get targetDate => throw _privateConstructorUsedError;
-  String get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'completed_at')
   String? get completedAt => throw _privateConstructorUsedError;
-  bool get isFocusTask => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
+  String get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'updated_at')
+  String? get updatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this TodoModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -48,14 +60,17 @@ abstract class $TodoModelCopyWith<$Res> {
   @useResult
   $Res call({
     String id,
+    @JsonKey(name: 'user_id') String userId,
     String title,
-    bool isCompleted,
-    String? linkedMascotId,
-    String? categoryId,
-    String targetDate,
-    String createdAt,
-    String? completedAt,
-    bool isFocusTask,
+    String? description,
+    @JsonKey(name: 'is_completed') bool isCompleted,
+    @JsonKey(name: 'is_focus') bool isFocus,
+    @JsonKey(name: 'linked_mascot_id') String? linkedMascotId,
+    @JsonKey(name: 'category_id') String? categoryId,
+    @JsonKey(name: 'target_date') String targetDate,
+    @JsonKey(name: 'completed_at') String? completedAt,
+    @JsonKey(name: 'created_at') String createdAt,
+    @JsonKey(name: 'updated_at') String? updatedAt,
   });
 }
 
@@ -75,14 +90,17 @@ class _$TodoModelCopyWithImpl<$Res, $Val extends TodoModel>
   @override
   $Res call({
     Object? id = null,
+    Object? userId = null,
     Object? title = null,
+    Object? description = freezed,
     Object? isCompleted = null,
+    Object? isFocus = null,
     Object? linkedMascotId = freezed,
     Object? categoryId = freezed,
     Object? targetDate = null,
-    Object? createdAt = null,
     Object? completedAt = freezed,
-    Object? isFocusTask = null,
+    Object? createdAt = null,
+    Object? updatedAt = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -90,13 +108,25 @@ class _$TodoModelCopyWithImpl<$Res, $Val extends TodoModel>
                 ? _value.id
                 : id // ignore: cast_nullable_to_non_nullable
                       as String,
+            userId: null == userId
+                ? _value.userId
+                : userId // ignore: cast_nullable_to_non_nullable
+                      as String,
             title: null == title
                 ? _value.title
                 : title // ignore: cast_nullable_to_non_nullable
                       as String,
+            description: freezed == description
+                ? _value.description
+                : description // ignore: cast_nullable_to_non_nullable
+                      as String?,
             isCompleted: null == isCompleted
                 ? _value.isCompleted
                 : isCompleted // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            isFocus: null == isFocus
+                ? _value.isFocus
+                : isFocus // ignore: cast_nullable_to_non_nullable
                       as bool,
             linkedMascotId: freezed == linkedMascotId
                 ? _value.linkedMascotId
@@ -110,18 +140,18 @@ class _$TodoModelCopyWithImpl<$Res, $Val extends TodoModel>
                 ? _value.targetDate
                 : targetDate // ignore: cast_nullable_to_non_nullable
                       as String,
-            createdAt: null == createdAt
-                ? _value.createdAt
-                : createdAt // ignore: cast_nullable_to_non_nullable
-                      as String,
             completedAt: freezed == completedAt
                 ? _value.completedAt
                 : completedAt // ignore: cast_nullable_to_non_nullable
                       as String?,
-            isFocusTask: null == isFocusTask
-                ? _value.isFocusTask
-                : isFocusTask // ignore: cast_nullable_to_non_nullable
-                      as bool,
+            createdAt: null == createdAt
+                ? _value.createdAt
+                : createdAt // ignore: cast_nullable_to_non_nullable
+                      as String,
+            updatedAt: freezed == updatedAt
+                ? _value.updatedAt
+                : updatedAt // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -139,14 +169,17 @@ abstract class _$$TodoModelImplCopyWith<$Res>
   @useResult
   $Res call({
     String id,
+    @JsonKey(name: 'user_id') String userId,
     String title,
-    bool isCompleted,
-    String? linkedMascotId,
-    String? categoryId,
-    String targetDate,
-    String createdAt,
-    String? completedAt,
-    bool isFocusTask,
+    String? description,
+    @JsonKey(name: 'is_completed') bool isCompleted,
+    @JsonKey(name: 'is_focus') bool isFocus,
+    @JsonKey(name: 'linked_mascot_id') String? linkedMascotId,
+    @JsonKey(name: 'category_id') String? categoryId,
+    @JsonKey(name: 'target_date') String targetDate,
+    @JsonKey(name: 'completed_at') String? completedAt,
+    @JsonKey(name: 'created_at') String createdAt,
+    @JsonKey(name: 'updated_at') String? updatedAt,
   });
 }
 
@@ -165,14 +198,17 @@ class __$$TodoModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? userId = null,
     Object? title = null,
+    Object? description = freezed,
     Object? isCompleted = null,
+    Object? isFocus = null,
     Object? linkedMascotId = freezed,
     Object? categoryId = freezed,
     Object? targetDate = null,
-    Object? createdAt = null,
     Object? completedAt = freezed,
-    Object? isFocusTask = null,
+    Object? createdAt = null,
+    Object? updatedAt = freezed,
   }) {
     return _then(
       _$TodoModelImpl(
@@ -180,13 +216,25 @@ class __$$TodoModelImplCopyWithImpl<$Res>
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
                   as String,
+        userId: null == userId
+            ? _value.userId
+            : userId // ignore: cast_nullable_to_non_nullable
+                  as String,
         title: null == title
             ? _value.title
             : title // ignore: cast_nullable_to_non_nullable
                   as String,
+        description: freezed == description
+            ? _value.description
+            : description // ignore: cast_nullable_to_non_nullable
+                  as String?,
         isCompleted: null == isCompleted
             ? _value.isCompleted
             : isCompleted // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isFocus: null == isFocus
+            ? _value.isFocus
+            : isFocus // ignore: cast_nullable_to_non_nullable
                   as bool,
         linkedMascotId: freezed == linkedMascotId
             ? _value.linkedMascotId
@@ -200,18 +248,18 @@ class __$$TodoModelImplCopyWithImpl<$Res>
             ? _value.targetDate
             : targetDate // ignore: cast_nullable_to_non_nullable
                   as String,
-        createdAt: null == createdAt
-            ? _value.createdAt
-            : createdAt // ignore: cast_nullable_to_non_nullable
-                  as String,
         completedAt: freezed == completedAt
             ? _value.completedAt
             : completedAt // ignore: cast_nullable_to_non_nullable
                   as String?,
-        isFocusTask: null == isFocusTask
-            ? _value.isFocusTask
-            : isFocusTask // ignore: cast_nullable_to_non_nullable
-                  as bool,
+        createdAt: null == createdAt
+            ? _value.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as String,
+        updatedAt: freezed == updatedAt
+            ? _value.updatedAt
+            : updatedAt // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -222,14 +270,17 @@ class __$$TodoModelImplCopyWithImpl<$Res>
 class _$TodoModelImpl extends _TodoModel {
   const _$TodoModelImpl({
     required this.id,
+    @JsonKey(name: 'user_id') required this.userId,
     required this.title,
-    required this.isCompleted,
-    this.linkedMascotId,
-    this.categoryId,
-    required this.targetDate,
-    required this.createdAt,
-    this.completedAt,
-    this.isFocusTask = false,
+    this.description,
+    @JsonKey(name: 'is_completed') required this.isCompleted,
+    @JsonKey(name: 'is_focus') this.isFocus = false,
+    @JsonKey(name: 'linked_mascot_id') this.linkedMascotId,
+    @JsonKey(name: 'category_id') this.categoryId,
+    @JsonKey(name: 'target_date') required this.targetDate,
+    @JsonKey(name: 'completed_at') this.completedAt,
+    @JsonKey(name: 'created_at') required this.createdAt,
+    @JsonKey(name: 'updated_at') this.updatedAt,
   }) : super._();
 
   factory _$TodoModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -238,26 +289,40 @@ class _$TodoModelImpl extends _TodoModel {
   @override
   final String id;
   @override
+  @JsonKey(name: 'user_id')
+  final String userId;
+  @override
   final String title;
   @override
+  final String? description;
+  @override
+  @JsonKey(name: 'is_completed')
   final bool isCompleted;
   @override
+  @JsonKey(name: 'is_focus')
+  final bool isFocus;
+  @override
+  @JsonKey(name: 'linked_mascot_id')
   final String? linkedMascotId;
   @override
+  @JsonKey(name: 'category_id')
   final String? categoryId;
   @override
+  @JsonKey(name: 'target_date')
   final String targetDate;
   @override
-  final String createdAt;
-  @override
+  @JsonKey(name: 'completed_at')
   final String? completedAt;
   @override
-  @JsonKey()
-  final bool isFocusTask;
+  @JsonKey(name: 'created_at')
+  final String createdAt;
+  @override
+  @JsonKey(name: 'updated_at')
+  final String? updatedAt;
 
   @override
   String toString() {
-    return 'TodoModel(id: $id, title: $title, isCompleted: $isCompleted, linkedMascotId: $linkedMascotId, categoryId: $categoryId, targetDate: $targetDate, createdAt: $createdAt, completedAt: $completedAt, isFocusTask: $isFocusTask)';
+    return 'TodoModel(id: $id, userId: $userId, title: $title, description: $description, isCompleted: $isCompleted, isFocus: $isFocus, linkedMascotId: $linkedMascotId, categoryId: $categoryId, targetDate: $targetDate, completedAt: $completedAt, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -266,21 +331,25 @@ class _$TodoModelImpl extends _TodoModel {
         (other.runtimeType == runtimeType &&
             other is _$TodoModelImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.isCompleted, isCompleted) ||
                 other.isCompleted == isCompleted) &&
+            (identical(other.isFocus, isFocus) || other.isFocus == isFocus) &&
             (identical(other.linkedMascotId, linkedMascotId) ||
                 other.linkedMascotId == linkedMascotId) &&
             (identical(other.categoryId, categoryId) ||
                 other.categoryId == categoryId) &&
             (identical(other.targetDate, targetDate) ||
                 other.targetDate == targetDate) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
             (identical(other.completedAt, completedAt) ||
                 other.completedAt == completedAt) &&
-            (identical(other.isFocusTask, isFocusTask) ||
-                other.isFocusTask == isFocusTask));
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -288,14 +357,17 @@ class _$TodoModelImpl extends _TodoModel {
   int get hashCode => Object.hash(
     runtimeType,
     id,
+    userId,
     title,
+    description,
     isCompleted,
+    isFocus,
     linkedMascotId,
     categoryId,
     targetDate,
-    createdAt,
     completedAt,
-    isFocusTask,
+    createdAt,
+    updatedAt,
   );
 
   /// Create a copy of TodoModel
@@ -315,14 +387,17 @@ class _$TodoModelImpl extends _TodoModel {
 abstract class _TodoModel extends TodoModel {
   const factory _TodoModel({
     required final String id,
+    @JsonKey(name: 'user_id') required final String userId,
     required final String title,
-    required final bool isCompleted,
-    final String? linkedMascotId,
-    final String? categoryId,
-    required final String targetDate,
-    required final String createdAt,
-    final String? completedAt,
-    final bool isFocusTask,
+    final String? description,
+    @JsonKey(name: 'is_completed') required final bool isCompleted,
+    @JsonKey(name: 'is_focus') final bool isFocus,
+    @JsonKey(name: 'linked_mascot_id') final String? linkedMascotId,
+    @JsonKey(name: 'category_id') final String? categoryId,
+    @JsonKey(name: 'target_date') required final String targetDate,
+    @JsonKey(name: 'completed_at') final String? completedAt,
+    @JsonKey(name: 'created_at') required final String createdAt,
+    @JsonKey(name: 'updated_at') final String? updatedAt,
   }) = _$TodoModelImpl;
   const _TodoModel._() : super._();
 
@@ -332,21 +407,36 @@ abstract class _TodoModel extends TodoModel {
   @override
   String get id;
   @override
+  @JsonKey(name: 'user_id')
+  String get userId;
+  @override
   String get title;
   @override
+  String? get description;
+  @override
+  @JsonKey(name: 'is_completed')
   bool get isCompleted;
   @override
+  @JsonKey(name: 'is_focus')
+  bool get isFocus;
+  @override
+  @JsonKey(name: 'linked_mascot_id')
   String? get linkedMascotId;
   @override
+  @JsonKey(name: 'category_id')
   String? get categoryId;
   @override
+  @JsonKey(name: 'target_date')
   String get targetDate;
   @override
-  String get createdAt;
-  @override
+  @JsonKey(name: 'completed_at')
   String? get completedAt;
   @override
-  bool get isFocusTask;
+  @JsonKey(name: 'created_at')
+  String get createdAt;
+  @override
+  @JsonKey(name: 'updated_at')
+  String? get updatedAt;
 
   /// Create a copy of TodoModel
   /// with the given fields replaced by the non-null parameter values.

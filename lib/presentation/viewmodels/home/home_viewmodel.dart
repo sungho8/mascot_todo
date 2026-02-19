@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../domain/usecases/home/get_home_data_usecase.dart';
 import '../../../domain/usecases/home/complete_todo_usecase.dart';
+import '../../../domain/usecases/home/create_todo_usecase.dart';
 import '../../../di/home/home_providers.dart';
 import 'home_state.dart';
 
@@ -11,11 +12,13 @@ part 'home_viewmodel.g.dart';
 class HomeViewModel extends _$HomeViewModel {
   late final GetHomeDataUseCase _getHomeDataUseCase;
   late final CompleteTodoUseCase _completeTodoUseCase;
+  late final CreateTodoUseCase _createTodoUseCase;
 
   @override
   HomeState build() {
     _getHomeDataUseCase = ref.read(getHomeDataUseCaseProvider);
     _completeTodoUseCase = ref.read(completeTodoUseCaseProvider);
+    _createTodoUseCase = ref.read(createTodoUseCaseProvider);
 
     // 초기 데이터 로드 (다음 프레임에서 실행)
     Future.microtask(() => loadHomeData());
@@ -48,8 +51,45 @@ class HomeViewModel extends _$HomeViewModel {
           todos: homeData.todos,
           focusTodo: homeData.focusTodo,
           mainMascot: homeData.mainMascot,
+          categories: homeData.categories,
           errorMessage: null,
         );
+      },
+    );
+  }
+
+  /// Todo 생성
+  Future<bool> createTodo({
+    required String title,
+    String? description,
+    bool isFocus = false,
+    String? categoryId,
+  }) async {
+    final result = await _createTodoUseCase(
+      title: title,
+      description: description,
+      isFocus: isFocus,
+      categoryId: categoryId,
+    );
+
+    return result.fold(
+      (failure) {
+        state = state.copyWith(
+          errorMessage: failure.when(
+            serverError: (msg) => msg ?? 'Todo 생성 중 오류가 발생했습니다',
+            networkError: (msg) => msg ?? '네트워크 연결을 확인해주세요',
+            cacheError: (msg) => msg ?? '데이터를 저장할 수 없습니다',
+            unknownError: (msg) => msg ?? '알 수 없는 오류가 발생했습니다',
+          ),
+        );
+        return false;
+      },
+      (newTodo) {
+        state = state.copyWith(
+          todos: [...state.todos, newTodo],
+          errorMessage: null,
+        );
+        return true;
       },
     );
   }

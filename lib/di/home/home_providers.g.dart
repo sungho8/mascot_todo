@@ -6,27 +6,46 @@ part of 'home_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$todoLocalDataSourceHash() =>
-    r'294a9153458e3ba5c80085388b65b85c13ea48d9';
+String _$todoRemoteDataSourceHash() =>
+    r'feea956d40b06bd2caca0892848fee026505a776';
 
 /// DataSource Providers
 ///
-/// Copied from [todoLocalDataSource].
-@ProviderFor(todoLocalDataSource)
-final todoLocalDataSourceProvider =
-    AutoDisposeProvider<TodoLocalDataSource>.internal(
-      todoLocalDataSource,
-      name: r'todoLocalDataSourceProvider',
+/// Copied from [todoRemoteDataSource].
+@ProviderFor(todoRemoteDataSource)
+final todoRemoteDataSourceProvider =
+    AutoDisposeProvider<TodoRemoteDataSource>.internal(
+      todoRemoteDataSource,
+      name: r'todoRemoteDataSourceProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$todoLocalDataSourceHash,
+          : _$todoRemoteDataSourceHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef TodoLocalDataSourceRef = AutoDisposeProviderRef<TodoLocalDataSource>;
+typedef TodoRemoteDataSourceRef = AutoDisposeProviderRef<TodoRemoteDataSource>;
+String _$userRemoteDataSourceHash() =>
+    r'578c8661a935169c6f5d2e7d740c89e745d9edf0';
+
+/// See also [userRemoteDataSource].
+@ProviderFor(userRemoteDataSource)
+final userRemoteDataSourceProvider =
+    AutoDisposeProvider<UserRemoteDataSource>.internal(
+      userRemoteDataSource,
+      name: r'userRemoteDataSourceProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$userRemoteDataSourceHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef UserRemoteDataSourceRef = AutoDisposeProviderRef<UserRemoteDataSource>;
 String _$mascotLocalDataSourceHash() =>
     r'ceff46b699eb8bd507a63c044cecb401333a84bf';
 
@@ -47,46 +66,27 @@ final mascotLocalDataSourceProvider =
 // ignore: unused_element
 typedef MascotLocalDataSourceRef =
     AutoDisposeProviderRef<MascotLocalDataSource>;
-String _$categoryLocalDataSourceHash() =>
-    r'd16082a2b16b248f6dd18aa8635814c8ea8ab29e';
+String _$categoryRemoteDataSourceHash() =>
+    r'5f49fbe61abdd3846ae90afdde032e0c1e0052ea';
 
-/// See also [categoryLocalDataSource].
-@ProviderFor(categoryLocalDataSource)
-final categoryLocalDataSourceProvider =
-    AutoDisposeProvider<CategoryLocalDataSource>.internal(
-      categoryLocalDataSource,
-      name: r'categoryLocalDataSourceProvider',
+/// See also [categoryRemoteDataSource].
+@ProviderFor(categoryRemoteDataSource)
+final categoryRemoteDataSourceProvider =
+    AutoDisposeProvider<CategoryRemoteDataSource>.internal(
+      categoryRemoteDataSource,
+      name: r'categoryRemoteDataSourceProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$categoryLocalDataSourceHash,
+          : _$categoryRemoteDataSourceHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef CategoryLocalDataSourceRef =
-    AutoDisposeProviderRef<CategoryLocalDataSource>;
-String _$userLocalDataSourceHash() =>
-    r'ea10891454b1ef7e608292d4954ff390acb54169';
-
-/// See also [userLocalDataSource].
-@ProviderFor(userLocalDataSource)
-final userLocalDataSourceProvider =
-    AutoDisposeProvider<UserLocalDataSource>.internal(
-      userLocalDataSource,
-      name: r'userLocalDataSourceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$userLocalDataSourceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef UserLocalDataSourceRef = AutoDisposeProviderRef<UserLocalDataSource>;
-String _$todoRepositoryHash() => r'b384ab93eab77d541acb3cc00184f982068db1e8';
+typedef CategoryRemoteDataSourceRef =
+    AutoDisposeProviderRef<CategoryRemoteDataSource>;
+String _$todoRepositoryHash() => r'0dfc3ce9f207ca442b1da0b1d29a119b94ed2c4d';
 
 /// Repository Providers
 ///
@@ -123,7 +123,7 @@ final mascotRepositoryProvider = AutoDisposeProvider<MascotRepository>.internal(
 // ignore: unused_element
 typedef MascotRepositoryRef = AutoDisposeProviderRef<MascotRepository>;
 String _$categoryRepositoryHash() =>
-    r'b483296b273454ebbbf93770391d80630302fcb1';
+    r'd8f962176d6cb10749c79a128b280160fe2ab1bf';
 
 /// See also [categoryRepository].
 @ProviderFor(categoryRepository)
@@ -141,7 +141,7 @@ final categoryRepositoryProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef CategoryRepositoryRef = AutoDisposeProviderRef<CategoryRepository>;
-String _$userRepositoryHash() => r'7191b5e47897302c372a1bc45527e7e7049ec37f';
+String _$userRepositoryHash() => r'a192171cb9db2e6ba0511ec740557e18051ba853';
 
 /// See also [userRepository].
 @ProviderFor(userRepository)
@@ -159,7 +159,7 @@ final userRepositoryProvider = AutoDisposeProvider<UserRepository>.internal(
 // ignore: unused_element
 typedef UserRepositoryRef = AutoDisposeProviderRef<UserRepository>;
 String _$getHomeDataUseCaseHash() =>
-    r'b4594e4734d0017c0ec02a330d2f5e6782bef303';
+    r'0fa0bb65fc0fcc06fcdc57f0897393572fb6a5aa';
 
 /// UseCase Providers
 ///
@@ -198,5 +198,23 @@ final completeTodoUseCaseProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef CompleteTodoUseCaseRef = AutoDisposeProviderRef<CompleteTodoUseCase>;
+String _$createTodoUseCaseHash() => r'4e565c92d4571c3e0745c30bd02a929beeb91b66';
+
+/// See also [createTodoUseCase].
+@ProviderFor(createTodoUseCase)
+final createTodoUseCaseProvider =
+    AutoDisposeProvider<CreateTodoUseCase>.internal(
+      createTodoUseCase,
+      name: r'createTodoUseCaseProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$createTodoUseCaseHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef CreateTodoUseCaseRef = AutoDisposeProviderRef<CreateTodoUseCase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

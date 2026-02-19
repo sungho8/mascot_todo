@@ -8,6 +8,7 @@ abstract class TodoEntity with _$TodoEntity {
   const factory TodoEntity({
     required String id,
     required String title,
+    String? description,
     required bool isCompleted,
     String? linkedMascotId,
     String? categoryId,

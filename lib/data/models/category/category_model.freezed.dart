@@ -23,7 +23,9 @@ CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) {
 mixin _$CategoryModel {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  @JsonKey(name: 'color_hex')
   String get colorHex => throw _privateConstructorUsedError;
+  @JsonKey(name: 'icon_name')
   String? get iconName => throw _privateConstructorUsedError;
 
   /// Serializes this CategoryModel to a JSON map.
@@ -43,7 +45,12 @@ abstract class $CategoryModelCopyWith<$Res> {
     $Res Function(CategoryModel) then,
   ) = _$CategoryModelCopyWithImpl<$Res, CategoryModel>;
   @useResult
-  $Res call({String id, String name, String colorHex, String? iconName});
+  $Res call({
+    String id,
+    String name,
+    @JsonKey(name: 'color_hex') String colorHex,
+    @JsonKey(name: 'icon_name') String? iconName,
+  });
 }
 
 /// @nodoc
@@ -99,7 +106,12 @@ abstract class _$$CategoryModelImplCopyWith<$Res>
   ) = __$$CategoryModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, String colorHex, String? iconName});
+  $Res call({
+    String id,
+    String name,
+    @JsonKey(name: 'color_hex') String colorHex,
+    @JsonKey(name: 'icon_name') String? iconName,
+  });
 }
 
 /// @nodoc
@@ -150,8 +162,8 @@ class _$CategoryModelImpl extends _CategoryModel {
   const _$CategoryModelImpl({
     required this.id,
     required this.name,
-    required this.colorHex,
-    this.iconName,
+    @JsonKey(name: 'color_hex') required this.colorHex,
+    @JsonKey(name: 'icon_name') this.iconName,
   }) : super._();
 
   factory _$CategoryModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -162,8 +174,10 @@ class _$CategoryModelImpl extends _CategoryModel {
   @override
   final String name;
   @override
+  @JsonKey(name: 'color_hex')
   final String colorHex;
   @override
+  @JsonKey(name: 'icon_name')
   final String? iconName;
 
   @override
@@ -206,8 +220,8 @@ abstract class _CategoryModel extends CategoryModel {
   const factory _CategoryModel({
     required final String id,
     required final String name,
-    required final String colorHex,
-    final String? iconName,
+    @JsonKey(name: 'color_hex') required final String colorHex,
+    @JsonKey(name: 'icon_name') final String? iconName,
   }) = _$CategoryModelImpl;
   const _CategoryModel._() : super._();
 
@@ -219,8 +233,10 @@ abstract class _CategoryModel extends CategoryModel {
   @override
   String get name;
   @override
+  @JsonKey(name: 'color_hex')
   String get colorHex;
   @override
+  @JsonKey(name: 'icon_name')
   String? get iconName;
 
   /// Create a copy of CategoryModel

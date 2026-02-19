@@ -1,8 +1,10 @@
 import 'package:fpdart/fpdart.dart';
 import '../../../core/error/failure.dart';
+import '../../entities/category/category_entity.dart';
 import '../../entities/todo/todo_entity.dart';
 import '../../entities/mascot/mascot_entity.dart';
 import '../../entities/user/user_entity.dart';
+import '../../repositories/category/category_repository.dart';
 import '../../repositories/todo/todo_repository.dart';
 import '../../repositories/mascot/mascot_repository.dart';
 import '../../repositories/user/user_repository.dart';
@@ -13,12 +15,14 @@ class HomeData {
   final List<TodoEntity> todos;
   final TodoEntity? focusTodo;
   final MascotEntity? mainMascot;
+  final List<CategoryEntity> categories;
 
   HomeData({
     required this.user,
     required this.todos,
     this.focusTodo,
     this.mainMascot,
+    required this.categories,
   });
 }
 
@@ -27,11 +31,13 @@ class GetHomeDataUseCase {
   final TodoRepository _todoRepository;
   final MascotRepository _mascotRepository;
   final UserRepository _userRepository;
+  final CategoryRepository _categoryRepository;
 
   GetHomeDataUseCase(
     this._todoRepository,
     this._mascotRepository,
     this._userRepository,
+    this._categoryRepository,
   );
 
   Future<Either<Failure, HomeData>> call() async {
@@ -54,6 +60,10 @@ class GetHomeDataUseCase {
               (failure) => throw failure,
               (mascot) => mascot,
             )),
+        _categoryRepository.getCategories().then((result) => result.fold(
+              (failure) => throw failure,
+              (categories) => categories,
+            )),
       ]);
 
       final homeData = HomeData(
@@ -61,6 +71,7 @@ class GetHomeDataUseCase {
         todos: results[1] as List<TodoEntity>,
         focusTodo: results[2] as TodoEntity?,
         mainMascot: results[3] as MascotEntity?,
+        categories: results[4] as List<CategoryEntity>,
       );
 
       return Right(homeData);

@@ -19,6 +19,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$TodoEntity {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   bool get isCompleted => throw _privateConstructorUsedError;
   String? get linkedMascotId => throw _privateConstructorUsedError;
   String? get categoryId => throw _privateConstructorUsedError;
@@ -44,6 +45,7 @@ abstract class $TodoEntityCopyWith<$Res> {
   $Res call({
     String id,
     String title,
+    String? description,
     bool isCompleted,
     String? linkedMascotId,
     String? categoryId,
@@ -71,6 +73,7 @@ class _$TodoEntityCopyWithImpl<$Res, $Val extends TodoEntity>
   $Res call({
     Object? id = null,
     Object? title = null,
+    Object? description = freezed,
     Object? isCompleted = null,
     Object? linkedMascotId = freezed,
     Object? categoryId = freezed,
@@ -89,6 +92,10 @@ class _$TodoEntityCopyWithImpl<$Res, $Val extends TodoEntity>
                 ? _value.title
                 : title // ignore: cast_nullable_to_non_nullable
                       as String,
+            description: freezed == description
+                ? _value.description
+                : description // ignore: cast_nullable_to_non_nullable
+                      as String?,
             isCompleted: null == isCompleted
                 ? _value.isCompleted
                 : isCompleted // ignore: cast_nullable_to_non_nullable
@@ -135,6 +142,7 @@ abstract class _$$TodoEntityImplCopyWith<$Res>
   $Res call({
     String id,
     String title,
+    String? description,
     bool isCompleted,
     String? linkedMascotId,
     String? categoryId,
@@ -161,6 +169,7 @@ class __$$TodoEntityImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = null,
+    Object? description = freezed,
     Object? isCompleted = null,
     Object? linkedMascotId = freezed,
     Object? categoryId = freezed,
@@ -179,6 +188,10 @@ class __$$TodoEntityImplCopyWithImpl<$Res>
             ? _value.title
             : title // ignore: cast_nullable_to_non_nullable
                   as String,
+        description: freezed == description
+            ? _value.description
+            : description // ignore: cast_nullable_to_non_nullable
+                  as String?,
         isCompleted: null == isCompleted
             ? _value.isCompleted
             : isCompleted // ignore: cast_nullable_to_non_nullable
@@ -218,6 +231,7 @@ class _$TodoEntityImpl implements _TodoEntity {
   const _$TodoEntityImpl({
     required this.id,
     required this.title,
+    this.description,
     required this.isCompleted,
     this.linkedMascotId,
     this.categoryId,
@@ -231,6 +245,8 @@ class _$TodoEntityImpl implements _TodoEntity {
   final String id;
   @override
   final String title;
+  @override
+  final String? description;
   @override
   final bool isCompleted;
   @override
@@ -248,7 +264,7 @@ class _$TodoEntityImpl implements _TodoEntity {
 
   @override
   String toString() {
-    return 'TodoEntity(id: $id, title: $title, isCompleted: $isCompleted, linkedMascotId: $linkedMascotId, categoryId: $categoryId, targetDate: $targetDate, createdAt: $createdAt, completedAt: $completedAt, isFocusTask: $isFocusTask)';
+    return 'TodoEntity(id: $id, title: $title, description: $description, isCompleted: $isCompleted, linkedMascotId: $linkedMascotId, categoryId: $categoryId, targetDate: $targetDate, createdAt: $createdAt, completedAt: $completedAt, isFocusTask: $isFocusTask)';
   }
 
   @override
@@ -258,6 +274,8 @@ class _$TodoEntityImpl implements _TodoEntity {
             other is _$TodoEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.isCompleted, isCompleted) ||
                 other.isCompleted == isCompleted) &&
             (identical(other.linkedMascotId, linkedMascotId) ||
@@ -279,6 +297,7 @@ class _$TodoEntityImpl implements _TodoEntity {
     runtimeType,
     id,
     title,
+    description,
     isCompleted,
     linkedMascotId,
     categoryId,
@@ -301,6 +320,7 @@ abstract class _TodoEntity implements TodoEntity {
   const factory _TodoEntity({
     required final String id,
     required final String title,
+    final String? description,
     required final bool isCompleted,
     final String? linkedMascotId,
     final String? categoryId,
@@ -314,6 +334,8 @@ abstract class _TodoEntity implements TodoEntity {
   String get id;
   @override
   String get title;
+  @override
+  String? get description;
   @override
   bool get isCompleted;
   @override

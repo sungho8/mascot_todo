@@ -8,10 +8,20 @@ import 'widgets/focus_task_card.dart';
 import 'widgets/mascot_level_bar.dart';
 import 'widgets/empty_todos.dart';
 import 'widgets/todo_item.dart';
+import 'widgets/create_todo_bottom_sheet.dart';
 
 /// 홈 화면
 class HomeView extends ConsumerWidget {
   const HomeView({super.key});
+
+  void _showCreateTodoSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => const CreateTodoBottomSheet(),
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -21,9 +31,7 @@ class HomeView extends ConsumerWidget {
       appBar: HomeAppBar(user: state.user),
       body: _buildBody(context, ref, state),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // TODO: 새 TODO 생성 화면으로 이동
-        },
+        onPressed: () => _showCreateTodoSheet(context),
         child: const Icon(Icons.add),
       ),
     );
@@ -98,6 +106,9 @@ class HomeView extends ConsumerWidget {
             ...state.todos.map(
               (todo) => TodoItem(
                 todo: todo,
+                category: todo.categoryId != null
+                    ? state.categories.where((c) => c.id == todo.categoryId).firstOrNull
+                    : null,
                 onToggle: () {
                   ref
                       .read(homeViewModelProvider.notifier)
