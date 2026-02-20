@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
 import '../../presentation/views/main/main_view.dart';
 import '../../presentation/views/home/home_view.dart';
-import '../../presentation/views/collection/collection_view.dart';
+import '../../presentation/views/mascot/mascot_view.dart';
 import '../../presentation/views/statistics/statistics_view.dart';
 import '../../presentation/views/settings/settings_view.dart';
 import '../../presentation/views/auth/login_view.dart';
@@ -40,13 +40,13 @@ class AppRouter {
             ],
           ),
 
-          // 컬렉션
+          // 마스코트
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/collection',
+                path: RoutePath.mascot,
                 pageBuilder: (context, state) => const NoTransitionPage(
-                  child: CollectionView(),
+                  child: MascotView(),
                 ),
               ),
             ],
