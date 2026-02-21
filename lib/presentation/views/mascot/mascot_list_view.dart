@@ -36,7 +36,7 @@ const List<_MascotData> _mascots = [
     level: 0,
     unlockCondition: '연속 3일 달성',
     hint:
-        '으으… 아직 잠에서 깨기엔 이른 것 같아… �\n3일 연속으로 할 일을 해내면 눈을 뜰 수 있을 것 같은데…\n조금만 더 힘내줄래?',
+        '으으… 아직 잠에서 깨기엔 이른 것 같아… 😴\n3일 연속으로 할 일을 해내면 눈을 뜰 수 있을 것 같은데…\n조금만 더 힘내줄래?',
     icon: Icons.local_fire_department,
   ),
   _MascotData(
