@@ -6,6 +6,7 @@ import '../../viewmodels/home/home_state.dart';
 import 'widgets/home_app_bar.dart';
 import 'widgets/focus_task_card.dart';
 import 'widgets/mascot_level_bar.dart';
+import 'widgets/mascot_chat_bar.dart';
 import 'widgets/empty_todos.dart';
 import 'widgets/todo_item.dart';
 import 'widgets/create_todo_bottom_sheet.dart';
@@ -78,6 +79,16 @@ class HomeView extends ConsumerWidget {
       child: ListView(
         padding: const EdgeInsets.all(AppSpacing.lg),
         children: [
+          // 마스코트 채팅바 (퀵메뉴)
+          MascotChatBar(
+            mascotName: state.mainMascot?.name ?? '코코',
+            onTodoCreated: (title) {
+              ref.read(homeViewModelProvider.notifier).createTodo(title: title);
+            },
+          ),
+
+          AppSpacing.vLg,
+
           if (state.focusTodo != null) ...[
             FocusTaskCard(focusTodo: state.focusTodo),
 
@@ -107,7 +118,9 @@ class HomeView extends ConsumerWidget {
               (todo) => TodoItem(
                 todo: todo,
                 category: todo.categoryId != null
-                    ? state.categories.where((c) => c.id == todo.categoryId).firstOrNull
+                    ? state.categories
+                          .where((c) => c.id == todo.categoryId)
+                          .firstOrNull
                     : null,
                 onToggle: () {
                   ref

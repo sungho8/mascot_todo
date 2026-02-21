@@ -8,7 +8,7 @@ class MascotLocalDataSource {
     return [
       const MascotModel(
         id: '1',
-        name: '토끼',
+        name: '코코',
         imagePath: 'assets/images/mascots/rabbit.png',
         level: 5,
         currentExp: 350,

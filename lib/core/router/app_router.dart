@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import '../../presentation/views/main/main_view.dart';
 import '../../presentation/views/home/home_view.dart';
+import '../../presentation/views/mascot/mascot_list_view.dart';
 import '../../presentation/views/mascot/mascot_view.dart';
 import '../../presentation/views/statistics/statistics_view.dart';
 import '../../presentation/views/settings/settings_view.dart';
@@ -17,9 +18,8 @@ class AppRouter {
       // 로그인
       GoRoute(
         path: RoutePath.login,
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: LoginView(),
-        ),
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: LoginView()),
       ),
 
       // 메인 앱 (인증 필요)
@@ -33,21 +33,29 @@ class AppRouter {
             routes: [
               GoRoute(
                 path: RoutePath.home,
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: HomeView(),
-                ),
+                pageBuilder: (context, state) =>
+                    const NoTransitionPage(child: HomeView()),
               ),
             ],
           ),
 
-          // 마스코트
+          // 마스코트 리스트
           StatefulShellBranch(
             routes: [
               GoRoute(
                 path: RoutePath.mascot,
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: MascotView(),
-                ),
+                pageBuilder: (context, state) =>
+                    const NoTransitionPage(child: MascotListView()),
+                routes: [
+                  // 마스코트 상세 (대화 화면)
+                  GoRoute(
+                    path: ':id',
+                    builder: (context, state) {
+                      final mascotId = state.pathParameters['id'] ?? '';
+                      return MascotView(mascotId: mascotId);
+                    },
+                  ),
+                ],
               ),
             ],
           ),
@@ -57,9 +65,8 @@ class AppRouter {
             routes: [
               GoRoute(
                 path: RoutePath.statistics,
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: StatisticsView(),
-                ),
+                pageBuilder: (context, state) =>
+                    const NoTransitionPage(child: StatisticsView()),
               ),
             ],
           ),
@@ -69,9 +76,8 @@ class AppRouter {
             routes: [
               GoRoute(
                 path: RoutePath.settings,
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: SettingsView(),
-                ),
+                pageBuilder: (context, state) =>
+                    const NoTransitionPage(child: SettingsView()),
               ),
             ],
           ),

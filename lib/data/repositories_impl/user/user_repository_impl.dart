@@ -2,21 +2,21 @@ import 'package:fpdart/fpdart.dart';
 import '../../../core/error/failure.dart';
 import '../../../domain/entities/user/user_entity.dart';
 import '../../../domain/repositories/user/user_repository.dart';
-import '../../data_sources/local/user/user_local_data_source.dart';
+import '../../data_sources/remote/user/user_remote_data_source.dart';
 
 /// User Repository 구현체
 class UserRepositoryImpl implements UserRepository {
-  final UserLocalDataSource _localDataSource;
+  final UserRemoteDataSource _remoteDataSource;
 
-  UserRepositoryImpl(this._localDataSource);
+  UserRepositoryImpl(this._remoteDataSource);
 
   @override
   Future<Either<Failure, UserEntity>> getCurrentUser() async {
     try {
-      final model = await _localDataSource.getCurrentUser();
+      final model = await _remoteDataSource.getCurrentUser();
       return Right(model.toEntity());
     } catch (e) {
-      return Left(Failure.unknownError(message: e.toString()));
+      return Left(Failure.serverError(message: e.toString()));
     }
   }
 }

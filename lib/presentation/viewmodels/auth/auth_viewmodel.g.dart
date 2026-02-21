@@ -6,7 +6,7 @@ part of 'auth_viewmodel.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authViewModelHash() => r'ffe9648f83db2a37e9236719d2047be8b51e5669';
+String _$authViewModelHash() => r'f321e2844383e3fc5086b2ffd7166272f422a5b8';
 
 /// 인증 ViewModel
 ///

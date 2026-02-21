@@ -4,9 +4,11 @@ import 'widgets/koko_body_painter.dart';
 import 'widgets/koko_tail.dart';
 import 'widgets/bubble_tail_painter.dart';
 
-/// 마스코트 화면
+/// 마스코트 대화 화면
 class MascotView extends StatefulWidget {
-  const MascotView({super.key});
+  const MascotView({required this.mascotId, super.key});
+
+  final String mascotId;
 
   @override
   State<MascotView> createState() => _MascotViewState();
@@ -18,13 +20,15 @@ class _MascotViewState extends State<MascotView> with TickerProviderStateMixin {
   late AnimationController _mouthController;
   late AnimationController _blinkController;
 
-  String _message = "안녕! 나는 코코야. 무엇을 도와줄까? 야옹~";
+  late String _message;
   bool _isSpeaking = false;
   Offset _mousePos = Offset.zero;
 
   @override
   void initState() {
     super.initState();
+
+    _message = "안녕! 나는 ${widget.mascotId}야. 무엇을 도와줄까? 야옹~";
 
     _floatController = AnimationController(
       vsync: this,
