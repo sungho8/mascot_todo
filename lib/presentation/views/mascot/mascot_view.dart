@@ -1,20 +1,26 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import '../../viewmodels/home/home_viewmodel.dart';
+import '../../../di/ai/ai_providers.dart';
+import '../../../core/design_system/design_system.dart';
 import 'widgets/koko_body_painter.dart';
 import 'widgets/koko_tail.dart';
 import 'widgets/bubble_tail_painter.dart';
 
 /// 마스코트 대화 화면
-class MascotView extends StatefulWidget {
+class MascotView extends ConsumerStatefulWidget {
   const MascotView({required this.mascotId, super.key});
 
   final String mascotId;
 
   @override
-  State<MascotView> createState() => _MascotViewState();
+  ConsumerState<MascotView> createState() => _MascotViewState();
 }
 
-class _MascotViewState extends State<MascotView> with TickerProviderStateMixin {
+class _MascotViewState extends ConsumerState<MascotView>
+    with TickerProviderStateMixin {
   late AnimationController _floatController;
   late AnimationController _jumpController;
   late AnimationController _mouthController;
@@ -22,7 +28,11 @@ class _MascotViewState extends State<MascotView> with TickerProviderStateMixin {
 
   late String _message;
   bool _isSpeaking = false;
+  bool _isLoading = false;
   Offset _mousePos = Offset.zero;
+
+  final _textController = TextEditingController();
+  final _focusNode = FocusNode();
 
   @override
   void initState() {
@@ -51,32 +61,62 @@ class _MascotViewState extends State<MascotView> with TickerProviderStateMixin {
     );
   }
 
-  void _handleAction(String type) {
+  Future<void> _handleChat(String text) async {
+    if (text.trim().isEmpty || _isLoading) return;
+
     setState(() {
+      _isLoading = true;
       _isSpeaking = true;
-      if (type == 'todo') {
-        _message = "오늘 할 일을 멋지게 분석해줄게! 야옹~";
-      } else if (type == 'worry') {
-        _message = "무슨 고민이든 다 말해봐, 들어줄게! 야옹~";
-      } else {
-        _message = "오늘 하루도 힘내! 너는 최고야! 야옹~";
-      }
     });
 
     _jumpController.forward(from: 0);
     _mouthController.repeat(reverse: true);
 
-    Future.delayed(const Duration(seconds: 2), () {
+    try {
+      final useCase = ref.read(processChatUseCaseProvider);
+      final result = await useCase(text.trim(), widget.mascotId);
+
+      result.fold(
+        (failure) {
+          setState(() {
+            _message = "미안해, 지금은 조금 정신이 없어… 나중에 다시 말해줄래?";
+          });
+        },
+        (analysis) async {
+          if (analysis.type == 'todo' && analysis.title != null) {
+            // TODO 추가
+            await ref
+                .read(homeViewModelProvider.notifier)
+                .createTodo(
+                  title: analysis.title!,
+                  categoryId: analysis.categoryId,
+                );
+          }
+
+          setState(() {
+            _message = analysis.message;
+          });
+        },
+      );
+    } finally {
       if (mounted) {
-        setState(() => _isSpeaking = false);
+        setState(() {
+          _isLoading = false;
+          _isSpeaking = false;
+        });
         _mouthController.stop();
         _mouthController.reset();
       }
-    });
+    }
+
+    _textController.clear();
+    _focusNode.unfocus();
   }
 
   @override
   void dispose() {
+    _textController.dispose();
+    _focusNode.dispose();
     _floatController.dispose();
     _jumpController.dispose();
     _mouthController.dispose();
@@ -198,7 +238,8 @@ class _MascotViewState extends State<MascotView> with TickerProviderStateMixin {
                                   scaleX: scaleX,
                                   scaleY: scaleY,
                                   child: GestureDetector(
-                                    onTap: () => _handleAction('meow'),
+                                    onTap: () =>
+                                        _jumpController.forward(from: 0),
                                     child: SizedBox(
                                       width: 180,
                                       height: 180,
@@ -235,6 +276,96 @@ class _MascotViewState extends State<MascotView> with TickerProviderStateMixin {
                     ),
                   ),
                 ],
+              ),
+            ),
+
+            // 상단 뒤로가기 버튼
+            Positioned(
+              top: MediaQuery.of(context).padding.top + 10,
+              left: 20,
+              child: IconButton(
+                onPressed: () => context.pop(),
+                icon: const Icon(Icons.arrow_back_ios_new),
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  shadowColor: Colors.black12,
+                  elevation: 5,
+                ),
+              ),
+            ),
+
+            // 하단 채팅 입력 영역
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                padding: EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                  top: 15,
+                  bottom: MediaQuery.of(context).padding.bottom + 15,
+                ),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 20,
+                      offset: Offset(0, -5),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF1F5F9),
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        child: TextField(
+                          controller: _textController,
+                          focusNode: _focusNode,
+                          style: const TextStyle(fontSize: 15),
+                          decoration: const InputDecoration(
+                            hintText: '메시지를 입력하세요...',
+                            border: InputBorder.none,
+                            hintStyle: TextStyle(color: Color(0xFF94A3B8)),
+                          ),
+                          onSubmitted: _handleChat,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    GestureDetector(
+                      onTap: () => _handleChat(_textController.text),
+                      child: Container(
+                        width: 48,
+                        height: 48,
+                        decoration: BoxDecoration(
+                          color: _isLoading ? Colors.grey : AppColors.primary,
+                          shape: BoxShape.circle,
+                        ),
+                        child: _isLoading
+                            ? const Padding(
+                                padding: EdgeInsets.all(12.0),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : const Icon(
+                                Icons.send_rounded,
+                                color: Colors.white,
+                                size: 24,
+                              ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

@@ -115,10 +115,7 @@ class HomeViewModel extends _$HomeViewModel {
           return todo.id == todoId ? completedTodo : todo;
         }).toList();
 
-        state = state.copyWith(
-          todos: updatedTodos,
-          errorMessage: null,
-        );
+        state = state.copyWith(todos: updatedTodos, errorMessage: null);
       },
     );
   }

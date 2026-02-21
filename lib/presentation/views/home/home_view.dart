@@ -82,8 +82,10 @@ class HomeView extends ConsumerWidget {
           // 마스코트 채팅바 (퀵메뉴)
           MascotChatBar(
             mascotName: state.mainMascot?.name ?? '코코',
-            onTodoCreated: (title) {
-              ref.read(homeViewModelProvider.notifier).createTodo(title: title);
+            onTodoCreated: (title, categoryId) {
+              ref
+                  .read(homeViewModelProvider.notifier)
+                  .createTodo(title: title, categoryId: categoryId);
             },
           ),
 

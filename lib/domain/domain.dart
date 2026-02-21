@@ -3,12 +3,15 @@
 library;
 
 /// Entities
+export 'entities/ai/ai_analysis_entity.dart';
 export 'entities/auth/user_entity.dart';
 
 /// Repositories
+export 'repositories/ai/ai_repository.dart';
 export 'repositories/auth/auth_repository.dart';
 
 /// UseCases
+export 'usecases/ai/process_chat_usecase.dart';
 export 'usecases/auth/get_current_user_usecase.dart';
 export 'usecases/auth/sign_in_with_kakao_usecase.dart';
 export 'usecases/auth/sign_out_usecase.dart';
