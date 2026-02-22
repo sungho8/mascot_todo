@@ -25,8 +25,8 @@ class KokoBodyPainter extends CustomPainter {
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          Color(0xFFE0E7FF), // 기본 색상
-          Color(0xFFC7D2FE), // 우측 아래 약간 진한 색상 (입체감)
+          Color(0xFFEFF6FF), // 더 밝은 기본 색상 (Blue 50)
+          Color(0xFFDBEAFE), // 덜 짙은 우측 아래 색상 (Blue 100)
         ],
       ).createShader(Rect.fromLTWH(0, 0, w, h))
       ..style = PaintingStyle.fill;
@@ -47,52 +47,29 @@ class KokoBodyPainter extends CustomPainter {
     // 입체감 있는 몸통 채우기
     canvas.drawRRect(bodyRRect, paint);
 
-    // 4. 수염 (Whiskers)
     final whiskerPaint = Paint()
       ..color = const Color(0xFFCBD5E1)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2
       ..strokeCap = StrokeCap.round;
 
+    // 왼쪽 수염 (아래로 휘어지도록 각도 조절)
     _drawWhisker(
       canvas,
       Offset(w * 0.1, h * 0.55),
       -35,
-      -5,
-      12,
+      10, // 끝점 y를 아래로 (처지게)
+      15, // 제어점 y 간격
       whiskerPaint,
-    ); // L1
-    _drawWhisker(
-      canvas,
-      Offset(w * 0.1, h * 0.65),
-      -35,
-      0,
-      0,
-      whiskerPaint,
-    ); // L2
-    _drawWhisker(
-      canvas,
-      Offset(w * 0.9, h * 0.55),
-      35,
-      -5,
-      -12,
-      whiskerPaint,
-    ); // R1
-    _drawWhisker(
-      canvas,
-      Offset(w * 0.9, h * 0.65),
-      35,
-      0,
-      0,
-      whiskerPaint,
-    ); // R2
+    );
+    _drawWhisker(canvas, Offset(w * 0.1, h * 0.65), -35, 10, 15, whiskerPaint);
 
-    // 5. 눈 (Eyes)
+    // 오른쪽 수염
+    _drawWhisker(canvas, Offset(w * 0.9, h * 0.55), 35, 10, 15, whiskerPaint);
+    _drawWhisker(canvas, Offset(w * 0.9, h * 0.65), 35, 10, 15, whiskerPaint);
+
+    // 5. 볼터치 (Blush) - 눈보다 뒤에 그려지도록 순서 변경
     double eyeY = h * 0.6;
-    _drawEye(canvas, Offset(w * 0.32, eyeY), mousePos);
-    _drawEye(canvas, Offset(w * 0.68, eyeY), mousePos);
-
-    // 6. 볼터치 (Blush)
     final blushPaint = Paint()
       ..color = const Color(0xFFFDA4AF).withValues(alpha: 0.5);
     canvas.drawOval(
@@ -111,6 +88,10 @@ class KokoBodyPainter extends CustomPainter {
       ),
       blushPaint,
     );
+
+    // 6. 눈 (Eyes)
+    _drawEye(canvas, Offset(w * 0.32, eyeY), mousePos);
+    _drawEye(canvas, Offset(w * 0.68, eyeY), mousePos);
 
     // 7. 입 (Mouth)
     final mouthPaint = Paint()
@@ -150,7 +131,7 @@ class KokoBodyPainter extends CustomPainter {
   void _drawEar(Canvas canvas, Size size, bool isLeft) {
     final w = size.width;
     final h = size.height;
-    final paint = Paint()..color = const Color(0xFFE0E7FF);
+    final paint = Paint()..color = const Color(0xFFEFF6FF); // 몸통 기본색상과 맞춤
     final innerPaint = Paint()..color = const Color(0xFFFBCFE8); // 핑크빛 귓구멍
 
     final path = Path();
@@ -212,17 +193,16 @@ class KokoBodyPainter extends CustomPainter {
     Offset start,
     double dx,
     double dy,
-    double angleDeg,
+    double controlDy,
     Paint paint,
   ) {
     canvas.save();
     canvas.translate(start.dx, start.dy);
-    canvas.rotate(angleDeg * math.pi / 180);
 
     final path = Path();
     path.moveTo(0, 0);
-    // 곡선 모양의 수염으로 변경
-    path.quadraticBezierTo(dx * 0.5, dy + 8, dx, dy);
+    // dx/2 지점에서 제어점을 controlDy 만큼 아래로 내려 곡선 형성
+    path.quadraticBezierTo(dx * 0.5, controlDy, dx, dy);
 
     canvas.drawPath(path, paint);
     canvas.restore();
@@ -236,7 +216,13 @@ class KokoBodyPainter extends CustomPainter {
     canvas.drawCircle(Offset.zero, 13, eyePaint);
 
     final pupilPaint = Paint()..color = Colors.white;
-    canvas.drawCircle(Offset(mousePos.dx * 4, mousePos.dy * 4), 5, pupilPaint);
+
+    // 눈동자 추적 로직 (최대 이동 반경 제한)
+    // mousePos는 -1.0 ~ 1.0 범위의 값으로 가정 (입력단에서 정규화 필요)
+    double pdx = math.max(-1.0, math.min(1.0, mousePos.dx)) * 6.0;
+    double pdy = math.max(-1.0, math.min(1.0, mousePos.dy)) * 6.0;
+
+    canvas.drawCircle(Offset(pdx, pdy), 5, pupilPaint);
     canvas.restore();
   }
 
