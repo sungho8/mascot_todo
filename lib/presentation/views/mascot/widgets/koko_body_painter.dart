@@ -19,16 +19,10 @@ class KokoBodyPainter extends CustomPainter {
     final w = size.width;
     final h = size.height;
 
-    // 1. 색상 정의 및 입체감을 위한 그라디언트 적용
+    // 1. 색상 정의 (플랫 디자인 유지)
     final paint = Paint()
-      ..shader = const LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          Color(0xFFEFF6FF), // 더 밝은 기본 색상 (Blue 50)
-          Color(0xFFDBEAFE), // 덜 짙은 우측 아래 색상 (Blue 100)
-        ],
-      ).createShader(Rect.fromLTWH(0, 0, w, h))
+      ..color =
+          const Color(0xFFE0E7FF) // 기존의 플랫한 기본 색상
       ..style = PaintingStyle.fill;
 
     // 2. 귀 (Ear) - 몸통 뒤에 위치
@@ -53,20 +47,21 @@ class KokoBodyPainter extends CustomPainter {
       ..strokeWidth = 2
       ..strokeCap = StrokeCap.round;
 
-    // 왼쪽 수염 (아래로 휘어지도록 각도 조절)
+    // 왼쪽 수염 (상하 반전: 아래로 휘는게 아니라 위로 볼록하게 처지며 아래로 향하는 형태 등 제어점 반전)
+    // controlDy를 -15로 주면 선이 위로 휘어짐(볼록해짐)
     _drawWhisker(
       canvas,
       Offset(w * 0.1, h * 0.55),
       -35,
-      10, // 끝점 y를 아래로 (처지게)
-      15, // 제어점 y 간격
+      10,
+      -15, // 제어점을 위로 (상하 반전)
       whiskerPaint,
     );
-    _drawWhisker(canvas, Offset(w * 0.1, h * 0.65), -35, 10, 15, whiskerPaint);
+    _drawWhisker(canvas, Offset(w * 0.1, h * 0.65), -35, 10, -15, whiskerPaint);
 
     // 오른쪽 수염
-    _drawWhisker(canvas, Offset(w * 0.9, h * 0.55), 35, 10, 15, whiskerPaint);
-    _drawWhisker(canvas, Offset(w * 0.9, h * 0.65), 35, 10, 15, whiskerPaint);
+    _drawWhisker(canvas, Offset(w * 0.9, h * 0.55), 35, 10, -15, whiskerPaint);
+    _drawWhisker(canvas, Offset(w * 0.9, h * 0.65), 35, 10, -15, whiskerPaint);
 
     // 5. 볼터치 (Blush) - 눈보다 뒤에 그려지도록 순서 변경
     double eyeY = h * 0.6;
@@ -131,7 +126,7 @@ class KokoBodyPainter extends CustomPainter {
   void _drawEar(Canvas canvas, Size size, bool isLeft) {
     final w = size.width;
     final h = size.height;
-    final paint = Paint()..color = const Color(0xFFEFF6FF); // 몸통 기본색상과 맞춤
+    final paint = Paint()..color = const Color(0xFFE0E7FF); // 몸통 기본색상과 맞춤
     final innerPaint = Paint()..color = const Color(0xFFFBCFE8); // 핑크빛 귓구멍
 
     final path = Path();
