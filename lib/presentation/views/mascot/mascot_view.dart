@@ -261,66 +261,75 @@ class _MascotViewState extends ConsumerState<MascotView>
               ),
             ),
 
-            // 하단 채팅 입력 영역 (단일 통합 UI - 레퍼런스 이미지 디자인)
+            // 하단 채팅 입력 영역 (레퍼런스 이미지 디자인 적용)
             Positioned(
-              bottom: MediaQuery.of(context).padding.bottom + 20,
-              left: 20,
-              right: 20,
+              bottom: 0,
+              left: 0,
+              right: 0,
               child: Container(
-                padding: const EdgeInsets.only(
-                  left: 24,
-                  right: 8,
-                  top: 8,
-                  bottom: 8,
+                padding: EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                  top: 15,
+                  bottom: MediaQuery.of(context).padding.bottom + 15,
                 ),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF8F9FA), // 매우 연한 회색 배경
-                  borderRadius: BorderRadius.circular(36),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: _textController,
-                        focusNode: _focusNode,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF334155),
-                        ),
-                        decoration: const InputDecoration(
-                          hintText: '메시지를 입력하세요...',
-                          border: InputBorder.none,
-                          isDense: true,
-                          contentPadding: EdgeInsets.symmetric(vertical: 10),
-                          hintStyle: TextStyle(
-                            color: Color(0xFF94A3B8),
+                color: Colors.white, // 하단 메뉴(또는 배경)와 일치하는 흰색 배경
+                child: Container(
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    right: 8,
+                    top: 8,
+                    bottom: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF4F5F7), // 테두리 없는 회색 알약 배경
+                    borderRadius: BorderRadius.circular(36),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _textController,
+                          focusNode: _focusNode,
+                          style: const TextStyle(
+                            fontSize: 16,
                             fontWeight: FontWeight.w500,
+                            color: Color(0xFF334155),
+                          ),
+                          decoration: const InputDecoration(
+                            hintText: '메시지를 입력하세요...',
+                            border: InputBorder.none,
+                            isDense: true,
+                            contentPadding: EdgeInsets.symmetric(vertical: 10),
+                            hintStyle: TextStyle(
+                              color: Color(0xFF94A3B8),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          onSubmitted: _handleChat,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      GestureDetector(
+                        onTap: () => _handleChat(_textController.text),
+                        child: Container(
+                          width: 48,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            color: _isLoading
+                                ? const Color(0xFFCBD5E1)
+                                : const Color(0xFF4ADE80), // 산뜻한 민트/그린 버튼 색상
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.send_rounded,
+                            color: Color(0xFF0F172A), // 진한 네이비 아이콘
+                            size: 24,
                           ),
                         ),
-                        onSubmitted: _handleChat,
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    GestureDetector(
-                      onTap: () => _handleChat(_textController.text),
-                      child: Container(
-                        width: 48,
-                        height: 48,
-                        decoration: BoxDecoration(
-                          color: _isLoading
-                              ? const Color(0xFFCBD5E1)
-                              : const Color(0xFF4ADE80), // 민트/그린 버튼 색상
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.send_rounded,
-                          color: Color(0xFF0F172A), // 진한 네이비 아이콘
-                          size: 24,
-                        ),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
