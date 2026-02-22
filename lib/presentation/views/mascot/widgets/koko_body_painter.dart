@@ -204,22 +204,25 @@ class KokoBodyPainter extends CustomPainter {
   }
 
   void _drawEye(Canvas canvas, Offset center, Offset mousePos) {
-    final eyePaint = Paint()..color = const Color(0xFF1E293B);
+    // 마우스 위치에 따라 눈동자 전체가 아주 미세하게 움직이도록
+    double offsetX = math.max(-1.0, math.min(1.0, mousePos.dx)) * 1.5;
+    double offsetY = math.max(-1.0, math.min(1.0, mousePos.dy)) * 1.5;
 
     canvas.save();
-    canvas.translate(center.dx, center.dy);
-    // 원래 13에서 80% 크기 (10.4)
-    canvas.drawCircle(Offset.zero, 10.4, eyePaint);
+    canvas.translate(center.dx + offsetX, center.dy + offsetY);
 
-    final pupilPaint = Paint()..color = Colors.white;
+    // 1. 눈동자 바탕 (다크 네이비)
+    final eyePaint = Paint()..color = const Color(0xFF1E293B);
+    canvas.drawCircle(Offset.zero, 11, eyePaint);
 
-    // 눈동자 추적 로직 (최대 이동 반경 축소: 6.0 -> 4.8)
-    // mousePos는 -1.0 ~ 1.0 범위의 값으로 가정 (입력단에서 정규화 필요)
-    double pdx = math.max(-1.0, math.min(1.0, mousePos.dx)) * 4.8;
-    double pdy = math.max(-1.0, math.min(1.0, mousePos.dy)) * 4.8;
+    // 2. 큰 빛 반사 (상단)
+    final highlight1 = Paint()..color = Colors.white;
+    canvas.drawCircle(const Offset(-2, -4), 4.5, highlight1);
 
-    // 원래 5에서 80% 크기 (4)
-    canvas.drawCircle(Offset(pdx, pdy), 4, pupilPaint);
+    // 3. 작은 빛 반사 (하단 측면)
+    final highlight2 = Paint()..color = Colors.white;
+    canvas.drawCircle(const Offset(4, 3), 1.8, highlight2);
+
     canvas.restore();
   }
 
