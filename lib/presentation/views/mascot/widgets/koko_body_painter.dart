@@ -76,7 +76,7 @@ class KokoBodyPainter extends CustomPainter {
 
     canvas.drawOval(
       Rect.fromCenter(
-        center: Offset(w * 0.24, eyeY + 4),
+        center: Offset(w * 0.18, eyeY + 4),
         width: 32,
         height: 16,
       ),
@@ -84,16 +84,16 @@ class KokoBodyPainter extends CustomPainter {
     );
     canvas.drawOval(
       Rect.fromCenter(
-        center: Offset(w * 0.76, eyeY + 4),
+        center: Offset(w * 0.82, eyeY + 4),
         width: 32,
         height: 16,
       ),
       blushPaint,
     );
 
-    // 7. 눈 (Eyes) - 눈동자 거리를 이미지처럼 살짝 모음
-    _drawEye(canvas, Offset(w * 0.35, eyeY), mousePos);
-    _drawEye(canvas, Offset(w * 0.65, eyeY), mousePos);
+    // 7. 눈 (Eyes) - 눈동자 간격을 넓힘
+    _drawEye(canvas, Offset(w * 0.29, eyeY), mousePos);
+    _drawEye(canvas, Offset(w * 0.71, eyeY), mousePos);
 
     // 8. 입 (Mouth)
     final mouthPaint = Paint()
