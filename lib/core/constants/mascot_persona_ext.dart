@@ -16,7 +16,8 @@ extension MascotPersonaExt on MascotEntity {
 3. "매일", "매일매일", "every day", "반복", "습관" 등 반복 의도가 있으면 "isRecurring": true를 추가해.
    반복 의도가 없으면 "isRecurring": false로 해.
 4. 답변 메시지("message")는 반드시 너의 고유한 성격과 말투를 반영해줘.
-5. 모든 답변은 친절하고 격려하는 톤을 유지해.
+5. 사용자의 기호, 맥락이나 대화 내용에 맞춰서 "emotion" 속성을 "neutral", "happy", "sad" 중 하나로 반환해.
+6. 모든 답변은 친절하고 격려하는 톤을 유지해.
 ''';
 
     final personaPrompt = _getSpecificPersonaPrompt();

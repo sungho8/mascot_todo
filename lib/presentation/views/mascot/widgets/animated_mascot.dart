@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
+import '../../../../domain/entities/mascot/mascot_emotion.dart';
 import 'koko_body_painter.dart';
 import 'koko_tail.dart';
 
@@ -12,6 +13,7 @@ class AnimatedMascot extends StatefulWidget {
     this.isSpeaking = false,
     this.mousePos = Offset.zero,
     this.hasTail = false,
+    this.emotion = MascotEmotion.neutral,
     this.onTap,
   });
 
@@ -23,6 +25,9 @@ class AnimatedMascot extends StatefulWidget {
 
   /// 눈동자가 따라갈 마우스 위치 (MascotView용)
   final Offset mousePos;
+
+  /// 마스코트 감정 표정 상태
+  final MascotEmotion emotion;
 
   /// 등 뒤의 꼬리 표시 여부 (MascotView용)
   final bool hasTail;
@@ -167,6 +172,7 @@ class AnimatedMascotState extends State<AnimatedMascot>
                             mouthValue: _mouthController.value,
                             isSpeaking: widget.isSpeaking,
                             mousePos: widget.mousePos,
+                            emotion: widget.emotion,
                           ),
                         ),
                       ],

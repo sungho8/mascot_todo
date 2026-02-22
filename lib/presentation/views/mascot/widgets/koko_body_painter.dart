@@ -1,17 +1,20 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import '../../../../../domain/entities/mascot/mascot_emotion.dart';
 
 class KokoBodyPainter extends CustomPainter {
   final double blinkValue;
   final double mouthValue;
   final bool isSpeaking;
   final Offset mousePos;
+  final MascotEmotion emotion;
 
   KokoBodyPainter({
     required this.blinkValue,
     required this.mouthValue,
     required this.isSpeaking,
     required this.mousePos,
+    this.emotion = MascotEmotion.neutral,
   });
 
   @override
@@ -116,17 +119,47 @@ class KokoBodyPainter extends CustomPainter {
         Paint()..color = const Color(0xFFF43F5E),
       );
     } else {
-      canvas.drawArc(
-        Rect.fromCenter(
-          center: Offset(w * 0.5, h * 0.7),
-          width: 22,
-          height: 11,
-        ),
-        0.2,
-        math.pi - 0.4,
-        false,
-        mouthPaint,
-      );
+      // 감정에 따른 입 모양
+      if (emotion == MascotEmotion.sad) {
+        // 시무룩한 입: 뒤집힌 호
+        canvas.drawArc(
+          Rect.fromCenter(
+            center: Offset(w * 0.5, h * 0.75),
+            width: 18,
+            height: 10,
+          ),
+          math.pi + 0.2, // 위로 볼록
+          math.pi - 0.4,
+          false,
+          mouthPaint,
+        );
+      } else if (emotion == MascotEmotion.happy) {
+        // 활짝 웃는 입 (기본과 유사하거나 약간 큰 곡선)
+        canvas.drawArc(
+          Rect.fromCenter(
+            center: Offset(w * 0.5, h * 0.7),
+            width: 26,
+            height: 14,
+          ),
+          0.1,
+          math.pi - 0.2,
+          false,
+          mouthPaint,
+        );
+      } else {
+        // 기본 입
+        canvas.drawArc(
+          Rect.fromCenter(
+            center: Offset(w * 0.5, h * 0.7),
+            width: 22,
+            height: 11,
+          ),
+          0.2,
+          math.pi - 0.4,
+          false,
+          mouthPaint,
+        );
+      }
     }
   }
 
@@ -204,6 +237,49 @@ class KokoBodyPainter extends CustomPainter {
   }
 
   void _drawEye(Canvas canvas, Offset center, Offset mousePos) {
+    if (emotion == MascotEmotion.happy) {
+      // 행복한 기분: ^ ^ 눈웃음 모양
+      final eyeCurvePaint = Paint()
+        ..color = const Color(0xFF1E293B)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 4.0
+        ..strokeCap = StrokeCap.round;
+
+      canvas.drawArc(
+        Rect.fromCenter(
+          center: Offset(center.dx, center.dy + 3),
+          width: 18,
+          height: 10,
+        ),
+        math.pi + 0.2,
+        math.pi - 0.4,
+        false,
+        eyeCurvePaint,
+      );
+      return;
+    } else if (emotion == MascotEmotion.sad) {
+      // 슬픈 기분: T T 모양의 눈웃음 반대 버전
+      final eyeCurvePaint = Paint()
+        ..color = const Color(0xFF1E293B)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 4.0
+        ..strokeCap = StrokeCap.round;
+
+      canvas.drawArc(
+        Rect.fromCenter(
+          center: Offset(center.dx, center.dy),
+          width: 18,
+          height: 8,
+        ),
+        0.2,
+        math.pi - 0.4,
+        false,
+        eyeCurvePaint,
+      );
+      return;
+    }
+
+    // 기본(중립) 상태: 초롱초롱 눈망울
     // 마우스 위치에 따라 눈동자 전체가 아주 미세하게 움직이도록
     double offsetX = math.max(-1.0, math.min(1.0, mousePos.dx)) * 1.5;
     double offsetY = math.max(-1.0, math.min(1.0, mousePos.dy)) * 1.5;

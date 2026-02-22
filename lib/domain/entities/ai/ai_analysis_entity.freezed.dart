@@ -22,6 +22,8 @@ mixin _$AiAnalysisEntity {
   String? get categoryId =>
       throw _privateConstructorUsedError; // 시맨틱 카테고리 (health, work 등)
   bool get isRecurring => throw _privateConstructorUsedError;
+  String? get emotion =>
+      throw _privateConstructorUsedError; // 감정 상태 (happy, sad, neutral)
   String get message => throw _privateConstructorUsedError;
 
   /// Create a copy of AiAnalysisEntity
@@ -43,6 +45,7 @@ abstract class $AiAnalysisEntityCopyWith<$Res> {
     String? title,
     String? categoryId,
     bool isRecurring,
+    String? emotion,
     String message,
   });
 }
@@ -66,6 +69,7 @@ class _$AiAnalysisEntityCopyWithImpl<$Res, $Val extends AiAnalysisEntity>
     Object? title = freezed,
     Object? categoryId = freezed,
     Object? isRecurring = null,
+    Object? emotion = freezed,
     Object? message = null,
   }) {
     return _then(
@@ -86,6 +90,10 @@ class _$AiAnalysisEntityCopyWithImpl<$Res, $Val extends AiAnalysisEntity>
                 ? _value.isRecurring
                 : isRecurring // ignore: cast_nullable_to_non_nullable
                       as bool,
+            emotion: freezed == emotion
+                ? _value.emotion
+                : emotion // ignore: cast_nullable_to_non_nullable
+                      as String?,
             message: null == message
                 ? _value.message
                 : message // ignore: cast_nullable_to_non_nullable
@@ -110,6 +118,7 @@ abstract class _$$AiAnalysisEntityImplCopyWith<$Res>
     String? title,
     String? categoryId,
     bool isRecurring,
+    String? emotion,
     String message,
   });
 }
@@ -132,6 +141,7 @@ class __$$AiAnalysisEntityImplCopyWithImpl<$Res>
     Object? title = freezed,
     Object? categoryId = freezed,
     Object? isRecurring = null,
+    Object? emotion = freezed,
     Object? message = null,
   }) {
     return _then(
@@ -152,6 +162,10 @@ class __$$AiAnalysisEntityImplCopyWithImpl<$Res>
             ? _value.isRecurring
             : isRecurring // ignore: cast_nullable_to_non_nullable
                   as bool,
+        emotion: freezed == emotion
+            ? _value.emotion
+            : emotion // ignore: cast_nullable_to_non_nullable
+                  as String?,
         message: null == message
             ? _value.message
             : message // ignore: cast_nullable_to_non_nullable
@@ -169,6 +183,7 @@ class _$AiAnalysisEntityImpl implements _AiAnalysisEntity {
     this.title,
     this.categoryId,
     this.isRecurring = false,
+    this.emotion,
     required this.message,
   });
 
@@ -183,11 +198,14 @@ class _$AiAnalysisEntityImpl implements _AiAnalysisEntity {
   @JsonKey()
   final bool isRecurring;
   @override
+  final String? emotion;
+  // 감정 상태 (happy, sad, neutral)
+  @override
   final String message;
 
   @override
   String toString() {
-    return 'AiAnalysisEntity(type: $type, title: $title, categoryId: $categoryId, isRecurring: $isRecurring, message: $message)';
+    return 'AiAnalysisEntity(type: $type, title: $title, categoryId: $categoryId, isRecurring: $isRecurring, emotion: $emotion, message: $message)';
   }
 
   @override
@@ -201,12 +219,20 @@ class _$AiAnalysisEntityImpl implements _AiAnalysisEntity {
                 other.categoryId == categoryId) &&
             (identical(other.isRecurring, isRecurring) ||
                 other.isRecurring == isRecurring) &&
+            (identical(other.emotion, emotion) || other.emotion == emotion) &&
             (identical(other.message, message) || other.message == message));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, type, title, categoryId, isRecurring, message);
+  int get hashCode => Object.hash(
+    runtimeType,
+    type,
+    title,
+    categoryId,
+    isRecurring,
+    emotion,
+    message,
+  );
 
   /// Create a copy of AiAnalysisEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -226,6 +252,7 @@ abstract class _AiAnalysisEntity implements AiAnalysisEntity {
     final String? title,
     final String? categoryId,
     final bool isRecurring,
+    final String? emotion,
     required final String message,
   }) = _$AiAnalysisEntityImpl;
 
@@ -237,6 +264,8 @@ abstract class _AiAnalysisEntity implements AiAnalysisEntity {
   String? get categoryId; // 시맨틱 카테고리 (health, work 등)
   @override
   bool get isRecurring;
+  @override
+  String? get emotion; // 감정 상태 (happy, sad, neutral)
   @override
   String get message;
 

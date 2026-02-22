@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../viewmodels/home/home_viewmodel.dart';
 import '../../../di/ai/ai_providers.dart';
+import '../../../domain/entities/mascot/mascot_emotion.dart';
 import '../../../core/design_system/design_system.dart';
 import 'widgets/animated_mascot.dart';
 import 'widgets/bubble_tail_painter.dart';
@@ -27,6 +28,7 @@ class _MascotViewState extends ConsumerState<MascotView>
   bool _isSpeaking = false;
   bool _isLoading = false;
   Offset _mousePos = Offset.zero;
+  MascotEmotion _currentEmotion = MascotEmotion.neutral;
 
   final _textController = TextEditingController();
   final _focusNode = FocusNode();
@@ -89,6 +91,13 @@ class _MascotViewState extends ConsumerState<MascotView>
                   title: analysis.title!,
                   categoryId: analysis.categoryId,
                 );
+            setState(() {
+              _currentEmotion = MascotEmotion.happy;
+            });
+          } else {
+            setState(() {
+              _currentEmotion = MascotEmotion.fromString(analysis.emotion);
+            });
           }
 
           setState(() {
@@ -227,6 +236,7 @@ class _MascotViewState extends ConsumerState<MascotView>
                             isSpeaking: _isSpeaking,
                             mousePos: _mousePos,
                             hasTail: true,
+                            emotion: _currentEmotion,
                           ),
                         ),
                       ],

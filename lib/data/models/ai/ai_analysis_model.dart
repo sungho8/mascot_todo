@@ -11,6 +11,7 @@ abstract class AiAnalysisModel with _$AiAnalysisModel {
     String? title,
     String? categoryId,
     @Default(false) bool isRecurring,
+    String? emotion,
     required String message,
   }) = _AiAnalysisModel;
 
@@ -24,6 +25,7 @@ abstract class AiAnalysisModel with _$AiAnalysisModel {
     title: title,
     categoryId: categoryId,
     isRecurring: isRecurring,
+    emotion: emotion,
     message: message,
   );
 }

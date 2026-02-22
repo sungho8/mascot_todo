@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/mascot_persona_ext.dart';
 import '../../../../domain/entities/mascot/mascot_entity.dart';
+import '../../../../domain/entities/mascot/mascot_emotion.dart';
 import '../../../../di/ai/ai_providers.dart';
 import '../../../../core/design_system/design_system.dart';
 import '../../../viewmodels/home/home_viewmodel.dart';
@@ -40,6 +41,8 @@ class _MascotChatBarState extends ConsumerState<MascotChatBar>
   final _mascotKey = GlobalKey<AnimatedMascotState>();
   bool _isCelebrating = false;
   int _lastTrigger = 0;
+
+  MascotEmotion _currentEmotion = MascotEmotion.neutral;
 
   @override
   void initState() {
@@ -94,6 +97,15 @@ class _MascotChatBarState extends ConsumerState<MascotChatBar>
               analysis.categoryId,
               analysis.isRecurring,
             );
+            // Todo가 성공적으로 추가되면 항상 기쁜 표정
+            setState(() {
+              _currentEmotion = MascotEmotion.happy;
+            });
+          } else {
+            // 그 외 대화는 AI가 판단한 감정 반영
+            setState(() {
+              _currentEmotion = MascotEmotion.fromString(analysis.emotion);
+            });
           }
           _showMascotBubble(analysis.message);
         },
@@ -205,6 +217,7 @@ class _MascotChatBarState extends ConsumerState<MascotChatBar>
                 key: _mascotKey,
                 size: 44.0,
                 isSpeaking: _isCelebrating,
+                emotion: _isCelebrating ? MascotEmotion.happy : _currentEmotion,
               ),
 
               AppSpacing.hMd,

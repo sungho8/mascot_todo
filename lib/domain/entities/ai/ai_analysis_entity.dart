@@ -9,6 +9,7 @@ abstract class AiAnalysisEntity with _$AiAnalysisEntity {
     String? title,
     String? categoryId, // 시맨틱 카테고리 (health, work 등)
     @Default(false) bool isRecurring,
+    String? emotion, // 감정 상태 (happy, sad, neutral)
     required String message,
   }) = _AiAnalysisEntity;
 }

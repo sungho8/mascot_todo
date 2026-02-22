@@ -25,6 +25,7 @@ mixin _$AiAnalysisModel {
   String? get title => throw _privateConstructorUsedError;
   String? get categoryId => throw _privateConstructorUsedError;
   bool get isRecurring => throw _privateConstructorUsedError;
+  String? get emotion => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
 
   /// Serializes this AiAnalysisModel to a JSON map.
@@ -49,6 +50,7 @@ abstract class $AiAnalysisModelCopyWith<$Res> {
     String? title,
     String? categoryId,
     bool isRecurring,
+    String? emotion,
     String message,
   });
 }
@@ -72,6 +74,7 @@ class _$AiAnalysisModelCopyWithImpl<$Res, $Val extends AiAnalysisModel>
     Object? title = freezed,
     Object? categoryId = freezed,
     Object? isRecurring = null,
+    Object? emotion = freezed,
     Object? message = null,
   }) {
     return _then(
@@ -92,6 +95,10 @@ class _$AiAnalysisModelCopyWithImpl<$Res, $Val extends AiAnalysisModel>
                 ? _value.isRecurring
                 : isRecurring // ignore: cast_nullable_to_non_nullable
                       as bool,
+            emotion: freezed == emotion
+                ? _value.emotion
+                : emotion // ignore: cast_nullable_to_non_nullable
+                      as String?,
             message: null == message
                 ? _value.message
                 : message // ignore: cast_nullable_to_non_nullable
@@ -116,6 +123,7 @@ abstract class _$$AiAnalysisModelImplCopyWith<$Res>
     String? title,
     String? categoryId,
     bool isRecurring,
+    String? emotion,
     String message,
   });
 }
@@ -138,6 +146,7 @@ class __$$AiAnalysisModelImplCopyWithImpl<$Res>
     Object? title = freezed,
     Object? categoryId = freezed,
     Object? isRecurring = null,
+    Object? emotion = freezed,
     Object? message = null,
   }) {
     return _then(
@@ -158,6 +167,10 @@ class __$$AiAnalysisModelImplCopyWithImpl<$Res>
             ? _value.isRecurring
             : isRecurring // ignore: cast_nullable_to_non_nullable
                   as bool,
+        emotion: freezed == emotion
+            ? _value.emotion
+            : emotion // ignore: cast_nullable_to_non_nullable
+                  as String?,
         message: null == message
             ? _value.message
             : message // ignore: cast_nullable_to_non_nullable
@@ -175,6 +188,7 @@ class _$AiAnalysisModelImpl extends _AiAnalysisModel {
     this.title,
     this.categoryId,
     this.isRecurring = false,
+    this.emotion,
     required this.message,
   }) : super._();
 
@@ -191,11 +205,13 @@ class _$AiAnalysisModelImpl extends _AiAnalysisModel {
   @JsonKey()
   final bool isRecurring;
   @override
+  final String? emotion;
+  @override
   final String message;
 
   @override
   String toString() {
-    return 'AiAnalysisModel(type: $type, title: $title, categoryId: $categoryId, isRecurring: $isRecurring, message: $message)';
+    return 'AiAnalysisModel(type: $type, title: $title, categoryId: $categoryId, isRecurring: $isRecurring, emotion: $emotion, message: $message)';
   }
 
   @override
@@ -209,13 +225,21 @@ class _$AiAnalysisModelImpl extends _AiAnalysisModel {
                 other.categoryId == categoryId) &&
             (identical(other.isRecurring, isRecurring) ||
                 other.isRecurring == isRecurring) &&
+            (identical(other.emotion, emotion) || other.emotion == emotion) &&
             (identical(other.message, message) || other.message == message));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, type, title, categoryId, isRecurring, message);
+  int get hashCode => Object.hash(
+    runtimeType,
+    type,
+    title,
+    categoryId,
+    isRecurring,
+    emotion,
+    message,
+  );
 
   /// Create a copy of AiAnalysisModel
   /// with the given fields replaced by the non-null parameter values.
@@ -240,6 +264,7 @@ abstract class _AiAnalysisModel extends AiAnalysisModel {
     final String? title,
     final String? categoryId,
     final bool isRecurring,
+    final String? emotion,
     required final String message,
   }) = _$AiAnalysisModelImpl;
   const _AiAnalysisModel._() : super._();
@@ -255,6 +280,8 @@ abstract class _AiAnalysisModel extends AiAnalysisModel {
   String? get categoryId;
   @override
   bool get isRecurring;
+  @override
+  String? get emotion;
   @override
   String get message;
 
