@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../viewmodels/home/home_viewmodel.dart';
 import '../../../di/ai/ai_providers.dart';
 import '../../../domain/entities/mascot/mascot_emotion.dart';
-import '../../../core/design_system/design_system.dart';
 import 'widgets/animated_mascot.dart';
 import 'widgets/bubble_tail_painter.dart';
 

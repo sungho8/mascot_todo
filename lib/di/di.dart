@@ -7,3 +7,6 @@ export 'ai/ai_providers.dart';
 
 /// Auth Providers
 export 'auth/auth_providers.dart';
+
+/// Statistics Providers
+export 'statistics/statistics_providers.dart';
