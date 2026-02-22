@@ -261,33 +261,21 @@ class _MascotViewState extends ConsumerState<MascotView>
               ),
             ),
 
-            // 하단 채팅 입력 영역 (단일 통합 UI)
+            // 하단 채팅 입력 영역 (단일 통합 UI - 레퍼런스 이미지 디자인)
             Positioned(
               bottom: MediaQuery.of(context).padding.bottom + 20,
               left: 20,
               right: 20,
               child: Container(
                 padding: const EdgeInsets.only(
-                  left: 20,
+                  left: 24,
                   right: 8,
                   top: 8,
                   bottom: 8,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: const Color(0xFFF8F9FA), // 매우 연한 회색 배경
                   borderRadius: BorderRadius.circular(36),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.06),
-                      blurRadius: 24,
-                      offset: const Offset(0, 8),
-                    ),
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.02),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
                 ),
                 child: Row(
                   children: [
@@ -297,6 +285,7 @@ class _MascotViewState extends ConsumerState<MascotView>
                         focusNode: _focusNode,
                         style: const TextStyle(
                           fontSize: 16,
+                          fontWeight: FontWeight.w500,
                           color: Color(0xFF334155),
                         ),
                         decoration: const InputDecoration(
@@ -304,7 +293,10 @@ class _MascotViewState extends ConsumerState<MascotView>
                           border: InputBorder.none,
                           isDense: true,
                           contentPadding: EdgeInsets.symmetric(vertical: 10),
-                          hintStyle: TextStyle(color: Color(0xFF94A3B8)),
+                          hintStyle: TextStyle(
+                            color: Color(0xFF94A3B8),
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                         onSubmitted: _handleChat,
                       ),
@@ -313,18 +305,18 @@ class _MascotViewState extends ConsumerState<MascotView>
                     GestureDetector(
                       onTap: () => _handleChat(_textController.text),
                       child: Container(
-                        width: 44,
-                        height: 44,
+                        width: 48,
+                        height: 48,
                         decoration: BoxDecoration(
                           color: _isLoading
                               ? const Color(0xFFCBD5E1)
-                              : AppColors.primary,
+                              : const Color(0xFF4ADE80), // 민트/그린 버튼 색상
                           shape: BoxShape.circle,
                         ),
                         child: const Icon(
                           Icons.send_rounded,
-                          color: Colors.white,
-                          size: 20,
+                          color: Color(0xFF0F172A), // 진한 네이비 아이콘
+                          size: 24,
                         ),
                       ),
                     ),
