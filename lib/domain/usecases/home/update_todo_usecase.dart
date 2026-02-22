@@ -3,30 +3,27 @@ import '../../../core/error/failure.dart';
 import '../../entities/todo/todo_entity.dart';
 import '../../repositories/todo/todo_repository.dart';
 
-/// Todo 생성 UseCase
-class CreateTodoUseCase {
+/// Todo 수정 UseCase
+class UpdateTodoUseCase {
   final TodoRepository _todoRepository;
 
-  CreateTodoUseCase(this._todoRepository);
+  UpdateTodoUseCase(this._todoRepository);
 
   Future<Either<Failure, TodoEntity>> call({
+    required String todoId,
     required String title,
     String? description,
-    bool isFocus = false,
-    bool isRecurring = false,
+    bool? isFocus,
+    bool? isRecurring,
     String? categoryId,
   }) async {
-    final todo = TodoEntity(
-      id: '',
+    return await _todoRepository.updateTodo(
+      todoId: todoId,
       title: title,
       description: description,
-      isCompleted: false,
-      isFocusTask: isFocus,
+      isFocus: isFocus,
       isRecurring: isRecurring,
       categoryId: categoryId,
-      targetDate: DateTime.now(),
-      createdAt: DateTime.now(),
     );
-    return await _todoRepository.createTodo(todo);
   }
 }

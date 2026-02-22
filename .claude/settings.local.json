@@ -40,7 +40,20 @@
       "Bash(dart analyze:*)",
       "Bash(~/.fvm/default/bin/flutter analyze:*)",
       "mcp__notion__API-patch-block-children",
-      "mcp__notion__API-update-a-block"
+      "mcp__notion__API-update-a-block",
+      "Bash(export PATH=\"$PATH:/Users/sungho/fvm/default/bin:/Users/sungho/.pub-cache/bin\")",
+      "Bash(/opt/homebrew/Caskroom/flutter/3.13.6/flutter/bin/flutter analyze:*)",
+      "Bash(export PATH=\"$HOME/.pub-cache/bin:$HOME/flutter/bin:/opt/homebrew/bin:$PATH\")",
+      "Bash(/usr/bin/find:*)",
+      "Bash(/opt/homebrew/Caskroom/flutter/3.13.6/flutter/bin/dart run build_runner build:*)",
+      "Bash(export PATH=\"$HOME/.pub-cache/bin:$HOME/fvm/default/bin:$PATH\")",
+      "Bash(fvm use:*)",
+      "Bash(source:*)",
+      "Bash(dart --version:*)",
+      "Bash(flutter --version:*)",
+      "Bash(brew list:*)",
+      "Read(//opt/homebrew/bin/**)",
+      "mcp__notion__API-patch-page"
     ]
   },
   "hooks": {

@@ -1,29 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/design_system/design_system.dart';
+import '../../../../domain/entities/todo/todo_entity.dart';
 import '../../../viewmodels/home/home_viewmodel.dart';
 
-/// Todo 생성 바텀시트
-class CreateTodoBottomSheet extends ConsumerStatefulWidget {
-  const CreateTodoBottomSheet({super.key});
+/// Todo 수정 바텀시트
+class EditTodoBottomSheet extends ConsumerStatefulWidget {
+  final TodoEntity todo;
+
+  const EditTodoBottomSheet({super.key, required this.todo});
 
   @override
-  ConsumerState<CreateTodoBottomSheet> createState() =>
-      _CreateTodoBottomSheetState();
+  ConsumerState<EditTodoBottomSheet> createState() =>
+      _EditTodoBottomSheetState();
 }
 
-class _CreateTodoBottomSheetState extends ConsumerState<CreateTodoBottomSheet> {
-  final _titleController = TextEditingController();
-  final _descriptionController = TextEditingController();
+class _EditTodoBottomSheetState extends ConsumerState<EditTodoBottomSheet> {
+  late final TextEditingController _titleController;
+  late final TextEditingController _descriptionController;
   final _titleFocusNode = FocusNode();
-  bool _isFocus = false;
-  bool _isRecurring = false;
+  late bool _isFocus;
+  late bool _isRecurring;
   bool _isLoading = false;
   String? _selectedCategoryId;
 
   @override
   void initState() {
     super.initState();
+    _titleController = TextEditingController(text: widget.todo.title);
+    _descriptionController =
+        TextEditingController(text: widget.todo.description ?? '');
+    _isFocus = widget.todo.isFocusTask;
+    _isRecurring = widget.todo.isRecurring;
+    _selectedCategoryId = widget.todo.categoryId;
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _titleFocusNode.requestFocus();
     });
@@ -43,17 +53,17 @@ class _CreateTodoBottomSheetState extends ConsumerState<CreateTodoBottomSheet> {
 
     setState(() => _isLoading = true);
 
-    final success = await ref
-        .read(homeViewModelProvider.notifier)
-        .createTodo(
-          title: title,
-          description: _descriptionController.text.trim().isEmpty
-              ? null
-              : _descriptionController.text.trim(),
-          isFocus: _isFocus,
-          isRecurring: _isRecurring,
-          categoryId: _selectedCategoryId,
-        );
+    final success =
+        await ref.read(homeViewModelProvider.notifier).updateTodo(
+              todoId: widget.todo.id,
+              title: title,
+              description: _descriptionController.text.trim().isEmpty
+                  ? null
+                  : _descriptionController.text.trim(),
+              isFocus: _isFocus,
+              isRecurring: _isRecurring,
+              categoryId: _selectedCategoryId,
+            );
 
     if (mounted) {
       setState(() => _isLoading = false);
@@ -97,7 +107,7 @@ class _CreateTodoBottomSheetState extends ConsumerState<CreateTodoBottomSheet> {
 
           AppSpacing.vLg,
 
-          Text('새 TODO 추가', style: AppTypography.h3),
+          Text('TODO 수정', style: AppTypography.h3),
 
           AppSpacing.vLg,
 
@@ -120,10 +130,8 @@ class _CreateTodoBottomSheetState extends ConsumerState<CreateTodoBottomSheet> {
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(AppRadius.md),
-                borderSide: const BorderSide(
-                  color: AppColors.primary,
-                  width: 2,
-                ),
+                borderSide:
+                    const BorderSide(color: AppColors.primary, width: 2),
               ),
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: AppSpacing.md,
@@ -155,10 +163,8 @@ class _CreateTodoBottomSheetState extends ConsumerState<CreateTodoBottomSheet> {
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(AppRadius.md),
-                borderSide: const BorderSide(
-                  color: AppColors.primary,
-                  width: 2,
-                ),
+                borderSide:
+                    const BorderSide(color: AppColors.primary, width: 2),
               ),
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: AppSpacing.md,
@@ -195,7 +201,8 @@ class _CreateTodoBottomSheetState extends ConsumerState<CreateTodoBottomSheet> {
 
                   return GestureDetector(
                     onTap: () => setState(() {
-                      _selectedCategoryId = isSelected ? null : category.id;
+                      _selectedCategoryId =
+                          isSelected ? null : category.id;
                     }),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 150),
@@ -212,7 +219,9 @@ class _CreateTodoBottomSheetState extends ConsumerState<CreateTodoBottomSheet> {
                       child: Text(
                         category.name,
                         style: AppTypography.caption.copyWith(
-                          color: isSelected ? color : AppColors.textSecondary,
+                          color: isSelected
+                              ? color
+                              : AppColors.textSecondary,
                         ),
                       ),
                     ),
@@ -288,7 +297,7 @@ class _CreateTodoBottomSheetState extends ConsumerState<CreateTodoBottomSheet> {
 
           AppSpacing.vLg,
 
-          // 추가 버튼
+          // 수정 버튼
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
@@ -296,7 +305,8 @@ class _CreateTodoBottomSheetState extends ConsumerState<CreateTodoBottomSheet> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 foregroundColor: AppColors.textOnDark,
-                padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                padding:
+                    const EdgeInsets.symmetric(vertical: AppSpacing.md),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppRadius.md),
                 ),
@@ -311,7 +321,7 @@ class _CreateTodoBottomSheetState extends ConsumerState<CreateTodoBottomSheet> {
                       ),
                     )
                   : Text(
-                      '추가',
+                      '수정',
                       style: AppTypography.h4.copyWith(
                         color: AppColors.textOnDark,
                       ),

@@ -37,6 +37,7 @@ class TodoRepositoryImpl implements TodoRepository {
         title: todo.title,
         description: todo.description,
         isFocus: todo.isFocusTask,
+        isRecurring: todo.isRecurring,
         categoryId: todo.categoryId,
       );
       return Right(model.toEntity());
@@ -49,6 +50,30 @@ class TodoRepositoryImpl implements TodoRepository {
   Future<Either<Failure, TodoEntity>> completeTodo(String todoId) async {
     try {
       final model = await _remoteDataSource.completeTodo(todoId);
+      return Right(model.toEntity());
+    } catch (e) {
+      return Left(Failure.serverError(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, TodoEntity>> updateTodo({
+    required String todoId,
+    required String title,
+    String? description,
+    bool? isFocus,
+    bool? isRecurring,
+    String? categoryId,
+  }) async {
+    try {
+      final model = await _remoteDataSource.updateTodo(
+        todoId: todoId,
+        title: title,
+        description: description,
+        isFocus: isFocus,
+        isRecurring: isRecurring,
+        categoryId: categoryId,
+      );
       return Right(model.toEntity());
     } catch (e) {
       return Left(Failure.serverError(message: e.toString()));

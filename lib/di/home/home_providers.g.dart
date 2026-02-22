@@ -86,6 +86,26 @@ final categoryRemoteDataSourceProvider =
 // ignore: unused_element
 typedef CategoryRemoteDataSourceRef =
     AutoDisposeProviderRef<CategoryRemoteDataSource>;
+String _$mascotRemoteDataSourceHash() =>
+    r'b9f851ad0e4caa6cb4d4734fe1210829698dd358';
+
+/// See also [mascotRemoteDataSource].
+@ProviderFor(mascotRemoteDataSource)
+final mascotRemoteDataSourceProvider =
+    AutoDisposeProvider<MascotRemoteDataSource>.internal(
+      mascotRemoteDataSource,
+      name: r'mascotRemoteDataSourceProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$mascotRemoteDataSourceHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef MascotRemoteDataSourceRef =
+    AutoDisposeProviderRef<MascotRemoteDataSource>;
 String _$todoRepositoryHash() => r'0dfc3ce9f207ca442b1da0b1d29a119b94ed2c4d';
 
 /// Repository Providers
@@ -105,7 +125,7 @@ final todoRepositoryProvider = AutoDisposeProvider<TodoRepository>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef TodoRepositoryRef = AutoDisposeProviderRef<TodoRepository>;
-String _$mascotRepositoryHash() => r'6ec6ebccea5c089b3a63fed24d9ed384f4ba78c8';
+String _$mascotRepositoryHash() => r'319a23114ae63011127a64f9d4404159172000ed';
 
 /// See also [mascotRepository].
 @ProviderFor(mascotRepository)
@@ -216,5 +236,60 @@ final createTodoUseCaseProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef CreateTodoUseCaseRef = AutoDisposeProviderRef<CreateTodoUseCase>;
+String _$deleteTodoUseCaseHash() => r'c9bb172225c7b8519f87be234cec5cac1d4b8c87';
+
+/// See also [deleteTodoUseCase].
+@ProviderFor(deleteTodoUseCase)
+final deleteTodoUseCaseProvider =
+    AutoDisposeProvider<DeleteTodoUseCase>.internal(
+      deleteTodoUseCase,
+      name: r'deleteTodoUseCaseProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$deleteTodoUseCaseHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef DeleteTodoUseCaseRef = AutoDisposeProviderRef<DeleteTodoUseCase>;
+String _$updateTodoUseCaseHash() => r'ef4abd4f578033d5cff8506c79349bb02bccb8dd';
+
+/// See also [updateTodoUseCase].
+@ProviderFor(updateTodoUseCase)
+final updateTodoUseCaseProvider =
+    AutoDisposeProvider<UpdateTodoUseCase>.internal(
+      updateTodoUseCase,
+      name: r'updateTodoUseCaseProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$updateTodoUseCaseHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef UpdateTodoUseCaseRef = AutoDisposeProviderRef<UpdateTodoUseCase>;
+String _$gainMascotExpUseCaseHash() =>
+    r'beb0eb48d5bd2d62190cefa4321c4dec25542e6d';
+
+/// See also [gainMascotExpUseCase].
+@ProviderFor(gainMascotExpUseCase)
+final gainMascotExpUseCaseProvider =
+    AutoDisposeProvider<GainMascotExpUseCase>.internal(
+      gainMascotExpUseCase,
+      name: r'gainMascotExpUseCaseProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$gainMascotExpUseCaseHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef GainMascotExpUseCaseRef = AutoDisposeProviderRef<GainMascotExpUseCase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

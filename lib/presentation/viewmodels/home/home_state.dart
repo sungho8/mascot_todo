@@ -15,15 +15,12 @@ abstract class HomeState with _$HomeState {
     @Default([]) List<TodoEntity> todos,
     TodoEntity? focusTodo,
     MascotEntity? mainMascot,
+    @Default([]) List<MascotEntity> mascots,
     @Default([]) List<CategoryEntity> categories,
     String? errorMessage,
+    @Default(0) int celebrationTrigger,
   }) = _HomeState;
 }
 
 /// 홈 화면 상태 enum
-enum HomeStatus {
-  initial,
-  loading,
-  loaded,
-  error,
-}
+enum HomeStatus { initial, loading, loaded, error }

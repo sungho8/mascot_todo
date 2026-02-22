@@ -18,7 +18,7 @@ final aiRepositoryProvider = Provider<AIRepository>((ref) {
 
 /// AI 채팅 처리 유스케이스 프로바이더
 final processChatUseCaseProvider = Provider<ProcessChatUseCase>((ref) {
-  final repository = ref.watch(aiRepositoryProvider);
+  final aiRepository = ref.watch(aiRepositoryProvider);
   final categoryRepository = ref.watch(categoryRepositoryProvider);
-  return ProcessChatUseCase(repository, categoryRepository);
+  return ProcessChatUseCase(aiRepository, categoryRepository);
 });

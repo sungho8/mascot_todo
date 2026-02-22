@@ -16,6 +16,16 @@ abstract class TodoRepository {
   /// Todo 완료 처리
   Future<Either<Failure, TodoEntity>> completeTodo(String todoId);
 
+  /// Todo 수정
+  Future<Either<Failure, TodoEntity>> updateTodo({
+    required String todoId,
+    required String title,
+    String? description,
+    bool? isFocus,
+    bool? isRecurring,
+    String? categoryId,
+  });
+
   /// Todo 삭제
   Future<Either<Failure, void>> deleteTodo(String todoId);
 }

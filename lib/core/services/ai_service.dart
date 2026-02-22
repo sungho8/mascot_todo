@@ -36,34 +36,15 @@ class AIService {
 
   /// 사용자의 입력을 분석하여 결과 반환
   /// [input]: 사용자 메시지
-  /// [mascotName]: 현재 대화 중인 마스코트 이름
-  Future<AiAnalysisModel> analyzeInput(String input, String mascotName) async {
+  /// [systemPrompt]: 마스코트별 고유 페르소나가 포함된 시스템 지침
+  Future<AiAnalysisModel> analyzeInput(
+    String input,
+    String systemPrompt,
+  ) async {
     try {
       final prompt =
           '''
-너는 Todo 리스트 앱의 마스코트 캐릭터 $mascotName야.
-사용자의 입력을 분석해서 다음 JSON 형식으로 응답해줘.
-
-분석 규칙:
-1. 사용자의 입력이 새로운 할 일(TODO)을 추가하려는 의도인지, 아니면 그냥 대화나 다른 요청인지 판단해.
-2. 할 일일 경우 "type": "todo"로 설정하고, "title"에 할 일 제목을 추출해.
-3. 할 일의 카테고리를 다음 중 하나로 결정해서 "categoryId"에 넣어줘:
-   - 'health': 운동, 건강, 식단 등
-   - 'study': 공부, 학습, 독서 등
-   - 'work': 업무, 작업, 프로젝트 등
-   - 'mindfulness': 명상, 휴식, 일기, 마음챙김 등
-   - 'habit': 생활 습관, 집안일, 루틴 등
-   - 'hobby': 취미, 여가, 여행 등
-4. 일반 대화일 경우 "type": "chat"으로 설정하고, "message"에 $mascotName의 성격과 말투(고양이 말투, ~냥!, ~야옹!)에 맞는 답변을 적어줘.
-5. 할 일 추가 시에도 "message"에 추가했다는 확인 메시지를 $mascotName의 말투로 적어줘.
-
-JSON 구조:
-{
-  "type": "todo" | "chat",
-  "title": "추출된 할 일 제목 (todo인 경우에만)",
-  "categoryId": "health" | "study" | "work" | "mindfulness" | "habit" | "hobby",
-  "message": "사용자에게 보여줄 답변 메시지"
-}
+$systemPrompt
 
 사용자 입력: "$input"
 ''';

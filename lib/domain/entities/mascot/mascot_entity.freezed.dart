@@ -23,8 +23,11 @@ mixin _$MascotEntity {
   int get level => throw _privateConstructorUsedError;
   double get currentExp => throw _privateConstructorUsedError;
   double get maxExp => throw _privateConstructorUsedError;
-  bool get isLocked => throw _privateConstructorUsedError;
-  String? get unlockCondition => throw _privateConstructorUsedError;
+  String get unlockConditionType => throw _privateConstructorUsedError;
+  int get unlockConditionValue => throw _privateConstructorUsedError;
+  String get unlockDescription => throw _privateConstructorUsedError;
+  bool get isDefault => throw _privateConstructorUsedError;
+  bool get isUnlocked => throw _privateConstructorUsedError;
 
   /// Create a copy of MascotEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -47,8 +50,11 @@ abstract class $MascotEntityCopyWith<$Res> {
     int level,
     double currentExp,
     double maxExp,
-    bool isLocked,
-    String? unlockCondition,
+    String unlockConditionType,
+    int unlockConditionValue,
+    String unlockDescription,
+    bool isDefault,
+    bool isUnlocked,
   });
 }
 
@@ -73,8 +79,11 @@ class _$MascotEntityCopyWithImpl<$Res, $Val extends MascotEntity>
     Object? level = null,
     Object? currentExp = null,
     Object? maxExp = null,
-    Object? isLocked = null,
-    Object? unlockCondition = freezed,
+    Object? unlockConditionType = null,
+    Object? unlockConditionValue = null,
+    Object? unlockDescription = null,
+    Object? isDefault = null,
+    Object? isUnlocked = null,
   }) {
     return _then(
       _value.copyWith(
@@ -102,14 +111,26 @@ class _$MascotEntityCopyWithImpl<$Res, $Val extends MascotEntity>
                 ? _value.maxExp
                 : maxExp // ignore: cast_nullable_to_non_nullable
                       as double,
-            isLocked: null == isLocked
-                ? _value.isLocked
-                : isLocked // ignore: cast_nullable_to_non_nullable
+            unlockConditionType: null == unlockConditionType
+                ? _value.unlockConditionType
+                : unlockConditionType // ignore: cast_nullable_to_non_nullable
+                      as String,
+            unlockConditionValue: null == unlockConditionValue
+                ? _value.unlockConditionValue
+                : unlockConditionValue // ignore: cast_nullable_to_non_nullable
+                      as int,
+            unlockDescription: null == unlockDescription
+                ? _value.unlockDescription
+                : unlockDescription // ignore: cast_nullable_to_non_nullable
+                      as String,
+            isDefault: null == isDefault
+                ? _value.isDefault
+                : isDefault // ignore: cast_nullable_to_non_nullable
                       as bool,
-            unlockCondition: freezed == unlockCondition
-                ? _value.unlockCondition
-                : unlockCondition // ignore: cast_nullable_to_non_nullable
-                      as String?,
+            isUnlocked: null == isUnlocked
+                ? _value.isUnlocked
+                : isUnlocked // ignore: cast_nullable_to_non_nullable
+                      as bool,
           )
           as $Val,
     );
@@ -132,8 +153,11 @@ abstract class _$$MascotEntityImplCopyWith<$Res>
     int level,
     double currentExp,
     double maxExp,
-    bool isLocked,
-    String? unlockCondition,
+    String unlockConditionType,
+    int unlockConditionValue,
+    String unlockDescription,
+    bool isDefault,
+    bool isUnlocked,
   });
 }
 
@@ -157,8 +181,11 @@ class __$$MascotEntityImplCopyWithImpl<$Res>
     Object? level = null,
     Object? currentExp = null,
     Object? maxExp = null,
-    Object? isLocked = null,
-    Object? unlockCondition = freezed,
+    Object? unlockConditionType = null,
+    Object? unlockConditionValue = null,
+    Object? unlockDescription = null,
+    Object? isDefault = null,
+    Object? isUnlocked = null,
   }) {
     return _then(
       _$MascotEntityImpl(
@@ -186,14 +213,26 @@ class __$$MascotEntityImplCopyWithImpl<$Res>
             ? _value.maxExp
             : maxExp // ignore: cast_nullable_to_non_nullable
                   as double,
-        isLocked: null == isLocked
-            ? _value.isLocked
-            : isLocked // ignore: cast_nullable_to_non_nullable
+        unlockConditionType: null == unlockConditionType
+            ? _value.unlockConditionType
+            : unlockConditionType // ignore: cast_nullable_to_non_nullable
+                  as String,
+        unlockConditionValue: null == unlockConditionValue
+            ? _value.unlockConditionValue
+            : unlockConditionValue // ignore: cast_nullable_to_non_nullable
+                  as int,
+        unlockDescription: null == unlockDescription
+            ? _value.unlockDescription
+            : unlockDescription // ignore: cast_nullable_to_non_nullable
+                  as String,
+        isDefault: null == isDefault
+            ? _value.isDefault
+            : isDefault // ignore: cast_nullable_to_non_nullable
                   as bool,
-        unlockCondition: freezed == unlockCondition
-            ? _value.unlockCondition
-            : unlockCondition // ignore: cast_nullable_to_non_nullable
-                  as String?,
+        isUnlocked: null == isUnlocked
+            ? _value.isUnlocked
+            : isUnlocked // ignore: cast_nullable_to_non_nullable
+                  as bool,
       ),
     );
   }
@@ -209,8 +248,11 @@ class _$MascotEntityImpl implements _MascotEntity {
     required this.level,
     required this.currentExp,
     required this.maxExp,
-    required this.isLocked,
-    this.unlockCondition,
+    required this.unlockConditionType,
+    required this.unlockConditionValue,
+    required this.unlockDescription,
+    required this.isDefault,
+    this.isUnlocked = false,
   });
 
   @override
@@ -226,13 +268,20 @@ class _$MascotEntityImpl implements _MascotEntity {
   @override
   final double maxExp;
   @override
-  final bool isLocked;
+  final String unlockConditionType;
   @override
-  final String? unlockCondition;
+  final int unlockConditionValue;
+  @override
+  final String unlockDescription;
+  @override
+  final bool isDefault;
+  @override
+  @JsonKey()
+  final bool isUnlocked;
 
   @override
   String toString() {
-    return 'MascotEntity(id: $id, name: $name, imagePath: $imagePath, level: $level, currentExp: $currentExp, maxExp: $maxExp, isLocked: $isLocked, unlockCondition: $unlockCondition)';
+    return 'MascotEntity(id: $id, name: $name, imagePath: $imagePath, level: $level, currentExp: $currentExp, maxExp: $maxExp, unlockConditionType: $unlockConditionType, unlockConditionValue: $unlockConditionValue, unlockDescription: $unlockDescription, isDefault: $isDefault, isUnlocked: $isUnlocked)';
   }
 
   @override
@@ -248,10 +297,16 @@ class _$MascotEntityImpl implements _MascotEntity {
             (identical(other.currentExp, currentExp) ||
                 other.currentExp == currentExp) &&
             (identical(other.maxExp, maxExp) || other.maxExp == maxExp) &&
-            (identical(other.isLocked, isLocked) ||
-                other.isLocked == isLocked) &&
-            (identical(other.unlockCondition, unlockCondition) ||
-                other.unlockCondition == unlockCondition));
+            (identical(other.unlockConditionType, unlockConditionType) ||
+                other.unlockConditionType == unlockConditionType) &&
+            (identical(other.unlockConditionValue, unlockConditionValue) ||
+                other.unlockConditionValue == unlockConditionValue) &&
+            (identical(other.unlockDescription, unlockDescription) ||
+                other.unlockDescription == unlockDescription) &&
+            (identical(other.isDefault, isDefault) ||
+                other.isDefault == isDefault) &&
+            (identical(other.isUnlocked, isUnlocked) ||
+                other.isUnlocked == isUnlocked));
   }
 
   @override
@@ -263,8 +318,11 @@ class _$MascotEntityImpl implements _MascotEntity {
     level,
     currentExp,
     maxExp,
-    isLocked,
-    unlockCondition,
+    unlockConditionType,
+    unlockConditionValue,
+    unlockDescription,
+    isDefault,
+    isUnlocked,
   );
 
   /// Create a copy of MascotEntity
@@ -284,8 +342,11 @@ abstract class _MascotEntity implements MascotEntity {
     required final int level,
     required final double currentExp,
     required final double maxExp,
-    required final bool isLocked,
-    final String? unlockCondition,
+    required final String unlockConditionType,
+    required final int unlockConditionValue,
+    required final String unlockDescription,
+    required final bool isDefault,
+    final bool isUnlocked,
   }) = _$MascotEntityImpl;
 
   @override
@@ -301,9 +362,15 @@ abstract class _MascotEntity implements MascotEntity {
   @override
   double get maxExp;
   @override
-  bool get isLocked;
+  String get unlockConditionType;
   @override
-  String? get unlockCondition;
+  int get unlockConditionValue;
+  @override
+  String get unlockDescription;
+  @override
+  bool get isDefault;
+  @override
+  bool get isUnlocked;
 
   /// Create a copy of MascotEntity
   /// with the given fields replaced by the non-null parameter values.

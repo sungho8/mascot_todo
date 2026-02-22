@@ -22,8 +22,10 @@ mixin _$HomeState {
   List<TodoEntity> get todos => throw _privateConstructorUsedError;
   TodoEntity? get focusTodo => throw _privateConstructorUsedError;
   MascotEntity? get mainMascot => throw _privateConstructorUsedError;
+  List<MascotEntity> get mascots => throw _privateConstructorUsedError;
   List<CategoryEntity> get categories => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
+  int get celebrationTrigger => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -43,8 +45,10 @@ abstract class $HomeStateCopyWith<$Res> {
     List<TodoEntity> todos,
     TodoEntity? focusTodo,
     MascotEntity? mainMascot,
+    List<MascotEntity> mascots,
     List<CategoryEntity> categories,
     String? errorMessage,
+    int celebrationTrigger,
   });
 
   $UserEntityCopyWith<$Res>? get user;
@@ -72,8 +76,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? todos = null,
     Object? focusTodo = freezed,
     Object? mainMascot = freezed,
+    Object? mascots = null,
     Object? categories = null,
     Object? errorMessage = freezed,
+    Object? celebrationTrigger = null,
   }) {
     return _then(
       _value.copyWith(
@@ -97,6 +103,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
                 ? _value.mainMascot
                 : mainMascot // ignore: cast_nullable_to_non_nullable
                       as MascotEntity?,
+            mascots: null == mascots
+                ? _value.mascots
+                : mascots // ignore: cast_nullable_to_non_nullable
+                      as List<MascotEntity>,
             categories: null == categories
                 ? _value.categories
                 : categories // ignore: cast_nullable_to_non_nullable
@@ -105,6 +115,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
                 ? _value.errorMessage
                 : errorMessage // ignore: cast_nullable_to_non_nullable
                       as String?,
+            celebrationTrigger: null == celebrationTrigger
+                ? _value.celebrationTrigger
+                : celebrationTrigger // ignore: cast_nullable_to_non_nullable
+                      as int,
           )
           as $Val,
     );
@@ -168,8 +182,10 @@ abstract class _$$HomeStateImplCopyWith<$Res>
     List<TodoEntity> todos,
     TodoEntity? focusTodo,
     MascotEntity? mainMascot,
+    List<MascotEntity> mascots,
     List<CategoryEntity> categories,
     String? errorMessage,
+    int celebrationTrigger,
   });
 
   @override
@@ -199,8 +215,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? todos = null,
     Object? focusTodo = freezed,
     Object? mainMascot = freezed,
+    Object? mascots = null,
     Object? categories = null,
     Object? errorMessage = freezed,
+    Object? celebrationTrigger = null,
   }) {
     return _then(
       _$HomeStateImpl(
@@ -224,6 +242,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
             ? _value.mainMascot
             : mainMascot // ignore: cast_nullable_to_non_nullable
                   as MascotEntity?,
+        mascots: null == mascots
+            ? _value._mascots
+            : mascots // ignore: cast_nullable_to_non_nullable
+                  as List<MascotEntity>,
         categories: null == categories
             ? _value._categories
             : categories // ignore: cast_nullable_to_non_nullable
@@ -232,6 +254,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
             ? _value.errorMessage
             : errorMessage // ignore: cast_nullable_to_non_nullable
                   as String?,
+        celebrationTrigger: null == celebrationTrigger
+            ? _value.celebrationTrigger
+            : celebrationTrigger // ignore: cast_nullable_to_non_nullable
+                  as int,
       ),
     );
   }
@@ -246,9 +272,12 @@ class _$HomeStateImpl implements _HomeState {
     final List<TodoEntity> todos = const [],
     this.focusTodo,
     this.mainMascot,
+    final List<MascotEntity> mascots = const [],
     final List<CategoryEntity> categories = const [],
     this.errorMessage,
+    this.celebrationTrigger = 0,
   }) : _todos = todos,
+       _mascots = mascots,
        _categories = categories;
 
   @override
@@ -269,6 +298,15 @@ class _$HomeStateImpl implements _HomeState {
   final TodoEntity? focusTodo;
   @override
   final MascotEntity? mainMascot;
+  final List<MascotEntity> _mascots;
+  @override
+  @JsonKey()
+  List<MascotEntity> get mascots {
+    if (_mascots is EqualUnmodifiableListView) return _mascots;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_mascots);
+  }
+
   final List<CategoryEntity> _categories;
   @override
   @JsonKey()
@@ -280,10 +318,13 @@ class _$HomeStateImpl implements _HomeState {
 
   @override
   final String? errorMessage;
+  @override
+  @JsonKey()
+  final int celebrationTrigger;
 
   @override
   String toString() {
-    return 'HomeState(status: $status, user: $user, todos: $todos, focusTodo: $focusTodo, mainMascot: $mainMascot, categories: $categories, errorMessage: $errorMessage)';
+    return 'HomeState(status: $status, user: $user, todos: $todos, focusTodo: $focusTodo, mainMascot: $mainMascot, mascots: $mascots, categories: $categories, errorMessage: $errorMessage, celebrationTrigger: $celebrationTrigger)';
   }
 
   @override
@@ -298,12 +339,15 @@ class _$HomeStateImpl implements _HomeState {
                 other.focusTodo == focusTodo) &&
             (identical(other.mainMascot, mainMascot) ||
                 other.mainMascot == mainMascot) &&
+            const DeepCollectionEquality().equals(other._mascots, _mascots) &&
             const DeepCollectionEquality().equals(
               other._categories,
               _categories,
             ) &&
             (identical(other.errorMessage, errorMessage) ||
-                other.errorMessage == errorMessage));
+                other.errorMessage == errorMessage) &&
+            (identical(other.celebrationTrigger, celebrationTrigger) ||
+                other.celebrationTrigger == celebrationTrigger));
   }
 
   @override
@@ -314,8 +358,10 @@ class _$HomeStateImpl implements _HomeState {
     const DeepCollectionEquality().hash(_todos),
     focusTodo,
     mainMascot,
+    const DeepCollectionEquality().hash(_mascots),
     const DeepCollectionEquality().hash(_categories),
     errorMessage,
+    celebrationTrigger,
   );
 
   /// Create a copy of HomeState
@@ -334,8 +380,10 @@ abstract class _HomeState implements HomeState {
     final List<TodoEntity> todos,
     final TodoEntity? focusTodo,
     final MascotEntity? mainMascot,
+    final List<MascotEntity> mascots,
     final List<CategoryEntity> categories,
     final String? errorMessage,
+    final int celebrationTrigger,
   }) = _$HomeStateImpl;
 
   @override
@@ -349,9 +397,13 @@ abstract class _HomeState implements HomeState {
   @override
   MascotEntity? get mainMascot;
   @override
+  List<MascotEntity> get mascots;
+  @override
   List<CategoryEntity> get categories;
   @override
   String? get errorMessage;
+  @override
+  int get celebrationTrigger;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.

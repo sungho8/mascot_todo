@@ -25,6 +25,8 @@ mixin _$UserEntity {
   double get maxExp => throw _privateConstructorUsedError;
   int get totalCompleted => throw _privateConstructorUsedError;
   int get currentStreak => throw _privateConstructorUsedError;
+  int get earlyBirdCount => throw _privateConstructorUsedError;
+  int get dailyMaxCompleted => throw _privateConstructorUsedError;
 
   /// Create a copy of UserEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -49,6 +51,8 @@ abstract class $UserEntityCopyWith<$Res> {
     double maxExp,
     int totalCompleted,
     int currentStreak,
+    int earlyBirdCount,
+    int dailyMaxCompleted,
   });
 }
 
@@ -75,6 +79,8 @@ class _$UserEntityCopyWithImpl<$Res, $Val extends UserEntity>
     Object? maxExp = null,
     Object? totalCompleted = null,
     Object? currentStreak = null,
+    Object? earlyBirdCount = null,
+    Object? dailyMaxCompleted = null,
   }) {
     return _then(
       _value.copyWith(
@@ -110,6 +116,14 @@ class _$UserEntityCopyWithImpl<$Res, $Val extends UserEntity>
                 ? _value.currentStreak
                 : currentStreak // ignore: cast_nullable_to_non_nullable
                       as int,
+            earlyBirdCount: null == earlyBirdCount
+                ? _value.earlyBirdCount
+                : earlyBirdCount // ignore: cast_nullable_to_non_nullable
+                      as int,
+            dailyMaxCompleted: null == dailyMaxCompleted
+                ? _value.dailyMaxCompleted
+                : dailyMaxCompleted // ignore: cast_nullable_to_non_nullable
+                      as int,
           )
           as $Val,
     );
@@ -134,6 +148,8 @@ abstract class _$$UserEntityImplCopyWith<$Res>
     double maxExp,
     int totalCompleted,
     int currentStreak,
+    int earlyBirdCount,
+    int dailyMaxCompleted,
   });
 }
 
@@ -159,6 +175,8 @@ class __$$UserEntityImplCopyWithImpl<$Res>
     Object? maxExp = null,
     Object? totalCompleted = null,
     Object? currentStreak = null,
+    Object? earlyBirdCount = null,
+    Object? dailyMaxCompleted = null,
   }) {
     return _then(
       _$UserEntityImpl(
@@ -194,6 +212,14 @@ class __$$UserEntityImplCopyWithImpl<$Res>
             ? _value.currentStreak
             : currentStreak // ignore: cast_nullable_to_non_nullable
                   as int,
+        earlyBirdCount: null == earlyBirdCount
+            ? _value.earlyBirdCount
+            : earlyBirdCount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        dailyMaxCompleted: null == dailyMaxCompleted
+            ? _value.dailyMaxCompleted
+            : dailyMaxCompleted // ignore: cast_nullable_to_non_nullable
+                  as int,
       ),
     );
   }
@@ -211,6 +237,8 @@ class _$UserEntityImpl implements _UserEntity {
     required this.maxExp,
     required this.totalCompleted,
     required this.currentStreak,
+    this.earlyBirdCount = 0,
+    this.dailyMaxCompleted = 0,
   });
 
   @override
@@ -229,10 +257,16 @@ class _$UserEntityImpl implements _UserEntity {
   final int totalCompleted;
   @override
   final int currentStreak;
+  @override
+  @JsonKey()
+  final int earlyBirdCount;
+  @override
+  @JsonKey()
+  final int dailyMaxCompleted;
 
   @override
   String toString() {
-    return 'UserEntity(id: $id, name: $name, profileImagePath: $profileImagePath, level: $level, currentExp: $currentExp, maxExp: $maxExp, totalCompleted: $totalCompleted, currentStreak: $currentStreak)';
+    return 'UserEntity(id: $id, name: $name, profileImagePath: $profileImagePath, level: $level, currentExp: $currentExp, maxExp: $maxExp, totalCompleted: $totalCompleted, currentStreak: $currentStreak, earlyBirdCount: $earlyBirdCount, dailyMaxCompleted: $dailyMaxCompleted)';
   }
 
   @override
@@ -251,7 +285,11 @@ class _$UserEntityImpl implements _UserEntity {
             (identical(other.totalCompleted, totalCompleted) ||
                 other.totalCompleted == totalCompleted) &&
             (identical(other.currentStreak, currentStreak) ||
-                other.currentStreak == currentStreak));
+                other.currentStreak == currentStreak) &&
+            (identical(other.earlyBirdCount, earlyBirdCount) ||
+                other.earlyBirdCount == earlyBirdCount) &&
+            (identical(other.dailyMaxCompleted, dailyMaxCompleted) ||
+                other.dailyMaxCompleted == dailyMaxCompleted));
   }
 
   @override
@@ -265,6 +303,8 @@ class _$UserEntityImpl implements _UserEntity {
     maxExp,
     totalCompleted,
     currentStreak,
+    earlyBirdCount,
+    dailyMaxCompleted,
   );
 
   /// Create a copy of UserEntity
@@ -286,6 +326,8 @@ abstract class _UserEntity implements UserEntity {
     required final double maxExp,
     required final int totalCompleted,
     required final int currentStreak,
+    final int earlyBirdCount,
+    final int dailyMaxCompleted,
   }) = _$UserEntityImpl;
 
   @override
@@ -304,6 +346,10 @@ abstract class _UserEntity implements UserEntity {
   int get totalCompleted;
   @override
   int get currentStreak;
+  @override
+  int get earlyBirdCount;
+  @override
+  int get dailyMaxCompleted;
 
   /// Create a copy of UserEntity
   /// with the given fields replaced by the non-null parameter values.

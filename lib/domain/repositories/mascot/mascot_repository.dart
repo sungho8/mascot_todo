@@ -12,4 +12,11 @@ abstract class MascotRepository {
 
   /// 가장 많이 사용된 마스코트 조회
   Future<Either<Failure, MascotEntity?>> getMostUsedMascot();
+
+  /// 마스코트 경험치 추가 및 레벨업 처리
+  /// [userMascotId] user_mascots.id (todos.linked_mascot_id 참조값)
+  Future<Either<Failure, MascotEntity>> addExp(
+    String userMascotId,
+    double expGain,
+  );
 }

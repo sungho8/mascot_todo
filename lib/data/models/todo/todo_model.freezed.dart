@@ -30,6 +30,10 @@ mixin _$TodoModel {
   bool get isCompleted => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_focus')
   bool get isFocus => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_recurring')
+  bool get isRecurring => throw _privateConstructorUsedError;
+  @JsonKey(name: 'recurring_source_id')
+  String? get recurringSourceId => throw _privateConstructorUsedError;
   @JsonKey(name: 'linked_mascot_id')
   String? get linkedMascotId => throw _privateConstructorUsedError;
   @JsonKey(name: 'category_id')
@@ -65,6 +69,8 @@ abstract class $TodoModelCopyWith<$Res> {
     String? description,
     @JsonKey(name: 'is_completed') bool isCompleted,
     @JsonKey(name: 'is_focus') bool isFocus,
+    @JsonKey(name: 'is_recurring') bool isRecurring,
+    @JsonKey(name: 'recurring_source_id') String? recurringSourceId,
     @JsonKey(name: 'linked_mascot_id') String? linkedMascotId,
     @JsonKey(name: 'category_id') String? categoryId,
     @JsonKey(name: 'target_date') String targetDate,
@@ -95,6 +101,8 @@ class _$TodoModelCopyWithImpl<$Res, $Val extends TodoModel>
     Object? description = freezed,
     Object? isCompleted = null,
     Object? isFocus = null,
+    Object? isRecurring = null,
+    Object? recurringSourceId = freezed,
     Object? linkedMascotId = freezed,
     Object? categoryId = freezed,
     Object? targetDate = null,
@@ -128,6 +136,14 @@ class _$TodoModelCopyWithImpl<$Res, $Val extends TodoModel>
                 ? _value.isFocus
                 : isFocus // ignore: cast_nullable_to_non_nullable
                       as bool,
+            isRecurring: null == isRecurring
+                ? _value.isRecurring
+                : isRecurring // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            recurringSourceId: freezed == recurringSourceId
+                ? _value.recurringSourceId
+                : recurringSourceId // ignore: cast_nullable_to_non_nullable
+                      as String?,
             linkedMascotId: freezed == linkedMascotId
                 ? _value.linkedMascotId
                 : linkedMascotId // ignore: cast_nullable_to_non_nullable
@@ -174,6 +190,8 @@ abstract class _$$TodoModelImplCopyWith<$Res>
     String? description,
     @JsonKey(name: 'is_completed') bool isCompleted,
     @JsonKey(name: 'is_focus') bool isFocus,
+    @JsonKey(name: 'is_recurring') bool isRecurring,
+    @JsonKey(name: 'recurring_source_id') String? recurringSourceId,
     @JsonKey(name: 'linked_mascot_id') String? linkedMascotId,
     @JsonKey(name: 'category_id') String? categoryId,
     @JsonKey(name: 'target_date') String targetDate,
@@ -203,6 +221,8 @@ class __$$TodoModelImplCopyWithImpl<$Res>
     Object? description = freezed,
     Object? isCompleted = null,
     Object? isFocus = null,
+    Object? isRecurring = null,
+    Object? recurringSourceId = freezed,
     Object? linkedMascotId = freezed,
     Object? categoryId = freezed,
     Object? targetDate = null,
@@ -236,6 +256,14 @@ class __$$TodoModelImplCopyWithImpl<$Res>
             ? _value.isFocus
             : isFocus // ignore: cast_nullable_to_non_nullable
                   as bool,
+        isRecurring: null == isRecurring
+            ? _value.isRecurring
+            : isRecurring // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        recurringSourceId: freezed == recurringSourceId
+            ? _value.recurringSourceId
+            : recurringSourceId // ignore: cast_nullable_to_non_nullable
+                  as String?,
         linkedMascotId: freezed == linkedMascotId
             ? _value.linkedMascotId
             : linkedMascotId // ignore: cast_nullable_to_non_nullable
@@ -275,6 +303,8 @@ class _$TodoModelImpl extends _TodoModel {
     this.description,
     @JsonKey(name: 'is_completed') required this.isCompleted,
     @JsonKey(name: 'is_focus') this.isFocus = false,
+    @JsonKey(name: 'is_recurring') this.isRecurring = false,
+    @JsonKey(name: 'recurring_source_id') this.recurringSourceId,
     @JsonKey(name: 'linked_mascot_id') this.linkedMascotId,
     @JsonKey(name: 'category_id') this.categoryId,
     @JsonKey(name: 'target_date') required this.targetDate,
@@ -302,6 +332,12 @@ class _$TodoModelImpl extends _TodoModel {
   @JsonKey(name: 'is_focus')
   final bool isFocus;
   @override
+  @JsonKey(name: 'is_recurring')
+  final bool isRecurring;
+  @override
+  @JsonKey(name: 'recurring_source_id')
+  final String? recurringSourceId;
+  @override
   @JsonKey(name: 'linked_mascot_id')
   final String? linkedMascotId;
   @override
@@ -322,7 +358,7 @@ class _$TodoModelImpl extends _TodoModel {
 
   @override
   String toString() {
-    return 'TodoModel(id: $id, userId: $userId, title: $title, description: $description, isCompleted: $isCompleted, isFocus: $isFocus, linkedMascotId: $linkedMascotId, categoryId: $categoryId, targetDate: $targetDate, completedAt: $completedAt, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'TodoModel(id: $id, userId: $userId, title: $title, description: $description, isCompleted: $isCompleted, isFocus: $isFocus, isRecurring: $isRecurring, recurringSourceId: $recurringSourceId, linkedMascotId: $linkedMascotId, categoryId: $categoryId, targetDate: $targetDate, completedAt: $completedAt, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -338,6 +374,10 @@ class _$TodoModelImpl extends _TodoModel {
             (identical(other.isCompleted, isCompleted) ||
                 other.isCompleted == isCompleted) &&
             (identical(other.isFocus, isFocus) || other.isFocus == isFocus) &&
+            (identical(other.isRecurring, isRecurring) ||
+                other.isRecurring == isRecurring) &&
+            (identical(other.recurringSourceId, recurringSourceId) ||
+                other.recurringSourceId == recurringSourceId) &&
             (identical(other.linkedMascotId, linkedMascotId) ||
                 other.linkedMascotId == linkedMascotId) &&
             (identical(other.categoryId, categoryId) ||
@@ -362,6 +402,8 @@ class _$TodoModelImpl extends _TodoModel {
     description,
     isCompleted,
     isFocus,
+    isRecurring,
+    recurringSourceId,
     linkedMascotId,
     categoryId,
     targetDate,
@@ -392,6 +434,8 @@ abstract class _TodoModel extends TodoModel {
     final String? description,
     @JsonKey(name: 'is_completed') required final bool isCompleted,
     @JsonKey(name: 'is_focus') final bool isFocus,
+    @JsonKey(name: 'is_recurring') final bool isRecurring,
+    @JsonKey(name: 'recurring_source_id') final String? recurringSourceId,
     @JsonKey(name: 'linked_mascot_id') final String? linkedMascotId,
     @JsonKey(name: 'category_id') final String? categoryId,
     @JsonKey(name: 'target_date') required final String targetDate,
@@ -419,6 +463,12 @@ abstract class _TodoModel extends TodoModel {
   @override
   @JsonKey(name: 'is_focus')
   bool get isFocus;
+  @override
+  @JsonKey(name: 'is_recurring')
+  bool get isRecurring;
+  @override
+  @JsonKey(name: 'recurring_source_id')
+  String? get recurringSourceId;
   @override
   @JsonKey(name: 'linked_mascot_id')
   String? get linkedMascotId;

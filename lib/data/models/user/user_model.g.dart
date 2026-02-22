@@ -16,6 +16,8 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       maxExp: (json['maxExp'] as num).toDouble(),
       totalCompleted: (json['totalCompleted'] as num).toInt(),
       currentStreak: (json['currentStreak'] as num).toInt(),
+      earlyBirdCount: (json['earlyBirdCount'] as num?)?.toInt() ?? 0,
+      dailyMaxCompleted: (json['dailyMaxCompleted'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
@@ -28,4 +30,6 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'maxExp': instance.maxExp,
       'totalCompleted': instance.totalCompleted,
       'currentStreak': instance.currentStreak,
+      'earlyBirdCount': instance.earlyBirdCount,
+      'dailyMaxCompleted': instance.dailyMaxCompleted,
     };

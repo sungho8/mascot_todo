@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/design_system/design_system.dart';
+import '../../../domain/entities/todo/todo_entity.dart';
 import '../../viewmodels/home/home_viewmodel.dart';
 import '../../viewmodels/home/home_state.dart';
 import 'widgets/home_app_bar.dart';
@@ -10,6 +11,7 @@ import 'widgets/mascot_chat_bar.dart';
 import 'widgets/empty_todos.dart';
 import 'widgets/todo_item.dart';
 import 'widgets/create_todo_bottom_sheet.dart';
+import 'widgets/edit_todo_bottom_sheet.dart';
 
 /// 홈 화면
 class HomeView extends ConsumerWidget {
@@ -21,6 +23,39 @@ class HomeView extends ConsumerWidget {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (_) => const CreateTodoBottomSheet(),
+    );
+  }
+
+  void _showEditTodoSheet(BuildContext context, TodoEntity todo) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => EditTodoBottomSheet(todo: todo),
+    );
+  }
+
+  void _showDeleteConfirm(BuildContext context, WidgetRef ref, String todoId) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('TODO 삭제'),
+        content: const Text('이 TODO를 삭제하시겠습니까?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('취소'),
+          ),
+
+          TextButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              ref.read(homeViewModelProvider.notifier).deleteTodo(todoId);
+            },
+            child: Text('삭제', style: TextStyle(color: AppColors.error)),
+          ),
+        ],
+      ),
     );
   }
 
@@ -77,24 +112,30 @@ class HomeView extends ConsumerWidget {
         await ref.read(homeViewModelProvider.notifier).loadHomeData();
       },
       child: ListView(
-        padding: const EdgeInsets.all(AppSpacing.lg),
+        padding: const EdgeInsets.all(AppSpacing.md),
         children: [
-          // 마스코트 채팅바 (퀵메뉴)
-          MascotChatBar(
-            mascotName: state.mainMascot?.name ?? '코코',
-            onTodoCreated: (title, categoryId) {
-              ref
-                  .read(homeViewModelProvider.notifier)
-                  .createTodo(title: title, categoryId: categoryId);
-            },
-          ),
+          // 마스코트 + 채팅 입력 바
+          // mainMascot이 없으면 마스터 목록 첫 번째로 fallback
+          if (state.mainMascot != null || state.mascots.isNotEmpty)
+            MascotChatBar(
+              mascot: state.mainMascot ?? state.mascots.first,
+              onTodoCreated: (title, categoryId, isRecurring) {
+                ref
+                    .read(homeViewModelProvider.notifier)
+                    .createTodo(
+                      title: title,
+                      categoryId: categoryId,
+                      isRecurring: isRecurring,
+                    );
+              },
+            ),
 
-          AppSpacing.vLg,
+          AppSpacing.vMd,
 
           if (state.focusTodo != null) ...[
             FocusTaskCard(focusTodo: state.focusTodo),
 
-            AppSpacing.vLg,
+            AppSpacing.vMd,
           ],
 
           Row(
@@ -111,7 +152,7 @@ class HomeView extends ConsumerWidget {
             ],
           ),
 
-          AppSpacing.vMd,
+          AppSpacing.vSm,
 
           if (state.todos.isEmpty)
             const SizedBox(height: 300, child: EmptyTodos())
@@ -129,10 +170,12 @@ class HomeView extends ConsumerWidget {
                       .read(homeViewModelProvider.notifier)
                       .completeTodo(todo.id);
                 },
+                onEdit: () => _showEditTodoSheet(context, todo),
+                onDelete: () => _showDeleteConfirm(context, ref, todo.id),
               ),
             ),
 
-          AppSpacing.vLg,
+          AppSpacing.vMd,
 
           if (state.mainMascot != null)
             MascotLevelBar(mascot: state.mainMascot),

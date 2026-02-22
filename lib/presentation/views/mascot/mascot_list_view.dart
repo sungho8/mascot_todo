@@ -1,86 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/design_system/design_system.dart';
+import '../../viewmodels/home/home_viewmodel.dart';
+import '../../../domain/entities/mascot/mascot_entity.dart';
 
-/// 마스코트 Mock 데이터
-class _MascotData {
-  const _MascotData({
-    required this.name,
-    required this.isUnlocked,
-    required this.level,
-    required this.unlockCondition,
-    required this.hint,
-    required this.icon,
-  });
-
-  final String name;
-  final bool isUnlocked;
-  final int level;
-  final String unlockCondition;
-  final String hint;
-  final IconData icon;
+/// 마스코트 그리드에 표시할 아이콘 매핑
+IconData _getMascotIcon(String name) {
+  switch (name) {
+    case '코코':
+      return Icons.pets;
+    case '루미':
+      return Icons.local_fire_department;
+    case '피피':
+      return Icons.checklist;
+    case '모모':
+      return Icons.wb_twilight;
+    case '두두':
+      return Icons.bolt;
+    case '나나':
+      return Icons.stars;
+    default:
+      return Icons.pets;
+  }
 }
-
-const List<_MascotData> _mascots = [
-  _MascotData(
-    name: '코코',
-    isUnlocked: true,
-    level: 1,
-    unlockCondition: '기본 제공',
-    hint: '',
-    icon: Icons.pets,
-  ),
-  _MascotData(
-    name: '루미',
-    isUnlocked: false,
-    level: 0,
-    unlockCondition: '연속 3일 달성',
-    hint:
-        '으으… 아직 잠에서 깨기엔 이른 것 같아… 😴\n3일 연속으로 할 일을 해내면 눈을 뜰 수 있을 것 같은데…\n조금만 더 힘내줄래?',
-    icon: Icons.local_fire_department,
-  ),
-  _MascotData(
-    name: '피피',
-    isUnlocked: false,
-    level: 0,
-    unlockCondition: '총 10개 Todo 완료',
-    hint: '삐삐! 나는 피피라고 해! 📋\n아직은 만날 수 없지만… 할 일을 10개 완료하면\n내가 직접 찾아갈게! 기다려줘!',
-    icon: Icons.checklist,
-  ),
-  _MascotData(
-    name: '모모',
-    isUnlocked: false,
-    level: 0,
-    unlockCondition: '새벽 5시에 5번 일어나기',
-    hint:
-        '…쿨쿨… 나는 새벽에만 깨어나는 모모야… 🌅\n새벽 5시에 할 일을 5번 완료하면\n내가 슬쩍 눈을 뜰지도 몰라… 쿨쿨…',
-    icon: Icons.wb_twilight,
-  ),
-  _MascotData(
-    name: '두두',
-    isUnlocked: false,
-    level: 0,
-    unlockCondition: '하루에 5개 이상 Todo 완료',
-    hint: '두둥! 나는 폭풍처럼 일하는 두두야! ⚡\n하루에 5개 이상 해치우는 날이 오면\n내가 번개처럼 나타날 거야! 준비됐어?',
-    icon: Icons.bolt,
-  ),
-  _MascotData(
-    name: '나나',
-    isUnlocked: false,
-    level: 0,
-    unlockCondition: '연속 7일 달성',
-    hint: '안녕… 나는 나나라고 해… ✨\n일주일 동안 매일 멈추지 않는 사람만이\n나를 만날 수 있어. 7일 연속 도전해볼래?',
-    icon: Icons.stars,
-  ),
-];
 
 /// 마스코트 리스트 화면
 /// BNV 2번째 탭으로 연결되며, 보유/미획득 마스코트를 그리드로 표시
-class MascotListView extends StatelessWidget {
+class MascotListView extends ConsumerWidget {
   const MascotListView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(homeViewModelProvider);
+    final mascots = state.mascots;
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(title: const Text('마스코트'), centerTitle: false),
@@ -143,18 +96,18 @@ class MascotListView extends StatelessWidget {
                   childAspectRatio: 0.85,
                 ),
                 delegate: SliverChildBuilderDelegate((context, index) {
-                  final mascot = _mascots[index];
+                  final mascot = mascots[index];
                   return _MascotCard(
                     mascot: mascot,
                     onTap: mascot.isUnlocked
                         ? () {
-                            context.push('/mascot/${mascot.name}');
+                            context.push('/mascot/${mascot.id}');
                           }
                         : () {
                             _showUnlockHint(context, mascot);
                           },
                   );
-                }, childCount: _mascots.length),
+                }, childCount: mascots.length),
               ),
             ),
           ],
@@ -164,7 +117,7 @@ class MascotListView extends StatelessWidget {
   }
 
   /// 미획득 마스코트 힌트 팝업
-  void _showUnlockHint(BuildContext context, _MascotData mascot) {
+  void _showUnlockHint(BuildContext context, MascotEntity mascot) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -198,8 +151,8 @@ class MascotListView extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: Icon(
-                mascot.icon,
-                size: AppSpacing.iconLg,
+                _getMascotIcon(mascot.name),
+                size: 40,
                 color: AppColors.iconInactive,
               ),
             ),
@@ -224,16 +177,12 @@ class MascotListView extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
-                    Icons.lock_outline,
-                    size: AppSpacing.iconXs,
-                    color: AppColors.warning,
-                  ),
+                  Icon(Icons.lock_outline, size: 20, color: AppColors.warning),
 
                   AppSpacing.hXxs,
 
                   Text(
-                    mascot.unlockCondition,
+                    '잠겨있음',
                     style: AppTypography.caption.copyWith(
                       color: AppColors.warning,
                       fontWeight: FontWeight.w600,
@@ -247,7 +196,7 @@ class MascotListView extends StatelessWidget {
 
             // 힌트 메시지
             Text(
-              mascot.hint,
+              mascot.unlockDescription,
               textAlign: TextAlign.center,
               style: AppTypography.body1.copyWith(
                 color: AppColors.textSecondary,
@@ -283,7 +232,7 @@ class MascotListView extends StatelessWidget {
 class _MascotCard extends StatelessWidget {
   const _MascotCard({required this.mascot, this.onTap});
 
-  final _MascotData mascot;
+  final MascotEntity mascot;
   final VoidCallback? onTap;
 
   @override
@@ -324,8 +273,8 @@ class _MascotCard extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: Icon(
-                mascot.icon,
-                size: AppSpacing.iconLg,
+                _getMascotIcon(mascot.name),
+                size: 40,
                 color: mascot.isUnlocked
                     ? AppColors.primary
                     : AppColors.iconInactive,
@@ -356,7 +305,7 @@ class _MascotCard extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.lock_outline,
-                    size: AppSpacing.iconXs,
+                    size: 18,
                     color: AppColors.textDisabled,
                   ),
 

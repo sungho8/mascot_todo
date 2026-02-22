@@ -1,9 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../data/data_sources/local/mascot/mascot_local_data_source.dart';
 import '../../data/data_sources/remote/category/category_remote_data_source.dart';
 import '../../data/data_sources/remote/todo/todo_remote_data_source.dart';
 import '../../data/data_sources/remote/user/user_remote_data_source.dart';
+import '../../data/data_sources/remote/mascot/mascot_remote_data_source.dart';
 import '../../data/repositories_impl/todo/todo_repository_impl.dart';
 import '../../data/repositories_impl/mascot/mascot_repository_impl.dart';
 import '../../data/repositories_impl/category/category_repository_impl.dart';
@@ -15,6 +17,9 @@ import '../../domain/repositories/user/user_repository.dart';
 import '../../domain/usecases/home/get_home_data_usecase.dart';
 import '../../domain/usecases/home/complete_todo_usecase.dart';
 import '../../domain/usecases/home/create_todo_usecase.dart';
+import '../../domain/usecases/home/delete_todo_usecase.dart';
+import '../../domain/usecases/home/update_todo_usecase.dart';
+import '../../domain/usecases/mascot/gain_mascot_exp_usecase.dart';
 
 part 'home_providers.g.dart';
 
@@ -40,6 +45,12 @@ CategoryRemoteDataSource categoryRemoteDataSource(Ref ref) {
   return CategoryRemoteDataSourceImpl();
 }
 
+@riverpod
+MascotRemoteDataSource mascotRemoteDataSource(Ref ref) {
+  final client = Supabase.instance.client;
+  return MascotRemoteDataSource(client);
+}
+
 /// Repository Providers
 
 @riverpod
@@ -50,8 +61,9 @@ TodoRepository todoRepository(Ref ref) {
 
 @riverpod
 MascotRepository mascotRepository(Ref ref) {
-  final dataSource = ref.watch(mascotLocalDataSourceProvider);
-  return MascotRepositoryImpl(dataSource);
+  final localDataSource = ref.watch(mascotLocalDataSourceProvider);
+  final remoteDataSource = ref.watch(mascotRemoteDataSourceProvider);
+  return MascotRepositoryImpl(localDataSource, remoteDataSource);
 }
 
 @riverpod
@@ -92,4 +104,22 @@ CompleteTodoUseCase completeTodoUseCase(Ref ref) {
 CreateTodoUseCase createTodoUseCase(Ref ref) {
   final todoRepository = ref.watch(todoRepositoryProvider);
   return CreateTodoUseCase(todoRepository);
+}
+
+@riverpod
+DeleteTodoUseCase deleteTodoUseCase(Ref ref) {
+  final todoRepository = ref.watch(todoRepositoryProvider);
+  return DeleteTodoUseCase(todoRepository);
+}
+
+@riverpod
+UpdateTodoUseCase updateTodoUseCase(Ref ref) {
+  final todoRepository = ref.watch(todoRepositoryProvider);
+  return UpdateTodoUseCase(todoRepository);
+}
+
+@riverpod
+GainMascotExpUseCase gainMascotExpUseCase(Ref ref) {
+  final mascotRepository = ref.watch(mascotRepositoryProvider);
+  return GainMascotExpUseCase(mascotRepository);
 }

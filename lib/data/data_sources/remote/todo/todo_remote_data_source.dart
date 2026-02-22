@@ -15,11 +15,22 @@ abstract class TodoRemoteDataSource {
     required String title,
     String? description,
     bool isFocus = false,
+    bool isRecurring = false,
     String? categoryId,
   });
 
   /// Todo 완료 상태 토글
   Future<TodoModel> completeTodo(String todoId);
+
+  /// Todo 수정
+  Future<TodoModel> updateTodo({
+    required String todoId,
+    required String title,
+    String? description,
+    bool? isFocus,
+    bool? isRecurring,
+    String? categoryId,
+  });
 
   /// Todo 삭제
   Future<void> deleteTodo(String todoId);
@@ -46,6 +57,7 @@ class TodoRemoteDataSourceImpl implements TodoRemoteDataSource {
       final userId = _currentUserId;
       _logger.d('Todo 목록 조회: userId=$userId, date=$_today');
 
+      // 1) 오늘 날짜의 일반 Todo 조회
       final response = await SupabaseService.client
           .from('todos')
           .select()
@@ -53,12 +65,58 @@ class TodoRemoteDataSourceImpl implements TodoRemoteDataSource {
           .eq('target_date', _today)
           .order('created_at', ascending: true);
 
-      final todos = (response as List)
+      final todayTodos = (response as List)
           .map((json) => TodoModel.fromJson(json))
           .toList();
 
-      _logger.i('✅ Todo 목록 조회 완료: ${todos.length}개');
-      return todos;
+      // 2) 반복 템플릿 조회 (is_recurring=true, 오늘 이전에 생성된)
+      final recurringResponse = await SupabaseService.client
+          .from('todos')
+          .select()
+          .eq('user_id', userId)
+          .eq('is_recurring', true)
+          .lt('target_date', _today);
+
+      final recurringTemplates = (recurringResponse as List)
+          .map((json) => TodoModel.fromJson(json))
+          .toList();
+
+      // 3) 오늘자 인스턴스가 없는 템플릿에서 자동 clone
+      final existingSourceIds = todayTodos
+          .where((t) => t.recurringSourceId != null)
+          .map((t) => t.recurringSourceId)
+          .toSet();
+
+      for (final template in recurringTemplates) {
+        if (!existingSourceIds.contains(template.id)) {
+          try {
+            final cloned = await SupabaseService.client
+                .from('todos')
+                .insert({
+                  'user_id': userId,
+                  'title': template.title,
+                  'description': template.description,
+                  'is_completed': false,
+                  'is_focus': false,
+                  'is_recurring': false,
+                  'recurring_source_id': template.id,
+                  'target_date': _today,
+                  if (template.categoryId != null)
+                    'category_id': template.categoryId,
+                })
+                .select()
+                .single();
+
+            todayTodos.add(TodoModel.fromJson(cloned));
+            _logger.d('반복 Todo 인스턴스 생성: ${template.title}');
+          } catch (e) {
+            _logger.e('반복 Todo 인스턴스 생성 실패: ${template.title}', error: e);
+          }
+        }
+      }
+
+      _logger.i('Todo 목록 조회 완료: ${todayTodos.length}개');
+      return todayTodos;
     } catch (e, stackTrace) {
       _logger.e('Todo 목록 조회 실패', error: e, stackTrace: stackTrace);
       rethrow;
@@ -94,11 +152,12 @@ class TodoRemoteDataSourceImpl implements TodoRemoteDataSource {
     required String title,
     String? description,
     bool isFocus = false,
+    bool isRecurring = false,
     String? categoryId,
   }) async {
     try {
       final userId = _currentUserId;
-      _logger.d('Todo 생성: title=$title');
+      _logger.d('Todo 생성: title=$title, isRecurring=$isRecurring');
 
       final response = await SupabaseService.client
           .from('todos')
@@ -108,6 +167,7 @@ class TodoRemoteDataSourceImpl implements TodoRemoteDataSource {
             'description': description,
             'is_completed': false,
             'is_focus': isFocus,
+            'is_recurring': isRecurring,
             'target_date': _today,
             if (categoryId != null) 'category_id': categoryId,
           })
@@ -115,7 +175,7 @@ class TodoRemoteDataSourceImpl implements TodoRemoteDataSource {
           .single();
 
       final todo = TodoModel.fromJson(response);
-      _logger.i('✅ Todo 생성 완료: ${todo.id}');
+      _logger.i('Todo 생성 완료: ${todo.id}');
       return todo;
     } catch (e, stackTrace) {
       _logger.e('Todo 생성 실패', error: e, stackTrace: stackTrace);
@@ -154,6 +214,45 @@ class TodoRemoteDataSourceImpl implements TodoRemoteDataSource {
       return todo;
     } catch (e, stackTrace) {
       _logger.e('Todo 완료 처리 실패', error: e, stackTrace: stackTrace);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<TodoModel> updateTodo({
+    required String todoId,
+    required String title,
+    String? description,
+    bool? isFocus,
+    bool? isRecurring,
+    String? categoryId,
+  }) async {
+    try {
+      _logger.d('Todo 수정: id=$todoId, title=$title');
+
+      final updateData = <String, dynamic>{
+        'title': title,
+        'description': description,
+        'is_focus': isFocus ?? false,
+        'is_recurring': isRecurring ?? false,
+      };
+
+      if (categoryId != null) {
+        updateData['category_id'] = categoryId;
+      }
+
+      final response = await SupabaseService.client
+          .from('todos')
+          .update(updateData)
+          .eq('id', todoId)
+          .select()
+          .single();
+
+      final todo = TodoModel.fromJson(response);
+      _logger.i('Todo 수정 완료: id=$todoId');
+      return todo;
+    } catch (e, stackTrace) {
+      _logger.e('Todo 수정 실패', error: e, stackTrace: stackTrace);
       rethrow;
     }
   }

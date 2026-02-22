@@ -14,5 +14,7 @@ abstract class UserEntity with _$UserEntity {
     required double maxExp,
     required int totalCompleted,
     required int currentStreak,
+    @Default(0) int earlyBirdCount,
+    @Default(0) int dailyMaxCompleted,
   }) = _UserEntity;
 }

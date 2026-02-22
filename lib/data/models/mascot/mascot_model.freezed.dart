@@ -23,12 +23,23 @@ MascotModel _$MascotModelFromJson(Map<String, dynamic> json) {
 mixin _$MascotModel {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  @JsonKey(name: 'image_path')
   String get imagePath => throw _privateConstructorUsedError;
   int get level => throw _privateConstructorUsedError;
+  @JsonKey(name: 'current_exp')
   double get currentExp => throw _privateConstructorUsedError;
+  @JsonKey(name: 'max_exp')
   double get maxExp => throw _privateConstructorUsedError;
-  bool get isLocked => throw _privateConstructorUsedError;
-  String? get unlockCondition => throw _privateConstructorUsedError;
+  @JsonKey(name: 'unlock_condition_type')
+  String get unlockConditionType => throw _privateConstructorUsedError;
+  @JsonKey(name: 'unlock_condition_value')
+  int get unlockConditionValue => throw _privateConstructorUsedError;
+  @JsonKey(name: 'unlock_description')
+  String get unlockDescription => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_default')
+  bool get isDefault => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_unlocked')
+  bool get isUnlocked => throw _privateConstructorUsedError;
 
   /// Serializes this MascotModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -50,12 +61,15 @@ abstract class $MascotModelCopyWith<$Res> {
   $Res call({
     String id,
     String name,
-    String imagePath,
+    @JsonKey(name: 'image_path') String imagePath,
     int level,
-    double currentExp,
-    double maxExp,
-    bool isLocked,
-    String? unlockCondition,
+    @JsonKey(name: 'current_exp') double currentExp,
+    @JsonKey(name: 'max_exp') double maxExp,
+    @JsonKey(name: 'unlock_condition_type') String unlockConditionType,
+    @JsonKey(name: 'unlock_condition_value') int unlockConditionValue,
+    @JsonKey(name: 'unlock_description') String unlockDescription,
+    @JsonKey(name: 'is_default') bool isDefault,
+    @JsonKey(name: 'is_unlocked') bool isUnlocked,
   });
 }
 
@@ -80,8 +94,11 @@ class _$MascotModelCopyWithImpl<$Res, $Val extends MascotModel>
     Object? level = null,
     Object? currentExp = null,
     Object? maxExp = null,
-    Object? isLocked = null,
-    Object? unlockCondition = freezed,
+    Object? unlockConditionType = null,
+    Object? unlockConditionValue = null,
+    Object? unlockDescription = null,
+    Object? isDefault = null,
+    Object? isUnlocked = null,
   }) {
     return _then(
       _value.copyWith(
@@ -109,14 +126,26 @@ class _$MascotModelCopyWithImpl<$Res, $Val extends MascotModel>
                 ? _value.maxExp
                 : maxExp // ignore: cast_nullable_to_non_nullable
                       as double,
-            isLocked: null == isLocked
-                ? _value.isLocked
-                : isLocked // ignore: cast_nullable_to_non_nullable
+            unlockConditionType: null == unlockConditionType
+                ? _value.unlockConditionType
+                : unlockConditionType // ignore: cast_nullable_to_non_nullable
+                      as String,
+            unlockConditionValue: null == unlockConditionValue
+                ? _value.unlockConditionValue
+                : unlockConditionValue // ignore: cast_nullable_to_non_nullable
+                      as int,
+            unlockDescription: null == unlockDescription
+                ? _value.unlockDescription
+                : unlockDescription // ignore: cast_nullable_to_non_nullable
+                      as String,
+            isDefault: null == isDefault
+                ? _value.isDefault
+                : isDefault // ignore: cast_nullable_to_non_nullable
                       as bool,
-            unlockCondition: freezed == unlockCondition
-                ? _value.unlockCondition
-                : unlockCondition // ignore: cast_nullable_to_non_nullable
-                      as String?,
+            isUnlocked: null == isUnlocked
+                ? _value.isUnlocked
+                : isUnlocked // ignore: cast_nullable_to_non_nullable
+                      as bool,
           )
           as $Val,
     );
@@ -135,12 +164,15 @@ abstract class _$$MascotModelImplCopyWith<$Res>
   $Res call({
     String id,
     String name,
-    String imagePath,
+    @JsonKey(name: 'image_path') String imagePath,
     int level,
-    double currentExp,
-    double maxExp,
-    bool isLocked,
-    String? unlockCondition,
+    @JsonKey(name: 'current_exp') double currentExp,
+    @JsonKey(name: 'max_exp') double maxExp,
+    @JsonKey(name: 'unlock_condition_type') String unlockConditionType,
+    @JsonKey(name: 'unlock_condition_value') int unlockConditionValue,
+    @JsonKey(name: 'unlock_description') String unlockDescription,
+    @JsonKey(name: 'is_default') bool isDefault,
+    @JsonKey(name: 'is_unlocked') bool isUnlocked,
   });
 }
 
@@ -164,8 +196,11 @@ class __$$MascotModelImplCopyWithImpl<$Res>
     Object? level = null,
     Object? currentExp = null,
     Object? maxExp = null,
-    Object? isLocked = null,
-    Object? unlockCondition = freezed,
+    Object? unlockConditionType = null,
+    Object? unlockConditionValue = null,
+    Object? unlockDescription = null,
+    Object? isDefault = null,
+    Object? isUnlocked = null,
   }) {
     return _then(
       _$MascotModelImpl(
@@ -193,14 +228,26 @@ class __$$MascotModelImplCopyWithImpl<$Res>
             ? _value.maxExp
             : maxExp // ignore: cast_nullable_to_non_nullable
                   as double,
-        isLocked: null == isLocked
-            ? _value.isLocked
-            : isLocked // ignore: cast_nullable_to_non_nullable
+        unlockConditionType: null == unlockConditionType
+            ? _value.unlockConditionType
+            : unlockConditionType // ignore: cast_nullable_to_non_nullable
+                  as String,
+        unlockConditionValue: null == unlockConditionValue
+            ? _value.unlockConditionValue
+            : unlockConditionValue // ignore: cast_nullable_to_non_nullable
+                  as int,
+        unlockDescription: null == unlockDescription
+            ? _value.unlockDescription
+            : unlockDescription // ignore: cast_nullable_to_non_nullable
+                  as String,
+        isDefault: null == isDefault
+            ? _value.isDefault
+            : isDefault // ignore: cast_nullable_to_non_nullable
                   as bool,
-        unlockCondition: freezed == unlockCondition
-            ? _value.unlockCondition
-            : unlockCondition // ignore: cast_nullable_to_non_nullable
-                  as String?,
+        isUnlocked: null == isUnlocked
+            ? _value.isUnlocked
+            : isUnlocked // ignore: cast_nullable_to_non_nullable
+                  as bool,
       ),
     );
   }
@@ -212,12 +259,15 @@ class _$MascotModelImpl extends _MascotModel {
   const _$MascotModelImpl({
     required this.id,
     required this.name,
-    required this.imagePath,
-    required this.level,
-    required this.currentExp,
-    required this.maxExp,
-    required this.isLocked,
-    this.unlockCondition,
+    @JsonKey(name: 'image_path') required this.imagePath,
+    this.level = 1,
+    @JsonKey(name: 'current_exp') this.currentExp = 0.0,
+    @JsonKey(name: 'max_exp') this.maxExp = 100.0,
+    @JsonKey(name: 'unlock_condition_type') required this.unlockConditionType,
+    @JsonKey(name: 'unlock_condition_value') required this.unlockConditionValue,
+    @JsonKey(name: 'unlock_description') required this.unlockDescription,
+    @JsonKey(name: 'is_default') required this.isDefault,
+    @JsonKey(name: 'is_unlocked') this.isUnlocked = false,
   }) : super._();
 
   factory _$MascotModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -228,21 +278,36 @@ class _$MascotModelImpl extends _MascotModel {
   @override
   final String name;
   @override
+  @JsonKey(name: 'image_path')
   final String imagePath;
   @override
+  @JsonKey()
   final int level;
   @override
+  @JsonKey(name: 'current_exp')
   final double currentExp;
   @override
+  @JsonKey(name: 'max_exp')
   final double maxExp;
   @override
-  final bool isLocked;
+  @JsonKey(name: 'unlock_condition_type')
+  final String unlockConditionType;
   @override
-  final String? unlockCondition;
+  @JsonKey(name: 'unlock_condition_value')
+  final int unlockConditionValue;
+  @override
+  @JsonKey(name: 'unlock_description')
+  final String unlockDescription;
+  @override
+  @JsonKey(name: 'is_default')
+  final bool isDefault;
+  @override
+  @JsonKey(name: 'is_unlocked')
+  final bool isUnlocked;
 
   @override
   String toString() {
-    return 'MascotModel(id: $id, name: $name, imagePath: $imagePath, level: $level, currentExp: $currentExp, maxExp: $maxExp, isLocked: $isLocked, unlockCondition: $unlockCondition)';
+    return 'MascotModel(id: $id, name: $name, imagePath: $imagePath, level: $level, currentExp: $currentExp, maxExp: $maxExp, unlockConditionType: $unlockConditionType, unlockConditionValue: $unlockConditionValue, unlockDescription: $unlockDescription, isDefault: $isDefault, isUnlocked: $isUnlocked)';
   }
 
   @override
@@ -258,10 +323,16 @@ class _$MascotModelImpl extends _MascotModel {
             (identical(other.currentExp, currentExp) ||
                 other.currentExp == currentExp) &&
             (identical(other.maxExp, maxExp) || other.maxExp == maxExp) &&
-            (identical(other.isLocked, isLocked) ||
-                other.isLocked == isLocked) &&
-            (identical(other.unlockCondition, unlockCondition) ||
-                other.unlockCondition == unlockCondition));
+            (identical(other.unlockConditionType, unlockConditionType) ||
+                other.unlockConditionType == unlockConditionType) &&
+            (identical(other.unlockConditionValue, unlockConditionValue) ||
+                other.unlockConditionValue == unlockConditionValue) &&
+            (identical(other.unlockDescription, unlockDescription) ||
+                other.unlockDescription == unlockDescription) &&
+            (identical(other.isDefault, isDefault) ||
+                other.isDefault == isDefault) &&
+            (identical(other.isUnlocked, isUnlocked) ||
+                other.isUnlocked == isUnlocked));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -274,8 +345,11 @@ class _$MascotModelImpl extends _MascotModel {
     level,
     currentExp,
     maxExp,
-    isLocked,
-    unlockCondition,
+    unlockConditionType,
+    unlockConditionValue,
+    unlockDescription,
+    isDefault,
+    isUnlocked,
   );
 
   /// Create a copy of MascotModel
@@ -296,12 +370,18 @@ abstract class _MascotModel extends MascotModel {
   const factory _MascotModel({
     required final String id,
     required final String name,
-    required final String imagePath,
-    required final int level,
-    required final double currentExp,
-    required final double maxExp,
-    required final bool isLocked,
-    final String? unlockCondition,
+    @JsonKey(name: 'image_path') required final String imagePath,
+    final int level,
+    @JsonKey(name: 'current_exp') final double currentExp,
+    @JsonKey(name: 'max_exp') final double maxExp,
+    @JsonKey(name: 'unlock_condition_type')
+    required final String unlockConditionType,
+    @JsonKey(name: 'unlock_condition_value')
+    required final int unlockConditionValue,
+    @JsonKey(name: 'unlock_description')
+    required final String unlockDescription,
+    @JsonKey(name: 'is_default') required final bool isDefault,
+    @JsonKey(name: 'is_unlocked') final bool isUnlocked,
   }) = _$MascotModelImpl;
   const _MascotModel._() : super._();
 
@@ -313,17 +393,31 @@ abstract class _MascotModel extends MascotModel {
   @override
   String get name;
   @override
+  @JsonKey(name: 'image_path')
   String get imagePath;
   @override
   int get level;
   @override
+  @JsonKey(name: 'current_exp')
   double get currentExp;
   @override
+  @JsonKey(name: 'max_exp')
   double get maxExp;
   @override
-  bool get isLocked;
+  @JsonKey(name: 'unlock_condition_type')
+  String get unlockConditionType;
   @override
-  String? get unlockCondition;
+  @JsonKey(name: 'unlock_condition_value')
+  int get unlockConditionValue;
+  @override
+  @JsonKey(name: 'unlock_description')
+  String get unlockDescription;
+  @override
+  @JsonKey(name: 'is_default')
+  bool get isDefault;
+  @override
+  @JsonKey(name: 'is_unlocked')
+  bool get isUnlocked;
 
   /// Create a copy of MascotModel
   /// with the given fields replaced by the non-null parameter values.

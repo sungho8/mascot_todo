@@ -15,6 +15,7 @@ class HomeData {
   final List<TodoEntity> todos;
   final TodoEntity? focusTodo;
   final MascotEntity? mainMascot;
+  final List<MascotEntity> mascots;
   final List<CategoryEntity> categories;
 
   HomeData({
@@ -22,6 +23,7 @@ class HomeData {
     required this.todos,
     this.focusTodo,
     this.mainMascot,
+    required this.mascots,
     required this.categories,
   });
 }
@@ -44,26 +46,30 @@ class GetHomeDataUseCase {
     try {
       // 병렬로 데이터 조회
       final results = await Future.wait([
-        _userRepository.getCurrentUser().then((result) => result.fold(
-              (failure) => throw failure,
-              (user) => user,
-            )),
-        _todoRepository.getTodos().then((result) => result.fold(
-              (failure) => throw failure,
-              (todos) => todos,
-            )),
-        _todoRepository.getFocusTodo().then((result) => result.fold(
-              (failure) => throw failure,
-              (focusTodo) => focusTodo,
-            )),
-        _mascotRepository.getMostUsedMascot().then((result) => result.fold(
-              (failure) => throw failure,
-              (mascot) => mascot,
-            )),
-        _categoryRepository.getCategories().then((result) => result.fold(
-              (failure) => throw failure,
-              (categories) => categories,
-            )),
+        _userRepository.getCurrentUser().then(
+          (result) => result.fold((failure) => throw failure, (user) => user),
+        ),
+        _todoRepository.getTodos().then(
+          (result) => result.fold((failure) => throw failure, (todos) => todos),
+        ),
+        _todoRepository.getFocusTodo().then(
+          (result) =>
+              result.fold((failure) => throw failure, (focusTodo) => focusTodo),
+        ),
+        _mascotRepository.getMostUsedMascot().then(
+          (result) =>
+              result.fold((failure) => throw failure, (mascot) => mascot),
+        ),
+        _mascotRepository.getMascots().then(
+          (result) =>
+              result.fold((failure) => throw failure, (mascots) => mascots),
+        ),
+        _categoryRepository.getCategories().then(
+          (result) => result.fold(
+            (failure) => throw failure,
+            (categories) => categories,
+          ),
+        ),
       ]);
 
       final homeData = HomeData(
@@ -71,7 +77,8 @@ class GetHomeDataUseCase {
         todos: results[1] as List<TodoEntity>,
         focusTodo: results[2] as TodoEntity?,
         mainMascot: results[3] as MascotEntity?,
-        categories: results[4] as List<CategoryEntity>,
+        mascots: results[4] as List<MascotEntity>,
+        categories: results[5] as List<CategoryEntity>,
       );
 
       return Right(homeData);

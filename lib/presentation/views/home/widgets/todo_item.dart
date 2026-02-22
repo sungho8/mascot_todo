@@ -10,6 +10,8 @@ class TodoItem extends StatelessWidget {
   final CategoryEntity? category;
   final MascotEntity? mascot;
   final VoidCallback? onToggle;
+  final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
 
   const TodoItem({
     super.key,
@@ -17,7 +19,84 @@ class TodoItem extends StatelessWidget {
     this.category,
     this.mascot,
     this.onToggle,
+    this.onEdit,
+    this.onDelete,
   });
+
+  void _showActionMenu(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => Container(
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        decoration: BoxDecoration(
+          color: AppColors.cardBackground,
+          borderRadius: const BorderRadius.vertical(
+            top: Radius.circular(AppRadius.xl),
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: AppSpacing.lg,
+                height: AppSpacing.xs,
+                decoration: BoxDecoration(
+                  color: AppColors.border,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+
+              AppSpacing.vLg,
+
+              Text(
+                todo.title,
+                style: AppTypography.h4,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+
+              AppSpacing.vLg,
+
+              ListTile(
+                leading: const Icon(
+                  Icons.edit_outlined,
+                  color: AppColors.textPrimary,
+                ),
+                title: Text('수정', style: AppTypography.body1),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppRadius.md),
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  onEdit?.call();
+                },
+              ),
+
+              ListTile(
+                leading: const Icon(
+                  Icons.delete_outline,
+                  color: AppColors.error,
+                ),
+                title: Text(
+                  '삭제',
+                  style: AppTypography.body1.copyWith(color: AppColors.error),
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppRadius.md),
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  onDelete?.call();
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +119,7 @@ class TodoItem extends StatelessWidget {
           color: Colors.transparent,
           child: InkWell(
             onTap: onToggle,
+            onLongPress: () => _showActionMenu(context),
             borderRadius: AppRadius.borderXxl,
             child: Padding(
               padding: const EdgeInsets.all(AppSpacing.md),
@@ -47,8 +127,8 @@ class TodoItem extends StatelessWidget {
                 children: [
                   // 체크 원 — 미체크: 링 / 체크: 민트 채움
                   Container(
-                    width: 28,
-                    height: 28,
+                    width: 24,
+                    height: 24,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: todo.isCompleted
@@ -56,10 +136,7 @@ class TodoItem extends StatelessWidget {
                           : Colors.transparent,
                       border: todo.isCompleted
                           ? null
-                          : Border.all(
-                              color: AppColors.border,
-                              width: 1.5,
-                            ),
+                          : Border.all(color: AppColors.border, width: 1.5),
                     ),
                     child: todo.isCompleted
                         ? const Icon(Icons.check, color: Colors.white, size: 18)
@@ -72,11 +149,28 @@ class TodoItem extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          todo.title,
-                          style: AppTypography.h4.copyWith(
-                            color: AppColors.textPrimary,
-                          ),
+                        Row(
+                          children: [
+                            if (todo.isRecurring ||
+                                todo.recurringSourceId != null) ...[
+                              const Icon(
+                                Icons.repeat,
+                                size: 14,
+                                color: AppColors.primary,
+                              ),
+                              AppSpacing.hXs,
+                            ],
+                            Expanded(
+                              child: Text(
+                                todo.title,
+                                style: AppTypography.h4.copyWith(
+                                  color: AppColors.textPrimary,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
                         ),
 
                         if (category != null) ...[
@@ -88,8 +182,9 @@ class TodoItem extends StatelessWidget {
                               vertical: AppSpacing.xxs,
                             ),
                             decoration: BoxDecoration(
-                              color: _getCategoryColor(category!.colorHex)
-                                  .withValues(alpha: 0.1),
+                              color: _getCategoryColor(
+                                category!.colorHex,
+                              ).withValues(alpha: 0.1),
                               borderRadius: AppRadius.borderCircle,
                             ),
                             child: Text(

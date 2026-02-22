@@ -16,5 +16,7 @@ abstract class TodoEntity with _$TodoEntity {
     required DateTime createdAt,
     DateTime? completedAt,
     required bool isFocusTask,
+    @Default(false) bool isRecurring,
+    String? recurringSourceId,
   }) = _TodoEntity;
 }

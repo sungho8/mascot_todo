@@ -21,6 +21,7 @@ mixin _$AiAnalysisEntity {
   String? get title => throw _privateConstructorUsedError;
   String? get categoryId =>
       throw _privateConstructorUsedError; // 시맨틱 카테고리 (health, work 등)
+  bool get isRecurring => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
 
   /// Create a copy of AiAnalysisEntity
@@ -37,7 +38,13 @@ abstract class $AiAnalysisEntityCopyWith<$Res> {
     $Res Function(AiAnalysisEntity) then,
   ) = _$AiAnalysisEntityCopyWithImpl<$Res, AiAnalysisEntity>;
   @useResult
-  $Res call({String type, String? title, String? categoryId, String message});
+  $Res call({
+    String type,
+    String? title,
+    String? categoryId,
+    bool isRecurring,
+    String message,
+  });
 }
 
 /// @nodoc
@@ -58,6 +65,7 @@ class _$AiAnalysisEntityCopyWithImpl<$Res, $Val extends AiAnalysisEntity>
     Object? type = null,
     Object? title = freezed,
     Object? categoryId = freezed,
+    Object? isRecurring = null,
     Object? message = null,
   }) {
     return _then(
@@ -74,6 +82,10 @@ class _$AiAnalysisEntityCopyWithImpl<$Res, $Val extends AiAnalysisEntity>
                 ? _value.categoryId
                 : categoryId // ignore: cast_nullable_to_non_nullable
                       as String?,
+            isRecurring: null == isRecurring
+                ? _value.isRecurring
+                : isRecurring // ignore: cast_nullable_to_non_nullable
+                      as bool,
             message: null == message
                 ? _value.message
                 : message // ignore: cast_nullable_to_non_nullable
@@ -93,7 +105,13 @@ abstract class _$$AiAnalysisEntityImplCopyWith<$Res>
   ) = __$$AiAnalysisEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String type, String? title, String? categoryId, String message});
+  $Res call({
+    String type,
+    String? title,
+    String? categoryId,
+    bool isRecurring,
+    String message,
+  });
 }
 
 /// @nodoc
@@ -113,6 +131,7 @@ class __$$AiAnalysisEntityImplCopyWithImpl<$Res>
     Object? type = null,
     Object? title = freezed,
     Object? categoryId = freezed,
+    Object? isRecurring = null,
     Object? message = null,
   }) {
     return _then(
@@ -129,6 +148,10 @@ class __$$AiAnalysisEntityImplCopyWithImpl<$Res>
             ? _value.categoryId
             : categoryId // ignore: cast_nullable_to_non_nullable
                   as String?,
+        isRecurring: null == isRecurring
+            ? _value.isRecurring
+            : isRecurring // ignore: cast_nullable_to_non_nullable
+                  as bool,
         message: null == message
             ? _value.message
             : message // ignore: cast_nullable_to_non_nullable
@@ -145,6 +168,7 @@ class _$AiAnalysisEntityImpl implements _AiAnalysisEntity {
     required this.type,
     this.title,
     this.categoryId,
+    this.isRecurring = false,
     required this.message,
   });
 
@@ -156,11 +180,14 @@ class _$AiAnalysisEntityImpl implements _AiAnalysisEntity {
   final String? categoryId;
   // 시맨틱 카테고리 (health, work 등)
   @override
+  @JsonKey()
+  final bool isRecurring;
+  @override
   final String message;
 
   @override
   String toString() {
-    return 'AiAnalysisEntity(type: $type, title: $title, categoryId: $categoryId, message: $message)';
+    return 'AiAnalysisEntity(type: $type, title: $title, categoryId: $categoryId, isRecurring: $isRecurring, message: $message)';
   }
 
   @override
@@ -172,12 +199,14 @@ class _$AiAnalysisEntityImpl implements _AiAnalysisEntity {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.categoryId, categoryId) ||
                 other.categoryId == categoryId) &&
+            (identical(other.isRecurring, isRecurring) ||
+                other.isRecurring == isRecurring) &&
             (identical(other.message, message) || other.message == message));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, type, title, categoryId, message);
+      Object.hash(runtimeType, type, title, categoryId, isRecurring, message);
 
   /// Create a copy of AiAnalysisEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -196,6 +225,7 @@ abstract class _AiAnalysisEntity implements AiAnalysisEntity {
     required final String type,
     final String? title,
     final String? categoryId,
+    final bool isRecurring,
     required final String message,
   }) = _$AiAnalysisEntityImpl;
 
@@ -205,6 +235,8 @@ abstract class _AiAnalysisEntity implements AiAnalysisEntity {
   String? get title;
   @override
   String? get categoryId; // 시맨틱 카테고리 (health, work 등)
+  @override
+  bool get isRecurring;
   @override
   String get message;
 

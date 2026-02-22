@@ -18,6 +18,8 @@ abstract class UserModel with _$UserModel {
     required double maxExp,
     required int totalCompleted,
     required int currentStreak,
+    @Default(0) int earlyBirdCount,
+    @Default(0) int dailyMaxCompleted,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
@@ -34,6 +36,8 @@ abstract class UserModel with _$UserModel {
       maxExp: maxExp,
       totalCompleted: totalCompleted,
       currentStreak: currentStreak,
+      earlyBirdCount: earlyBirdCount,
+      dailyMaxCompleted: dailyMaxCompleted,
     );
   }
 }

@@ -29,6 +29,8 @@ mixin _$UserModel {
   double get maxExp => throw _privateConstructorUsedError;
   int get totalCompleted => throw _privateConstructorUsedError;
   int get currentStreak => throw _privateConstructorUsedError;
+  int get earlyBirdCount => throw _privateConstructorUsedError;
+  int get dailyMaxCompleted => throw _privateConstructorUsedError;
 
   /// Serializes this UserModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -54,6 +56,8 @@ abstract class $UserModelCopyWith<$Res> {
     double maxExp,
     int totalCompleted,
     int currentStreak,
+    int earlyBirdCount,
+    int dailyMaxCompleted,
   });
 }
 
@@ -80,6 +84,8 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? maxExp = null,
     Object? totalCompleted = null,
     Object? currentStreak = null,
+    Object? earlyBirdCount = null,
+    Object? dailyMaxCompleted = null,
   }) {
     return _then(
       _value.copyWith(
@@ -115,6 +121,14 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
                 ? _value.currentStreak
                 : currentStreak // ignore: cast_nullable_to_non_nullable
                       as int,
+            earlyBirdCount: null == earlyBirdCount
+                ? _value.earlyBirdCount
+                : earlyBirdCount // ignore: cast_nullable_to_non_nullable
+                      as int,
+            dailyMaxCompleted: null == dailyMaxCompleted
+                ? _value.dailyMaxCompleted
+                : dailyMaxCompleted // ignore: cast_nullable_to_non_nullable
+                      as int,
           )
           as $Val,
     );
@@ -139,6 +153,8 @@ abstract class _$$UserModelImplCopyWith<$Res>
     double maxExp,
     int totalCompleted,
     int currentStreak,
+    int earlyBirdCount,
+    int dailyMaxCompleted,
   });
 }
 
@@ -164,6 +180,8 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? maxExp = null,
     Object? totalCompleted = null,
     Object? currentStreak = null,
+    Object? earlyBirdCount = null,
+    Object? dailyMaxCompleted = null,
   }) {
     return _then(
       _$UserModelImpl(
@@ -199,6 +217,14 @@ class __$$UserModelImplCopyWithImpl<$Res>
             ? _value.currentStreak
             : currentStreak // ignore: cast_nullable_to_non_nullable
                   as int,
+        earlyBirdCount: null == earlyBirdCount
+            ? _value.earlyBirdCount
+            : earlyBirdCount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        dailyMaxCompleted: null == dailyMaxCompleted
+            ? _value.dailyMaxCompleted
+            : dailyMaxCompleted // ignore: cast_nullable_to_non_nullable
+                  as int,
       ),
     );
   }
@@ -216,6 +242,8 @@ class _$UserModelImpl extends _UserModel {
     required this.maxExp,
     required this.totalCompleted,
     required this.currentStreak,
+    this.earlyBirdCount = 0,
+    this.dailyMaxCompleted = 0,
   }) : super._();
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -237,10 +265,16 @@ class _$UserModelImpl extends _UserModel {
   final int totalCompleted;
   @override
   final int currentStreak;
+  @override
+  @JsonKey()
+  final int earlyBirdCount;
+  @override
+  @JsonKey()
+  final int dailyMaxCompleted;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, name: $name, profileImagePath: $profileImagePath, level: $level, currentExp: $currentExp, maxExp: $maxExp, totalCompleted: $totalCompleted, currentStreak: $currentStreak)';
+    return 'UserModel(id: $id, name: $name, profileImagePath: $profileImagePath, level: $level, currentExp: $currentExp, maxExp: $maxExp, totalCompleted: $totalCompleted, currentStreak: $currentStreak, earlyBirdCount: $earlyBirdCount, dailyMaxCompleted: $dailyMaxCompleted)';
   }
 
   @override
@@ -259,7 +293,11 @@ class _$UserModelImpl extends _UserModel {
             (identical(other.totalCompleted, totalCompleted) ||
                 other.totalCompleted == totalCompleted) &&
             (identical(other.currentStreak, currentStreak) ||
-                other.currentStreak == currentStreak));
+                other.currentStreak == currentStreak) &&
+            (identical(other.earlyBirdCount, earlyBirdCount) ||
+                other.earlyBirdCount == earlyBirdCount) &&
+            (identical(other.dailyMaxCompleted, dailyMaxCompleted) ||
+                other.dailyMaxCompleted == dailyMaxCompleted));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -274,6 +312,8 @@ class _$UserModelImpl extends _UserModel {
     maxExp,
     totalCompleted,
     currentStreak,
+    earlyBirdCount,
+    dailyMaxCompleted,
   );
 
   /// Create a copy of UserModel
@@ -300,6 +340,8 @@ abstract class _UserModel extends UserModel {
     required final double maxExp,
     required final int totalCompleted,
     required final int currentStreak,
+    final int earlyBirdCount,
+    final int dailyMaxCompleted,
   }) = _$UserModelImpl;
   const _UserModel._() : super._();
 
@@ -322,6 +364,10 @@ abstract class _UserModel extends UserModel {
   int get totalCompleted;
   @override
   int get currentStreak;
+  @override
+  int get earlyBirdCount;
+  @override
+  int get dailyMaxCompleted;
 
   /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.

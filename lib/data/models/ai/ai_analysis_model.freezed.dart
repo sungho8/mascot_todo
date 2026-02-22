@@ -24,6 +24,7 @@ mixin _$AiAnalysisModel {
   String get type => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
   String? get categoryId => throw _privateConstructorUsedError;
+  bool get isRecurring => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
 
   /// Serializes this AiAnalysisModel to a JSON map.
@@ -43,7 +44,13 @@ abstract class $AiAnalysisModelCopyWith<$Res> {
     $Res Function(AiAnalysisModel) then,
   ) = _$AiAnalysisModelCopyWithImpl<$Res, AiAnalysisModel>;
   @useResult
-  $Res call({String type, String? title, String? categoryId, String message});
+  $Res call({
+    String type,
+    String? title,
+    String? categoryId,
+    bool isRecurring,
+    String message,
+  });
 }
 
 /// @nodoc
@@ -64,6 +71,7 @@ class _$AiAnalysisModelCopyWithImpl<$Res, $Val extends AiAnalysisModel>
     Object? type = null,
     Object? title = freezed,
     Object? categoryId = freezed,
+    Object? isRecurring = null,
     Object? message = null,
   }) {
     return _then(
@@ -80,6 +88,10 @@ class _$AiAnalysisModelCopyWithImpl<$Res, $Val extends AiAnalysisModel>
                 ? _value.categoryId
                 : categoryId // ignore: cast_nullable_to_non_nullable
                       as String?,
+            isRecurring: null == isRecurring
+                ? _value.isRecurring
+                : isRecurring // ignore: cast_nullable_to_non_nullable
+                      as bool,
             message: null == message
                 ? _value.message
                 : message // ignore: cast_nullable_to_non_nullable
@@ -99,7 +111,13 @@ abstract class _$$AiAnalysisModelImplCopyWith<$Res>
   ) = __$$AiAnalysisModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String type, String? title, String? categoryId, String message});
+  $Res call({
+    String type,
+    String? title,
+    String? categoryId,
+    bool isRecurring,
+    String message,
+  });
 }
 
 /// @nodoc
@@ -119,6 +137,7 @@ class __$$AiAnalysisModelImplCopyWithImpl<$Res>
     Object? type = null,
     Object? title = freezed,
     Object? categoryId = freezed,
+    Object? isRecurring = null,
     Object? message = null,
   }) {
     return _then(
@@ -135,6 +154,10 @@ class __$$AiAnalysisModelImplCopyWithImpl<$Res>
             ? _value.categoryId
             : categoryId // ignore: cast_nullable_to_non_nullable
                   as String?,
+        isRecurring: null == isRecurring
+            ? _value.isRecurring
+            : isRecurring // ignore: cast_nullable_to_non_nullable
+                  as bool,
         message: null == message
             ? _value.message
             : message // ignore: cast_nullable_to_non_nullable
@@ -151,6 +174,7 @@ class _$AiAnalysisModelImpl extends _AiAnalysisModel {
     required this.type,
     this.title,
     this.categoryId,
+    this.isRecurring = false,
     required this.message,
   }) : super._();
 
@@ -164,11 +188,14 @@ class _$AiAnalysisModelImpl extends _AiAnalysisModel {
   @override
   final String? categoryId;
   @override
+  @JsonKey()
+  final bool isRecurring;
+  @override
   final String message;
 
   @override
   String toString() {
-    return 'AiAnalysisModel(type: $type, title: $title, categoryId: $categoryId, message: $message)';
+    return 'AiAnalysisModel(type: $type, title: $title, categoryId: $categoryId, isRecurring: $isRecurring, message: $message)';
   }
 
   @override
@@ -180,13 +207,15 @@ class _$AiAnalysisModelImpl extends _AiAnalysisModel {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.categoryId, categoryId) ||
                 other.categoryId == categoryId) &&
+            (identical(other.isRecurring, isRecurring) ||
+                other.isRecurring == isRecurring) &&
             (identical(other.message, message) || other.message == message));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, type, title, categoryId, message);
+      Object.hash(runtimeType, type, title, categoryId, isRecurring, message);
 
   /// Create a copy of AiAnalysisModel
   /// with the given fields replaced by the non-null parameter values.
@@ -210,6 +239,7 @@ abstract class _AiAnalysisModel extends AiAnalysisModel {
     required final String type,
     final String? title,
     final String? categoryId,
+    final bool isRecurring,
     required final String message,
   }) = _$AiAnalysisModelImpl;
   const _AiAnalysisModel._() : super._();
@@ -223,6 +253,8 @@ abstract class _AiAnalysisModel extends AiAnalysisModel {
   String? get title;
   @override
   String? get categoryId;
+  @override
+  bool get isRecurring;
   @override
   String get message;
 

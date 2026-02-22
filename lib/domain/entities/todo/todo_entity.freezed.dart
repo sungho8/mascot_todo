@@ -27,6 +27,8 @@ mixin _$TodoEntity {
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime? get completedAt => throw _privateConstructorUsedError;
   bool get isFocusTask => throw _privateConstructorUsedError;
+  bool get isRecurring => throw _privateConstructorUsedError;
+  String? get recurringSourceId => throw _privateConstructorUsedError;
 
   /// Create a copy of TodoEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -53,6 +55,8 @@ abstract class $TodoEntityCopyWith<$Res> {
     DateTime createdAt,
     DateTime? completedAt,
     bool isFocusTask,
+    bool isRecurring,
+    String? recurringSourceId,
   });
 }
 
@@ -81,6 +85,8 @@ class _$TodoEntityCopyWithImpl<$Res, $Val extends TodoEntity>
     Object? createdAt = null,
     Object? completedAt = freezed,
     Object? isFocusTask = null,
+    Object? isRecurring = null,
+    Object? recurringSourceId = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -124,6 +130,14 @@ class _$TodoEntityCopyWithImpl<$Res, $Val extends TodoEntity>
                 ? _value.isFocusTask
                 : isFocusTask // ignore: cast_nullable_to_non_nullable
                       as bool,
+            isRecurring: null == isRecurring
+                ? _value.isRecurring
+                : isRecurring // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            recurringSourceId: freezed == recurringSourceId
+                ? _value.recurringSourceId
+                : recurringSourceId // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -150,6 +164,8 @@ abstract class _$$TodoEntityImplCopyWith<$Res>
     DateTime createdAt,
     DateTime? completedAt,
     bool isFocusTask,
+    bool isRecurring,
+    String? recurringSourceId,
   });
 }
 
@@ -177,6 +193,8 @@ class __$$TodoEntityImplCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? completedAt = freezed,
     Object? isFocusTask = null,
+    Object? isRecurring = null,
+    Object? recurringSourceId = freezed,
   }) {
     return _then(
       _$TodoEntityImpl(
@@ -220,6 +238,14 @@ class __$$TodoEntityImplCopyWithImpl<$Res>
             ? _value.isFocusTask
             : isFocusTask // ignore: cast_nullable_to_non_nullable
                   as bool,
+        isRecurring: null == isRecurring
+            ? _value.isRecurring
+            : isRecurring // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        recurringSourceId: freezed == recurringSourceId
+            ? _value.recurringSourceId
+            : recurringSourceId // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -239,6 +265,8 @@ class _$TodoEntityImpl implements _TodoEntity {
     required this.createdAt,
     this.completedAt,
     required this.isFocusTask,
+    this.isRecurring = false,
+    this.recurringSourceId,
   });
 
   @override
@@ -261,10 +289,15 @@ class _$TodoEntityImpl implements _TodoEntity {
   final DateTime? completedAt;
   @override
   final bool isFocusTask;
+  @override
+  @JsonKey()
+  final bool isRecurring;
+  @override
+  final String? recurringSourceId;
 
   @override
   String toString() {
-    return 'TodoEntity(id: $id, title: $title, description: $description, isCompleted: $isCompleted, linkedMascotId: $linkedMascotId, categoryId: $categoryId, targetDate: $targetDate, createdAt: $createdAt, completedAt: $completedAt, isFocusTask: $isFocusTask)';
+    return 'TodoEntity(id: $id, title: $title, description: $description, isCompleted: $isCompleted, linkedMascotId: $linkedMascotId, categoryId: $categoryId, targetDate: $targetDate, createdAt: $createdAt, completedAt: $completedAt, isFocusTask: $isFocusTask, isRecurring: $isRecurring, recurringSourceId: $recurringSourceId)';
   }
 
   @override
@@ -289,7 +322,11 @@ class _$TodoEntityImpl implements _TodoEntity {
             (identical(other.completedAt, completedAt) ||
                 other.completedAt == completedAt) &&
             (identical(other.isFocusTask, isFocusTask) ||
-                other.isFocusTask == isFocusTask));
+                other.isFocusTask == isFocusTask) &&
+            (identical(other.isRecurring, isRecurring) ||
+                other.isRecurring == isRecurring) &&
+            (identical(other.recurringSourceId, recurringSourceId) ||
+                other.recurringSourceId == recurringSourceId));
   }
 
   @override
@@ -305,6 +342,8 @@ class _$TodoEntityImpl implements _TodoEntity {
     createdAt,
     completedAt,
     isFocusTask,
+    isRecurring,
+    recurringSourceId,
   );
 
   /// Create a copy of TodoEntity
@@ -328,6 +367,8 @@ abstract class _TodoEntity implements TodoEntity {
     required final DateTime createdAt,
     final DateTime? completedAt,
     required final bool isFocusTask,
+    final bool isRecurring,
+    final String? recurringSourceId,
   }) = _$TodoEntityImpl;
 
   @override
@@ -350,6 +391,10 @@ abstract class _TodoEntity implements TodoEntity {
   DateTime? get completedAt;
   @override
   bool get isFocusTask;
+  @override
+  bool get isRecurring;
+  @override
+  String? get recurringSourceId;
 
   /// Create a copy of TodoEntity
   /// with the given fields replaced by the non-null parameter values.

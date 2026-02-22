@@ -44,6 +44,8 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
       final totalCompleted = (statsData['total_completed'] as int?) ?? 0;
       final currentStreak = (statsData['current_streak'] as int?) ?? 0;
+      final earlyBirdCount = (statsData['early_bird_count'] as int?) ?? 0;
+      final dailyMaxCompleted = (statsData['daily_max_completed'] as int?) ?? 0;
 
       // 레벨 계산
       final level = totalCompleted ~/ _todosPerLevel + 1;
@@ -59,6 +61,8 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         maxExp: _expPerLevel.toDouble(),
         totalCompleted: totalCompleted,
         currentStreak: currentStreak,
+        earlyBirdCount: earlyBirdCount,
+        dailyMaxCompleted: dailyMaxCompleted,
       );
 
       _logger.i('✅ 사용자 정보 조회 완료: ${model.name} (Lv.${model.level})');

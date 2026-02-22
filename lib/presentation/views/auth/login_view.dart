@@ -28,19 +28,16 @@ class _LoginViewState extends ConsumerState<LoginView> {
   @override
   Widget build(BuildContext context) {
     // 에러 처리
-    ref.listen<AuthState>(
-      authViewModelProvider,
-      (previous, next) {
-        if (next.status == AuthStatus.error && next.errorMessage != null) {
-          SnackbarHelper.showError(context, next.errorMessage!);
-        }
+    ref.listen<AuthState>(authViewModelProvider, (previous, next) {
+      if (next.status == AuthStatus.error && next.errorMessage != null) {
+        SnackbarHelper.showError(context, next.errorMessage!);
+      }
 
-        // 로그인 성공 시 홈으로 이동
-        if (next.status == AuthStatus.authenticated) {
-          context.go(RoutePath.home);
-        }
-      },
-    );
+      // 로그인 성공 시 홈으로 이동
+      if (next.status == AuthStatus.authenticated) {
+        context.go(RoutePath.home);
+      }
+    });
 
     final state = ref.watch(authViewModelProvider);
     final isLoading = state.status == AuthStatus.loading;
@@ -54,19 +51,13 @@ class _LoginViewState extends ConsumerState<LoginView> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // 로고 영역
-              const Icon(
-                Icons.pets,
-                size: 120,
-                color: AppColors.primary,
-              ),
+              const Icon(Icons.pets, size: 128, color: AppColors.primary),
 
               AppSpacing.vLg,
 
               Text(
                 'Mascot Todo',
-                style: AppTypography.h1.copyWith(
-                  color: AppColors.primary,
-                ),
+                style: AppTypography.h1.copyWith(color: AppColors.primary),
                 textAlign: TextAlign.center,
               ),
 
@@ -90,7 +81,9 @@ class _LoginViewState extends ConsumerState<LoginView> {
                   onPressed: isLoading
                       ? null
                       : () {
-                          ref.read(authViewModelProvider.notifier).signInWithKakao();
+                          ref
+                              .read(authViewModelProvider.notifier)
+                              .signInWithKakao();
                         },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFFEE500), // 카카오 노란색
@@ -113,11 +106,11 @@ class _LoginViewState extends ConsumerState<LoginView> {
                           children: [
                             Image.asset(
                               'assets/images/kakao_logo.png',
-                              height: 24,
+                              height: AppSpacing.md,
                               errorBuilder: (context, error, stackTrace) {
                                 return const Icon(
                                   Icons.chat_bubble,
-                                  size: 24,
+                                  size: AppSpacing.md,
                                   color: Colors.black87,
                                 );
                               },

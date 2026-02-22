@@ -1,26 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/constants/mascot_persona_ext.dart';
+import '../../../../domain/entities/mascot/mascot_entity.dart';
 import '../../../../di/ai/ai_providers.dart';
 import '../../../../core/design_system/design_system.dart';
+import '../../../viewmodels/home/home_viewmodel.dart';
+import '../../mascot/widgets/animated_mascot.dart';
 
 /// 홈 화면 미니 마스코트 + 채팅 입력 바
-/// AI를 통해 입력된 내용이 TODO인지 고민 상담인지 판별하여 처리
+/// [마스코트 캐릭터] - [채팅 입력창] - [보내기 버튼] 구조
+/// Todo 완료 시 마스코트가 기뻐하는 애니메이션 반응
 class MascotChatBar extends ConsumerStatefulWidget {
   const MascotChatBar({
-    required this.mascotName,
+    required this.mascot,
     required this.onTodoCreated,
     super.key,
   });
 
-  final String mascotName;
-  final void Function(String title, String? categoryId) onTodoCreated;
+  final MascotEntity mascot;
+  final void Function(String title, String? categoryId, bool isRecurring)
+  onTodoCreated;
 
   @override
   ConsumerState<MascotChatBar> createState() => _MascotChatBarState();
 }
 
 class _MascotChatBarState extends ConsumerState<MascotChatBar>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   final _controller = TextEditingController();
   final _focusNode = FocusNode();
 
@@ -30,9 +36,15 @@ class _MascotChatBarState extends ConsumerState<MascotChatBar>
   late AnimationController _fadeController;
   late Animation<double> _fadeAnimation;
 
+  // 마스코트 애니메이션 제어 키
+  final _mascotKey = GlobalKey<AnimatedMascotState>();
+  bool _isCelebrating = false;
+  int _lastTrigger = 0;
+
   @override
   void initState() {
     super.initState();
+
     _fadeController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
@@ -51,6 +63,17 @@ class _MascotChatBarState extends ConsumerState<MascotChatBar>
     super.dispose();
   }
 
+  Future<void> _celebrate() async {
+    if (_isCelebrating) return;
+    setState(() => _isCelebrating = true);
+
+    await _mascotKey.currentState?.playDoubleJump();
+
+    if (mounted) {
+      setState(() => _isCelebrating = false);
+    }
+  }
+
   Future<void> _handleSubmit(String text) async {
     if (text.trim().isEmpty || _isLoading) return;
 
@@ -58,7 +81,7 @@ class _MascotChatBarState extends ConsumerState<MascotChatBar>
 
     try {
       final useCase = ref.read(processChatUseCaseProvider);
-      final result = await useCase(text.trim(), widget.mascotName);
+      final result = await useCase(text.trim(), widget.mascot);
 
       result.fold(
         (failure) {
@@ -66,10 +89,12 @@ class _MascotChatBarState extends ConsumerState<MascotChatBar>
         },
         (analysis) {
           if (analysis.type == 'todo' && analysis.title != null) {
-            // TODO로 추가
-            widget.onTodoCreated(analysis.title!, analysis.categoryId);
+            widget.onTodoCreated(
+              analysis.title!,
+              analysis.categoryId,
+              analysis.isRecurring,
+            );
           }
-          // 결과 메시지 표시 (TODO 추가 확인 또는 일반 답변)
           _showMascotBubble(analysis.message);
         },
       );
@@ -103,6 +128,14 @@ class _MascotChatBarState extends ConsumerState<MascotChatBar>
 
   @override
   Widget build(BuildContext context) {
+    // Todo 완료 시 축하 애니메이션 트리거
+    ref.listen(homeViewModelProvider, (prev, next) {
+      if (next.celebrationTrigger != _lastTrigger) {
+        _lastTrigger = next.celebrationTrigger;
+        _celebrate();
+      }
+    });
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -146,7 +179,7 @@ class _MascotChatBarState extends ConsumerState<MascotChatBar>
             ),
           ),
 
-        // 채팅 입력 바
+        // 마스코트 + 채팅 입력 바
         Container(
           padding: AppSpacing.symmetric(
             horizontal: AppSpacing.md,
@@ -165,23 +198,16 @@ class _MascotChatBarState extends ConsumerState<MascotChatBar>
             ],
           ),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // 미니 마스코트 아이콘
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.15),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.pets,
-                  size: 22,
-                  color: AppColors.primary,
-                ),
+              // 애니메이션 마스코트 캐릭터
+              AnimatedMascot(
+                key: _mascotKey,
+                size: 44.0,
+                isSpeaking: _isCelebrating,
               ),
 
-              AppSpacing.hSm,
+              AppSpacing.hMd,
 
               // 입력창
               Expanded(
@@ -190,14 +216,14 @@ class _MascotChatBarState extends ConsumerState<MascotChatBar>
                   focusNode: _focusNode,
                   style: AppTypography.body1,
                   decoration: InputDecoration(
-                    hintText: '${widget.mascotName}에게 말해보세요...',
+                    hintText: widget.mascot.chatHint,
                     hintStyle: AppTypography.body1.copyWith(
                       color: AppColors.textDisabled,
                     ),
                     border: InputBorder.none,
-                    isDense: true,
                     contentPadding: AppSpacing.symmetric(
-                      vertical: AppSpacing.xs,
+                      vertical: AppSpacing.sm,
+                      horizontal: AppSpacing.xs,
                     ),
                   ),
                   textInputAction: TextInputAction.send,
@@ -205,12 +231,14 @@ class _MascotChatBarState extends ConsumerState<MascotChatBar>
                 ),
               ),
 
+              AppSpacing.hSm,
+
               // 전송 버튼
               GestureDetector(
                 onTap: () => _handleSubmit(_controller.text),
                 child: Container(
-                  width: 36,
-                  height: 36,
+                  width: 40,
+                  height: 40,
                   decoration: BoxDecoration(
                     color: _isLoading
                         ? AppColors.buttonDisabled

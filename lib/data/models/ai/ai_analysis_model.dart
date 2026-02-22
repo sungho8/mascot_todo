@@ -10,6 +10,7 @@ abstract class AiAnalysisModel with _$AiAnalysisModel {
     required String type,
     String? title,
     String? categoryId,
+    @Default(false) bool isRecurring,
     required String message,
   }) = _AiAnalysisModel;
 
@@ -22,6 +23,7 @@ abstract class AiAnalysisModel with _$AiAnalysisModel {
     type: type,
     title: title,
     categoryId: categoryId,
+    isRecurring: isRecurring,
     message: message,
   );
 }

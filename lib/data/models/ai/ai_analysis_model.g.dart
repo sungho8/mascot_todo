@@ -12,6 +12,7 @@ _$AiAnalysisModelImpl _$$AiAnalysisModelImplFromJson(
   type: json['type'] as String,
   title: json['title'] as String?,
   categoryId: json['categoryId'] as String?,
+  isRecurring: json['isRecurring'] as bool? ?? false,
   message: json['message'] as String,
 );
 
@@ -21,5 +22,6 @@ Map<String, dynamic> _$$AiAnalysisModelImplToJson(
   'type': instance.type,
   'title': instance.title,
   'categoryId': instance.categoryId,
+  'isRecurring': instance.isRecurring,
   'message': instance.message,
 };

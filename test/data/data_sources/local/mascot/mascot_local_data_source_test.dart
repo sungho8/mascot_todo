@@ -29,18 +29,18 @@ void main() {
       expect(mascot.name, '루미');
     });
 
-    test('Lumi (ID 2) is unlocked and assigned correct image path', () async {
+    test('Lumi (ID 2) is locked and assigned correct image path', () async {
       final mascot = await dataSource.getMascotById('2');
       expect(mascot.id, '2');
       expect(mascot.name, '루미');
       expect(mascot.imagePath, 'assets/images/mascots/cat.png');
-      expect(mascot.isLocked, false);
+      expect(mascot.isUnlocked, false);
     });
 
     test('Pipi (ID 3) is locked and has correct unlock condition', () async {
       final mascot = await dataSource.getMascotById('3');
-      expect(mascot.isLocked, true);
-      expect(mascot.unlockCondition, '총 10개 Todo 완료');
+      expect(mascot.isUnlocked, false);
+      expect(mascot.unlockDescription, '총 10개 Todo 완료');
     });
   });
 }

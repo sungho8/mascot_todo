@@ -19,12 +19,16 @@ class KokoBodyPainter extends CustomPainter {
     final w = size.width;
     final h = size.height;
 
-    // 1. 색상 정의 (플랫 디자인을 위한 단색)
-    const baseColor = Color(0xFFE0E7FF);
-    // const detailColor = Color(0xFF1E293B); // 현재 사용 안함
-
+    // 1. 색상 정의 및 입체감을 위한 그라디언트 적용
     final paint = Paint()
-      ..color = baseColor
+      ..shader = const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Color(0xFFE0E7FF), // 기본 색상
+          Color(0xFFC7D2FE), // 우측 아래 약간 진한 색상 (입체감)
+        ],
+      ).createShader(Rect.fromLTWH(0, 0, w, h))
       ..style = PaintingStyle.fill;
 
     // 2. 귀 (Ear) - 몸통 뒤에 위치
@@ -40,12 +44,13 @@ class KokoBodyPainter extends CustomPainter {
       bottomRight: Radius.circular(w * 0.45),
     );
 
-    // 그림자 없이 단색 채우기만 수행
+    // 입체감 있는 몸통 채우기
     canvas.drawRRect(bodyRRect, paint);
 
     // 4. 수염 (Whiskers)
     final whiskerPaint = Paint()
       ..color = const Color(0xFFCBD5E1)
+      ..style = PaintingStyle.stroke
       ..strokeWidth = 2
       ..strokeCap = StrokeCap.round;
 
@@ -146,7 +151,10 @@ class KokoBodyPainter extends CustomPainter {
     final w = size.width;
     final h = size.height;
     final paint = Paint()..color = const Color(0xFFE0E7FF);
+    final innerPaint = Paint()..color = const Color(0xFFFBCFE8); // 핑크빛 귓구멍
+
     final path = Path();
+    final innerPath = Path();
 
     if (isLeft) {
       canvas.save();
@@ -160,6 +168,17 @@ class KokoBodyPainter extends CustomPainter {
         ),
       );
       canvas.drawPath(path, paint);
+
+      // 귓구멍 추가
+      innerPath.addRRect(
+        RRect.fromRectAndCorners(
+          const Rect.fromLTWH(-18, -12, 38, 38),
+          topLeft: const Radius.circular(8),
+          topRight: const Radius.circular(35),
+        ),
+      );
+      canvas.drawPath(innerPath, innerPaint);
+
       canvas.restore();
     } else {
       canvas.save();
@@ -173,6 +192,17 @@ class KokoBodyPainter extends CustomPainter {
         ),
       );
       canvas.drawPath(path, paint);
+
+      // 귓구멍 추가
+      innerPath.addRRect(
+        RRect.fromRectAndCorners(
+          const Rect.fromLTWH(-20, -12, 38, 38),
+          topRight: const Radius.circular(8),
+          topLeft: const Radius.circular(35),
+        ),
+      );
+      canvas.drawPath(innerPath, innerPaint);
+
       canvas.restore();
     }
   }
@@ -188,7 +218,13 @@ class KokoBodyPainter extends CustomPainter {
     canvas.save();
     canvas.translate(start.dx, start.dy);
     canvas.rotate(angleDeg * math.pi / 180);
-    canvas.drawLine(Offset.zero, Offset(dx, dy), paint);
+
+    final path = Path();
+    path.moveTo(0, 0);
+    // 곡선 모양의 수염으로 변경
+    path.quadraticBezierTo(dx * 0.5, dy + 8, dx, dy);
+
+    canvas.drawPath(path, paint);
     canvas.restore();
   }
 

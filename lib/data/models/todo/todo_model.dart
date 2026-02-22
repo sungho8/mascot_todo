@@ -17,6 +17,8 @@ abstract class TodoModel with _$TodoModel {
     String? description,
     @JsonKey(name: 'is_completed') required bool isCompleted,
     @JsonKey(name: 'is_focus') @Default(false) bool isFocus,
+    @JsonKey(name: 'is_recurring') @Default(false) bool isRecurring,
+    @JsonKey(name: 'recurring_source_id') String? recurringSourceId,
     @JsonKey(name: 'linked_mascot_id') String? linkedMascotId,
     @JsonKey(name: 'category_id') String? categoryId,
     @JsonKey(name: 'target_date') required String targetDate,
@@ -41,6 +43,8 @@ abstract class TodoModel with _$TodoModel {
       createdAt: DateTime.parse(createdAt),
       completedAt: completedAt != null ? DateTime.parse(completedAt!) : null,
       isFocusTask: isFocus,
+      isRecurring: isRecurring,
+      recurringSourceId: recurringSourceId,
     );
   }
 }

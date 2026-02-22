@@ -9,9 +9,7 @@ class CollectionView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('컬렉션'),
-      ),
+      appBar: AppBar(title: const Text('컬렉션')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -24,10 +22,7 @@ class CollectionView extends ConsumerWidget {
 
             AppSpacing.vXl,
 
-            Text(
-              '컬렉션 화면',
-              style: AppTypography.h2,
-            ),
+            Text('컬렉션 화면', style: AppTypography.h2),
 
             AppSpacing.vMd,
 

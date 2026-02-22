@@ -12,7 +12,10 @@ abstract class MascotEntity with _$MascotEntity {
     required int level,
     required double currentExp,
     required double maxExp,
-    required bool isLocked,
-    String? unlockCondition,
+    required String unlockConditionType,
+    required int unlockConditionValue,
+    required String unlockDescription,
+    required bool isDefault,
+    @Default(false) bool isUnlocked,
   }) = _MascotEntity;
 }

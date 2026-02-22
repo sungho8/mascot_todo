@@ -6,10 +6,7 @@ import '../../../../domain/entities/mascot/mascot_entity.dart';
 class MascotLevelBar extends StatelessWidget {
   final MascotEntity? mascot;
 
-  const MascotLevelBar({
-    super.key,
-    this.mascot,
-  });
+  const MascotLevelBar({super.key, this.mascot});
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +29,8 @@ class MascotLevelBar extends StatelessWidget {
           Row(
             children: [
               Container(
-                width: 48,
-                height: 48,
+                width: 40,
+                height: 40,
                 decoration: BoxDecoration(
                   color: AppColors.primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(AppRadius.sm),
@@ -41,7 +38,7 @@ class MascotLevelBar extends StatelessWidget {
                 child: const Icon(
                   Icons.pets,
                   color: AppColors.primary,
-                  size: 28,
+                  size: 24,
                 ),
               ),
 
@@ -51,10 +48,7 @@ class MascotLevelBar extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      mascot!.name,
-                      style: AppTypography.h4,
-                    ),
+                    Text(mascot!.name, style: AppTypography.h4),
 
                     AppSpacing.vXs,
 

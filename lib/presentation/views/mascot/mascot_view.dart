@@ -5,8 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../viewmodels/home/home_viewmodel.dart';
 import '../../../di/ai/ai_providers.dart';
 import '../../../core/design_system/design_system.dart';
-import 'widgets/koko_body_painter.dart';
-import 'widgets/koko_tail.dart';
+import 'widgets/animated_mascot.dart';
 import 'widgets/bubble_tail_painter.dart';
 
 /// 마스코트 대화 화면
@@ -21,10 +20,8 @@ class MascotView extends ConsumerStatefulWidget {
 
 class _MascotViewState extends ConsumerState<MascotView>
     with TickerProviderStateMixin {
-  late AnimationController _floatController;
-  late AnimationController _jumpController;
-  late AnimationController _mouthController;
-  late AnimationController _blinkController;
+  late AnimationController _dotController;
+  final _mascotKey = GlobalKey<AnimatedMascotState>();
 
   late String _message;
   bool _isSpeaking = false;
@@ -38,43 +35,44 @@ class _MascotViewState extends ConsumerState<MascotView>
   void initState() {
     super.initState();
 
-    _message = "안녕! 나는 ${widget.mascotId}야. 무엇을 도와줄까? 야옹~";
+    final homeState = ref.read(homeViewModelProvider);
+    final mascot =
+        homeState.mascots.where((m) => m.id == widget.mascotId).firstOrNull ??
+        homeState.mainMascot;
+    final mascotName = mascot?.name ?? '코코';
+    final userName = homeState.user?.name;
 
-    _floatController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 3500),
-    )..repeat(reverse: true);
+    _message = userName != null
+        ? "안녕 $userName! 나는 $mascotName이야. 무엇을 도와줄까? 야옹~"
+        : "안녕! 나는 $mascotName이야. 무엇을 도와줄까? 야옹~";
 
-    _jumpController = AnimationController(
+    _dotController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 600),
-    );
-
-    _mouthController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 150),
-    );
-
-    _blinkController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 4500),
-    );
+      duration: const Duration(milliseconds: 900),
+    )..repeat();
   }
 
   Future<void> _handleChat(String text) async {
     if (text.trim().isEmpty || _isLoading) return;
+
+    final mascot = ref
+        .read(homeViewModelProvider)
+        .mascots
+        .firstWhere(
+          (m) => m.id == widget.mascotId,
+          orElse: () => ref.read(homeViewModelProvider).mainMascot!,
+        );
 
     setState(() {
       _isLoading = true;
       _isSpeaking = true;
     });
 
-    _jumpController.forward(from: 0);
-    _mouthController.repeat(reverse: true);
+    _mascotKey.currentState?.playJump();
 
     try {
       final useCase = ref.read(processChatUseCaseProvider);
-      final result = await useCase(text.trim(), widget.mascotId);
+      final result = await useCase(text.trim(), mascot);
 
       result.fold(
         (failure) {
@@ -104,8 +102,6 @@ class _MascotViewState extends ConsumerState<MascotView>
           _isLoading = false;
           _isSpeaking = false;
         });
-        _mouthController.stop();
-        _mouthController.reset();
       }
     }
 
@@ -117,10 +113,7 @@ class _MascotViewState extends ConsumerState<MascotView>
   void dispose() {
     _textController.dispose();
     _focusNode.dispose();
-    _floatController.dispose();
-    _jumpController.dispose();
-    _mouthController.dispose();
-    _blinkController.dispose();
+    _dotController.dispose();
     super.dispose();
   }
 
@@ -147,13 +140,15 @@ class _MascotViewState extends ConsumerState<MascotView>
                   // 상단 메인 캐릭터 영역
                   SizedBox(
                     height: 380,
-                    width: 450,
+                    width: math.min(450, MediaQuery.of(context).size.width),
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
                         // 말풍선
                         Positioned(
                           top: 40,
+                          left: 16,
+                          right: 16,
                           child: AnimatedOpacity(
                             duration: const Duration(milliseconds: 300),
                             opacity: 1.0,
@@ -179,13 +174,31 @@ class _MascotViewState extends ConsumerState<MascotView>
                               child: Stack(
                                 clipBehavior: Clip.none,
                                 children: [
-                                  Text(
-                                    _message,
-                                    style: const TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color(0xFF334155),
-                                    ),
+                                  AnimatedBuilder(
+                                    animation: _dotController,
+                                    builder: (context, _) {
+                                      final String displayText;
+                                      if (_isLoading) {
+                                        final step = (_dotController.value * 3)
+                                            .floor()
+                                            .clamp(0, 2);
+                                        displayText = switch (step) {
+                                          0 => '●',
+                                          1 => '●  ●',
+                                          _ => '●  ●  ●',
+                                        };
+                                      } else {
+                                        displayText = _message;
+                                      }
+                                      return Text(
+                                        displayText,
+                                        style: const TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color(0xFF334155),
+                                        ),
+                                      );
+                                    },
                                   ),
 
                                   Positioned(
@@ -208,68 +221,12 @@ class _MascotViewState extends ConsumerState<MascotView>
                         // 코코 캐릭터
                         Positioned(
                           bottom: 40,
-                          child: AnimatedBuilder(
-                            animation: Listenable.merge([
-                              _floatController,
-                              _jumpController,
-                            ]),
-                            builder: (context, child) {
-                              double floatVal =
-                                  (math.sin(
-                                        _floatController.value * 2 * math.pi,
-                                      ) -
-                                      1) *
-                                  10;
-                              double jumpVal = 0;
-                              double scaleX = 1.0;
-                              double scaleY = 1.0;
-
-                              if (_jumpController.isAnimating ||
-                                  _jumpController.isCompleted) {
-                                double t = _jumpController.value;
-                                jumpVal = math.sin(t * math.pi) * -60;
-                                scaleX = 1.0 + math.sin(t * math.pi) * 0.15;
-                                scaleY = 1.0 - math.sin(t * math.pi) * 0.2;
-                              }
-
-                              return Transform.translate(
-                                offset: Offset(0, floatVal + jumpVal),
-                                child: Transform.scale(
-                                  scaleX: scaleX,
-                                  scaleY: scaleY,
-                                  child: GestureDetector(
-                                    onTap: () =>
-                                        _jumpController.forward(from: 0),
-                                    child: SizedBox(
-                                      width: 180,
-                                      height: 180,
-                                      child: Stack(
-                                        clipBehavior: Clip.none,
-                                        children: [
-                                          const Positioned(
-                                            right: -25,
-                                            bottom: 25,
-                                            child: KokoTail(),
-                                          ),
-
-                                          CustomPaint(
-                                            size: const Size(180, 180),
-                                            painter: KokoBodyPainter(
-                                              blinkValue:
-                                                  _blinkController.value,
-                                              mouthValue:
-                                                  _mouthController.value,
-                                              isSpeaking: _isSpeaking,
-                                              mousePos: _mousePos,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
+                          child: AnimatedMascot(
+                            key: _mascotKey,
+                            size: 180.0,
+                            isSpeaking: _isSpeaking,
+                            mousePos: _mousePos,
+                            hasTail: true,
                           ),
                         ),
                       ],
@@ -349,19 +306,11 @@ class _MascotViewState extends ConsumerState<MascotView>
                           color: _isLoading ? Colors.grey : AppColors.primary,
                           shape: BoxShape.circle,
                         ),
-                        child: _isLoading
-                            ? const Padding(
-                                padding: EdgeInsets.all(12.0),
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Colors.white,
-                                ),
-                              )
-                            : const Icon(
-                                Icons.send_rounded,
-                                color: Colors.white,
-                                size: 24,
-                              ),
+                        child: const Icon(
+                          Icons.send_rounded,
+                          color: Colors.white,
+                          size: 24,
+                        ),
                       ),
                     ),
                   ],

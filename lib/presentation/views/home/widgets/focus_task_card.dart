@@ -6,10 +6,7 @@ import '../../../../domain/entities/todo/todo_entity.dart';
 class FocusTaskCard extends StatelessWidget {
   final TodoEntity? focusTodo;
 
-  const FocusTaskCard({
-    super.key,
-    this.focusTodo,
-  });
+  const FocusTaskCard({super.key, this.focusTodo});
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +19,7 @@ class FocusTaskCard extends StatelessWidget {
       padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            AppColors.primary,
-            AppColors.primary.withValues(alpha: 0.8),
-          ],
+          colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.8)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -36,11 +30,7 @@ class FocusTaskCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(
-                Icons.star,
-                color: AppColors.textOnDark,
-                size: 20,
-              ),
+              const Icon(Icons.star, color: AppColors.textOnDark, size: 22),
 
               AppSpacing.hSm,
 
@@ -55,11 +45,22 @@ class FocusTaskCard extends StatelessWidget {
 
           AppSpacing.vMd,
 
-          Text(
-            focusTodo!.title,
-            style: AppTypography.h3.copyWith(
-              color: AppColors.textOnDark,
-            ),
+          Row(
+            children: [
+              if (focusTodo!.isRecurring ||
+                  focusTodo!.recurringSourceId != null) ...[
+                const Icon(Icons.repeat, size: 18, color: AppColors.textOnDark),
+                AppSpacing.hSm,
+              ],
+              Expanded(
+                child: Text(
+                  focusTodo!.title,
+                  style: AppTypography.h3.copyWith(color: AppColors.textOnDark),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
           ),
         ],
       ),
