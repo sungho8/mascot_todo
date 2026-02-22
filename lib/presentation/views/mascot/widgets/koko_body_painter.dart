@@ -61,12 +61,12 @@ class KokoBodyPainter extends CustomPainter {
       ..strokeWidth = 2.5
       ..strokeCap = StrokeCap.round;
 
-    // 왼쪽 수염
-    _drawWhiskerLine(canvas, Offset(w * 0.12, h * 0.55), -22, -3, whiskerPaint);
+    // 왼쪽 수염 (위아래 길이 맞춤: dx를 -25로 통일)
+    _drawWhiskerLine(canvas, Offset(w * 0.12, h * 0.55), -25, -3, whiskerPaint);
     _drawWhiskerLine(canvas, Offset(w * 0.08, h * 0.63), -25, 1, whiskerPaint);
 
-    // 오른쪽 수염
-    _drawWhiskerLine(canvas, Offset(w * 0.88, h * 0.55), 22, -3, whiskerPaint);
+    // 오른쪽 수염 (위아래 길이 맞춤: dx를 25로 통일)
+    _drawWhiskerLine(canvas, Offset(w * 0.88, h * 0.55), 25, -3, whiskerPaint);
     _drawWhiskerLine(canvas, Offset(w * 0.92, h * 0.63), 25, 1, whiskerPaint);
 
     // 6. 볼터치 (Blush) - 눈보다 뒤에 그려지도록 순서 유지
@@ -208,16 +208,18 @@ class KokoBodyPainter extends CustomPainter {
 
     canvas.save();
     canvas.translate(center.dx, center.dy);
-    canvas.drawCircle(Offset.zero, 13, eyePaint);
+    // 원래 13에서 80% 크기 (10.4)
+    canvas.drawCircle(Offset.zero, 10.4, eyePaint);
 
     final pupilPaint = Paint()..color = Colors.white;
 
-    // 눈동자 추적 로직 (최대 이동 반경 제한)
+    // 눈동자 추적 로직 (최대 이동 반경 축소: 6.0 -> 4.8)
     // mousePos는 -1.0 ~ 1.0 범위의 값으로 가정 (입력단에서 정규화 필요)
-    double pdx = math.max(-1.0, math.min(1.0, mousePos.dx)) * 6.0;
-    double pdy = math.max(-1.0, math.min(1.0, mousePos.dy)) * 6.0;
+    double pdx = math.max(-1.0, math.min(1.0, mousePos.dx)) * 4.8;
+    double pdy = math.max(-1.0, math.min(1.0, mousePos.dy)) * 4.8;
 
-    canvas.drawCircle(Offset(pdx, pdy), 5, pupilPaint);
+    // 원래 5에서 80% 크기 (4)
+    canvas.drawCircle(Offset(pdx, pdy), 4, pupilPaint);
     canvas.restore();
   }
 
