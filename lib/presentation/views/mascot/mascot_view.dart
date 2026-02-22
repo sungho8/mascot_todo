@@ -273,25 +273,18 @@ class _MascotViewState extends ConsumerState<MascotView>
                   top: 15,
                   bottom: MediaQuery.of(context).padding.bottom + 15,
                 ),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 20,
-                      offset: Offset(0, -5),
-                    ),
-                  ],
-                ),
+                color: const Color(0xFFF8FAFC), // Scaffold 배경색과 일치
                 child: Row(
                   children: [
                     Expanded(
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFF1F5F9),
+                          color: Colors.white, // 흰색 입력창 배경
                           borderRadius: BorderRadius.circular(24),
+                          border: Border.all(
+                            color: const Color(0xFFE2E8F0),
+                          ), // 연한 테두리
                         ),
                         child: TextField(
                           controller: _textController,
