@@ -191,15 +191,13 @@ class _MascotChatBarState extends ConsumerState<MascotChatBar>
             ),
           ),
 
-        // 마스코트 + 채팅 입력 바 (테두리/그림자 없는 플랫 디자인)
+        // 마스코트 + 채팅 입력 바
         Container(
           padding: AppSpacing.symmetric(
             horizontal: AppSpacing.md,
             vertical: AppSpacing.sm,
           ),
-          decoration: const BoxDecoration(
-            color: Color(0xFFF8F9FA), // 매우 연한 회색 배경
-          ),
+          color: Colors.white, // 하단 네비게이션과 동일한 배경색
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -213,61 +211,81 @@ class _MascotChatBarState extends ConsumerState<MascotChatBar>
 
               AppSpacing.hMd,
 
-              // 입력창
+              // 채팅 영역 (테두리 없는 연한 회색 배경의 알약 모양 통합 UI)
               Expanded(
-                child: TextField(
-                  controller: _controller,
-                  focusNode: _focusNode,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFF334155),
-                  ),
-                  decoration: InputDecoration(
-                    hintText: widget.mascot.chatHint,
-                    hintStyle: const TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFF94A3B8),
-                      fontWeight: FontWeight.w500,
-                    ),
-                    border: InputBorder.none,
-                    contentPadding: AppSpacing.symmetric(
-                      vertical: AppSpacing.sm,
-                      horizontal: AppSpacing.xs,
-                    ),
-                  ),
-                  textInputAction: TextInputAction.send,
-                  onSubmitted: _handleSubmit,
-                ),
-              ),
-
-              AppSpacing.hSm,
-
-              // 전송 버튼
-              GestureDetector(
-                onTap: () => _handleSubmit(_controller.text),
                 child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: _isLoading
-                        ? const Color(0xFFCBD5E1)
-                        : const Color(0xFF4ADE80), // 민트/그린 버튼 색상
-                    shape: BoxShape.circle,
+                  padding: const EdgeInsets.only(
+                    left: 16,
+                    right: 8,
+                    top: 8,
+                    bottom: 8,
                   ),
-                  child: _isLoading
-                      ? const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF4F5F7), // 회색 배경
+                    borderRadius: BorderRadius.circular(36), // 알약 모양
+                  ),
+                  child: Row(
+                    children: [
+                      // 입력창
+                      Expanded(
+                        child: TextField(
+                          controller: _controller,
+                          focusNode: _focusNode,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF334155),
                           ),
-                        )
-                      : const Icon(
-                          Icons.send_rounded,
-                          color: Color(0xFF0F172A), // 진한 네이비 아이콘
-                          size: 20,
+                          decoration: InputDecoration(
+                            hintText: widget.mascot.chatHint,
+                            hintStyle: const TextStyle(
+                              fontSize: 15,
+                              color: Color(0xFF94A3B8),
+                              fontWeight: FontWeight.w500,
+                            ),
+                            border: InputBorder.none,
+                            isDense: true,
+                            contentPadding: AppSpacing.symmetric(
+                              vertical: AppSpacing.sm,
+                              horizontal: AppSpacing.xs,
+                            ),
+                          ),
+                          textInputAction: TextInputAction.send,
+                          onSubmitted: _handleSubmit,
                         ),
+                      ),
+
+                      AppSpacing.hSm,
+
+                      // 전송 버튼
+                      GestureDetector(
+                        onTap: () => _handleSubmit(_controller.text),
+                        child: Container(
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            color: _isLoading
+                                ? const Color(0xFFCBD5E1)
+                                : const Color(0xFF34D399), // 민트/그린 버튼 색상
+                            shape: BoxShape.circle,
+                          ),
+                          child: _isLoading
+                              ? const Padding(
+                                  padding: EdgeInsets.all(10.0),
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : const Icon(
+                                  Icons.send_rounded,
+                                  color: Color(0xFF0F172A), // 진한 네이비 아이콘
+                                  size: 22,
+                                ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
