@@ -191,14 +191,23 @@ class _MascotChatBarState extends ConsumerState<MascotChatBar>
             ),
           ),
 
-        // 마스코트 + 채팅 입력 바 (테두리/그림자 없는 플랫 디자인)
+        // 마스코트 + 채팅 입력 바
         Container(
           padding: AppSpacing.symmetric(
             horizontal: AppSpacing.md,
             vertical: AppSpacing.sm,
           ),
-          decoration: const BoxDecoration(
-            color: Color(0xFFF8F9FA), // 매우 연한 회색 배경
+          decoration: BoxDecoration(
+            color: AppColors.cardBackground,
+            borderRadius: AppRadius.card,
+            border: Border.all(color: AppColors.border),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.04),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -218,17 +227,11 @@ class _MascotChatBarState extends ConsumerState<MascotChatBar>
                 child: TextField(
                   controller: _controller,
                   focusNode: _focusNode,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFF334155),
-                  ),
+                  style: AppTypography.body1,
                   decoration: InputDecoration(
                     hintText: widget.mascot.chatHint,
-                    hintStyle: const TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFF94A3B8),
-                      fontWeight: FontWeight.w500,
+                    hintStyle: AppTypography.body1.copyWith(
+                      color: AppColors.textDisabled,
                     ),
                     border: InputBorder.none,
                     contentPadding: AppSpacing.symmetric(
@@ -251,8 +254,8 @@ class _MascotChatBarState extends ConsumerState<MascotChatBar>
                   height: 40,
                   decoration: BoxDecoration(
                     color: _isLoading
-                        ? const Color(0xFFCBD5E1)
-                        : const Color(0xFF4ADE80), // 민트/그린 버튼 색상
+                        ? AppColors.buttonDisabled
+                        : AppColors.primary,
                     shape: BoxShape.circle,
                   ),
                   child: _isLoading
@@ -260,13 +263,13 @@ class _MascotChatBarState extends ConsumerState<MascotChatBar>
                           padding: EdgeInsets.all(8.0),
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: Colors.white,
+                            color: AppColors.textOnDark,
                           ),
                         )
                       : const Icon(
-                          Icons.send_rounded,
-                          color: Color(0xFF0F172A), // 진한 네이비 아이콘
+                          Icons.arrow_upward,
                           size: 20,
+                          color: AppColors.textOnDark,
                         ),
                 ),
               ),
