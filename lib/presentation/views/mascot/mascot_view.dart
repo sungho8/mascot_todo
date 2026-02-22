@@ -261,58 +261,70 @@ class _MascotViewState extends ConsumerState<MascotView>
               ),
             ),
 
-            // 하단 채팅 입력 영역
+            // 하단 채팅 입력 영역 (단일 통합 UI)
             Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
+              bottom: MediaQuery.of(context).padding.bottom + 20,
+              left: 20,
+              right: 20,
               child: Container(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   left: 20,
-                  right: 20,
-                  top: 15,
-                  bottom: MediaQuery.of(context).padding.bottom + 15,
+                  right: 8,
+                  top: 8,
+                  bottom: 8,
                 ),
-                color: const Color(0xFFF8FAFC), // Scaffold 배경색과 일치
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(36),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.06),
+                      blurRadius: 24,
+                      offset: const Offset(0, 8),
+                    ),
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.02),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
                 child: Row(
                   children: [
                     Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        decoration: BoxDecoration(
-                          color: Colors.white, // 흰색 입력창 배경
-                          borderRadius: BorderRadius.circular(24),
-                          border: Border.all(
-                            color: const Color(0xFFE2E8F0),
-                          ), // 연한 테두리
+                      child: TextField(
+                        controller: _textController,
+                        focusNode: _focusNode,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Color(0xFF334155),
                         ),
-                        child: TextField(
-                          controller: _textController,
-                          focusNode: _focusNode,
-                          style: const TextStyle(fontSize: 15),
-                          decoration: const InputDecoration(
-                            hintText: '메시지를 입력하세요...',
-                            border: InputBorder.none,
-                            hintStyle: TextStyle(color: Color(0xFF94A3B8)),
-                          ),
-                          onSubmitted: _handleChat,
+                        decoration: const InputDecoration(
+                          hintText: '메시지를 입력하세요...',
+                          border: InputBorder.none,
+                          isDense: true,
+                          contentPadding: EdgeInsets.symmetric(vertical: 10),
+                          hintStyle: TextStyle(color: Color(0xFF94A3B8)),
                         ),
+                        onSubmitted: _handleChat,
                       ),
                     ),
                     const SizedBox(width: 12),
                     GestureDetector(
                       onTap: () => _handleChat(_textController.text),
                       child: Container(
-                        width: 48,
-                        height: 48,
+                        width: 44,
+                        height: 44,
                         decoration: BoxDecoration(
-                          color: _isLoading ? Colors.grey : AppColors.primary,
+                          color: _isLoading
+                              ? const Color(0xFFCBD5E1)
+                              : AppColors.primary,
                           shape: BoxShape.circle,
                         ),
                         child: const Icon(
                           Icons.send_rounded,
                           color: Colors.white,
-                          size: 24,
+                          size: 20,
                         ),
                       ),
                     ),
