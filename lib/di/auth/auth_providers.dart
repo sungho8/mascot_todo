@@ -4,6 +4,7 @@ import '../../data/repositories_impl/auth/auth_repository_impl.dart';
 import '../../domain/repositories/auth/auth_repository.dart';
 import '../../domain/usecases/auth/get_current_user_usecase.dart';
 import '../../domain/usecases/auth/sign_in_with_kakao_usecase.dart';
+import '../../domain/usecases/auth/sign_in_anonymously_usecase.dart';
 import '../../domain/usecases/auth/sign_out_usecase.dart';
 
 part 'auth_providers.g.dart';
@@ -24,10 +25,16 @@ AuthRepository authRepository(AuthRepositoryRef ref) {
 
 /// Sign In With Kakao UseCase Provider
 @riverpod
-SignInWithKakaoUseCase signInWithKakaoUseCase(
-  SignInWithKakaoUseCaseRef ref,
+SignInWithKakaoUseCase signInWithKakaoUseCase(SignInWithKakaoUseCaseRef ref) {
+  return SignInWithKakaoUseCase(repository: ref.watch(authRepositoryProvider));
+}
+
+/// Sign In Anonymously UseCase Provider
+@riverpod
+SignInAnonymouslyUseCase signInAnonymouslyUseCase(
+  SignInAnonymouslyUseCaseRef ref,
 ) {
-  return SignInWithKakaoUseCase(
+  return SignInAnonymouslyUseCase(
     repository: ref.watch(authRepositoryProvider),
   );
 }
@@ -35,15 +42,11 @@ SignInWithKakaoUseCase signInWithKakaoUseCase(
 /// Sign Out UseCase Provider
 @riverpod
 SignOutUseCase signOutUseCase(SignOutUseCaseRef ref) {
-  return SignOutUseCase(
-    repository: ref.watch(authRepositoryProvider),
-  );
+  return SignOutUseCase(repository: ref.watch(authRepositoryProvider));
 }
 
 /// Get Current User UseCase Provider
 @riverpod
 GetCurrentUserUseCase getCurrentUserUseCase(GetCurrentUserUseCaseRef ref) {
-  return GetCurrentUserUseCase(
-    repository: ref.watch(authRepositoryProvider),
-  );
+  return GetCurrentUserUseCase(repository: ref.watch(authRepositoryProvider));
 }

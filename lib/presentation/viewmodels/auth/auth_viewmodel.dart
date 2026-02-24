@@ -22,14 +22,10 @@ class AuthViewModel extends _$AuthViewModel {
 
     result.fold(
       (failure) {
-        logger.w('인증 상태 확인 실패: ${failure.maybeMap(
-          serverError: (e) => e.message,
-          orElse: () => '알 수 없는 오류',
-        )}');
-        state = state.copyWith(
-          status: AuthStatus.unauthenticated,
-          user: null,
+        logger.w(
+          '인증 상태 확인 실패: ${failure.maybeMap(serverError: (e) => e.message, orElse: () => '알 수 없는 오류')}',
         );
+        state = state.copyWith(status: AuthStatus.unauthenticated, user: null);
       },
       (user) {
         if (user == null) {
@@ -40,10 +36,7 @@ class AuthViewModel extends _$AuthViewModel {
           );
         } else {
           logger.i('로그인 상태 확인: ${user.id}');
-          state = state.copyWith(
-            status: AuthStatus.authenticated,
-            user: user,
-          );
+          state = state.copyWith(status: AuthStatus.authenticated, user: user);
         }
       },
     );
@@ -51,10 +44,7 @@ class AuthViewModel extends _$AuthViewModel {
 
   /// 카카오 로그인
   Future<void> signInWithKakao() async {
-    state = state.copyWith(
-      status: AuthStatus.loading,
-      errorMessage: null,
-    );
+    state = state.copyWith(status: AuthStatus.loading, errorMessage: null);
 
     final signInWithKakaoUseCase = ref.read(signInWithKakaoUseCaseProvider);
     final result = await signInWithKakaoUseCase();
@@ -75,6 +65,38 @@ class AuthViewModel extends _$AuthViewModel {
       },
       (user) {
         logger.i('✅ 카카오 로그인 성공: ${user.id}');
+        state = state.copyWith(
+          status: AuthStatus.authenticated,
+          user: user,
+          errorMessage: null,
+        );
+      },
+    );
+  }
+
+  /// 비회원 로그인
+  Future<void> signInAnonymously() async {
+    state = state.copyWith(status: AuthStatus.loading, errorMessage: null);
+
+    final signInAnonymouslyUseCase = ref.read(signInAnonymouslyUseCaseProvider);
+    final result = await signInAnonymouslyUseCase();
+
+    result.fold(
+      (failure) {
+        final errorMessage = failure.maybeMap(
+          serverError: (e) => e.message ?? '비회원 로그인에 실패했습니다.',
+          networkError: (e) => e.message ?? '네트워크 연결을 확인해주세요.',
+          orElse: () => '알 수 없는 오류가 발생했습니다.',
+        );
+
+        logger.e('비회원 로그인 실패: $errorMessage');
+        state = state.copyWith(
+          status: AuthStatus.error,
+          errorMessage: errorMessage,
+        );
+      },
+      (user) {
+        logger.i('✅ 비회원 로그인 성공: ${user.id}');
         state = state.copyWith(
           status: AuthStatus.authenticated,
           user: user,

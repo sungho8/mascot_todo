@@ -68,6 +68,28 @@ final signInWithKakaoUseCaseProvider =
 // ignore: unused_element
 typedef SignInWithKakaoUseCaseRef =
     AutoDisposeProviderRef<SignInWithKakaoUseCase>;
+String _$signInAnonymouslyUseCaseHash() =>
+    r'2ef927d36d39f0f58c3fc8871fcf70e061f98d65';
+
+/// Sign In Anonymously UseCase Provider
+///
+/// Copied from [signInAnonymouslyUseCase].
+@ProviderFor(signInAnonymouslyUseCase)
+final signInAnonymouslyUseCaseProvider =
+    AutoDisposeProvider<SignInAnonymouslyUseCase>.internal(
+      signInAnonymouslyUseCase,
+      name: r'signInAnonymouslyUseCaseProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$signInAnonymouslyUseCaseHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef SignInAnonymouslyUseCaseRef =
+    AutoDisposeProviderRef<SignInAnonymouslyUseCase>;
 String _$signOutUseCaseHash() => r'dc3dc4eb488703dd3b3e7bc651468950e405cff8';
 
 /// Sign Out UseCase Provider

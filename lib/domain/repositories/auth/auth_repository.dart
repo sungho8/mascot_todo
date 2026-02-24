@@ -7,6 +7,9 @@ abstract class AuthRepository {
   /// 카카오 로그인
   Future<Either<Failure, UserEntity>> signInWithKakao();
 
+  /// 비회원 로그인
+  Future<Either<Failure, UserEntity>> signInAnonymously();
+
   /// 로그아웃
   Future<Either<Failure, void>> signOut();
 

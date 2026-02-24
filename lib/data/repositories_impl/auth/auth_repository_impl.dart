@@ -10,9 +10,8 @@ class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource _remoteDataSource;
   final Logger _logger = Logger();
 
-  AuthRepositoryImpl({
-    required AuthRemoteDataSource remoteDataSource,
-  }) : _remoteDataSource = remoteDataSource;
+  AuthRepositoryImpl({required AuthRemoteDataSource remoteDataSource})
+    : _remoteDataSource = remoteDataSource;
 
   @override
   Future<Either<Failure, UserEntity>> signInWithKakao() async {
@@ -21,9 +20,18 @@ class AuthRepositoryImpl implements AuthRepository {
       return Right(userModel.toEntity());
     } catch (e, stackTrace) {
       _logger.e('카카오 로그인 실패', error: e, stackTrace: stackTrace);
-      return const Left(
-        Failure.serverError(message: '카카오 로그인에 실패했습니다.'),
-      );
+      return Left(Failure.serverError(message: '로그인 오류: $e'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> signInAnonymously() async {
+    try {
+      final userModel = await _remoteDataSource.signInAnonymously();
+      return Right(userModel.toEntity());
+    } catch (e, stackTrace) {
+      _logger.e('비회원 로그인 실패', error: e, stackTrace: stackTrace);
+      return Left(Failure.serverError(message: '비회원 로그인 오류: $e'));
     }
   }
 
@@ -34,9 +42,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return const Right(null);
     } catch (e, stackTrace) {
       _logger.e('로그아웃 실패', error: e, stackTrace: stackTrace);
-      return const Left(
-        Failure.serverError(message: '로그아웃에 실패했습니다.'),
-      );
+      return const Left(Failure.serverError(message: '로그아웃에 실패했습니다.'));
     }
   }
 
@@ -47,16 +53,14 @@ class AuthRepositoryImpl implements AuthRepository {
       return Right(userModel?.toEntity());
     } catch (e, stackTrace) {
       _logger.e('현재 사용자 조회 실패', error: e, stackTrace: stackTrace);
-      return const Left(
-        Failure.serverError(message: '사용자 정보를 불러오는데 실패했습니다.'),
-      );
+      return const Left(Failure.serverError(message: '사용자 정보를 불러오는데 실패했습니다.'));
     }
   }
 
   @override
   Stream<UserEntity?> authStateChanges() {
     return _remoteDataSource.authStateChanges().map(
-          (userModel) => userModel?.toEntity(),
-        );
+      (userModel) => userModel?.toEntity(),
+    );
   }
 }

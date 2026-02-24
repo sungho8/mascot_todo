@@ -10,15 +10,26 @@ class KakaoService {
   static Future<void> initialize() async {
     try {
       final kakaoNativeAppKey = dotenv.env['KAKAO_NATIVE_APP_KEY'];
+      final kakaoJavaScriptAppKey = dotenv.env['KAKAO_JAVASCRIPT_APP_KEY'];
 
       if (kakaoNativeAppKey == null || kakaoNativeAppKey.isEmpty) {
         throw Exception('KAKAO_NATIVE_APP_KEY is not defined in .env file');
       }
+      if (kakaoJavaScriptAppKey == null || kakaoJavaScriptAppKey.isEmpty) {
+        _logger.w(
+          'KAKAO_JAVASCRIPT_APP_KEY is not defined in .env file. Web login might not work.',
+        );
+      }
 
-      KakaoSdk.init(nativeAppKey: kakaoNativeAppKey);
+      KakaoSdk.init(
+        nativeAppKey: kakaoNativeAppKey,
+        javaScriptAppKey: kakaoJavaScriptAppKey,
+      );
 
       _logger.i('✅ Kakao SDK initialized successfully');
-      _logger.d('Kakao Native App Key: ${kakaoNativeAppKey.substring(0, 8)}...');
+      _logger.d(
+        'Kakao Native App Key: ${kakaoNativeAppKey.substring(0, 8)}...',
+      );
     } catch (e, stackTrace) {
       _logger.e(
         '❌ Failed to initialize Kakao SDK',

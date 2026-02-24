@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -74,7 +75,57 @@ class _LoginViewState extends ConsumerState<LoginView> {
               AppSpacing.vXxl,
               AppSpacing.vXxl,
 
-              // 카카오 로그인 버튼
+              // Web 환경인 경우 비회원 로그인 우선 표시 (AI 모니터링 및 테스트 용도)
+              if (kIsWeb)
+                SizedBox(
+                  height: 56,
+                  child: ElevatedButton(
+                    onPressed: isLoading
+                        ? null
+                        : () {
+                            ref
+                                .read(authViewModelProvider.notifier)
+                                .signInAnonymously();
+                          },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.buttonPrimary,
+                      foregroundColor: AppColors.textOnDark,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(AppRadius.md),
+                      ),
+                    ),
+                    child: isLoading
+                        ? const SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: AppColors.textPrimary,
+                            ),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.person_outline,
+                                size: AppSpacing.md,
+                                color: AppColors.textPrimary,
+                              ),
+                              const SizedBox(width: AppSpacing.sm),
+                              Text(
+                                '비회원 (Web 테스트) 로그인',
+                                style: AppTypography.buttonMedium.copyWith(
+                                  color: AppColors.textPrimary,
+                                ),
+                              ),
+                            ],
+                          ),
+                  ),
+                ),
+
+              if (kIsWeb) AppSpacing.vMd,
+
+              // 카카오 로그인 버튼 (모바일 및 웹 겸용)
               SizedBox(
                 height: 56,
                 child: ElevatedButton(

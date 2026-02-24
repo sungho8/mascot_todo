@@ -9,6 +9,9 @@ abstract class AuthRemoteDataSource {
   /// 카카오 로그인
   Future<UserModel> signInWithKakao();
 
+  /// 비회원 로그인
+  Future<UserModel> signInAnonymously();
+
   /// 로그아웃
   Future<void> signOut();
 
@@ -64,7 +67,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           .update({
             'kakao_id': kakaoUser.id.toString(),
             'nickname': kakaoUser.kakaoAccount?.profile?.nickname,
-            'profile_image_url': kakaoUser.kakaoAccount?.profile?.profileImageUrl,
+            'profile_image_url':
+                kakaoUser.kakaoAccount?.profile?.profileImageUrl,
             'updated_at': DateTime.now().toIso8601String(),
           })
           .eq('id', authResponse.user!.id)
@@ -76,6 +80,40 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       return UserModel.fromJson(updatedUser);
     } catch (e, stackTrace) {
       _logger.e('카카오 로그인 실패', error: e, stackTrace: stackTrace);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<UserModel> signInAnonymously() async {
+    try {
+      _logger.i('비회원 로그인 시도');
+
+      final authResponse = await SupabaseService.client.auth
+          .signInAnonymously();
+
+      if (authResponse.user == null) {
+        throw Exception('Supabase 비회원 로그인 실패: 사용자 정보가 없습니다.');
+      }
+
+      _logger.i('✅ Supabase 비회원 로그인 성공: ${authResponse.user!.id}');
+
+      // 비회원 정보로 프로필 빈 데이터 업데이트/생성
+      final updatedUser = await SupabaseService.client
+          .from('users')
+          .upsert({
+            'id': authResponse.user!.id,
+            'nickname': '게스트',
+            'updated_at': DateTime.now().toIso8601String(),
+          })
+          .select()
+          .single();
+
+      _logger.i('✅ 게스트 프로필 생성 완료');
+
+      return UserModel.fromJson(updatedUser);
+    } catch (e, stackTrace) {
+      _logger.e('비회원 로그인 실패', error: e, stackTrace: stackTrace);
       rethrow;
     }
   }
