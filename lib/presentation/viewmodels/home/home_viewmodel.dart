@@ -36,22 +36,26 @@ class HomeViewModel extends _$HomeViewModel {
   }
 
   /// 홈 화면 데이터 로드
-  Future<void> loadHomeData() async {
-    state = state.copyWith(status: HomeStatus.loading);
+  Future<void> loadHomeData({bool silent = false}) async {
+    if (!silent) {
+      state = state.copyWith(status: HomeStatus.loading);
+    }
 
     final result = await _getHomeDataUseCase();
 
     result.fold(
       (failure) {
-        state = state.copyWith(
-          status: HomeStatus.error,
-          errorMessage: failure.when(
-            serverError: (msg) => msg ?? '서버 오류가 발생했습니다',
-            networkError: (msg) => msg ?? '네트워크 연결을 확인해주세요',
-            cacheError: (msg) => msg ?? '데이터를 불러올 수 없습니다',
-            unknownError: (msg) => msg ?? '알 수 없는 오류가 발생했습니다',
-          ),
-        );
+        if (!silent) {
+          state = state.copyWith(
+            status: HomeStatus.error,
+            errorMessage: failure.when(
+              serverError: (msg) => msg ?? '서버 오류가 발생했습니다',
+              networkError: (msg) => msg ?? '네트워크 연결을 확인해주세요',
+              cacheError: (msg) => msg ?? '데이터를 불러올 수 없습니다',
+              unknownError: (msg) => msg ?? '알 수 없는 오류가 발생했습니다',
+            ),
+          );
+        }
       },
       (homeData) {
         state = state.copyWith(
@@ -90,10 +94,7 @@ class HomeViewModel extends _$HomeViewModel {
     final targetName = semanticMapping[semanticOrUuid];
     if (targetName == null) return null;
 
-    return state.categories
-        .where((c) => c.name == targetName)
-        .firstOrNull
-        ?.id;
+    return state.categories.where((c) => c.name == targetName).firstOrNull?.id;
   }
 
   /// Todo 생성
@@ -153,8 +154,9 @@ class HomeViewModel extends _$HomeViewModel {
         return false;
       },
       (_) {
-        final updatedTodos =
-            state.todos.where((todo) => todo.id != todoId).toList();
+        final updatedTodos = state.todos
+            .where((todo) => todo.id != todoId)
+            .toList();
         state = state.copyWith(todos: updatedTodos, errorMessage: null);
         return true;
       },
@@ -226,8 +228,9 @@ class HomeViewModel extends _$HomeViewModel {
 
         // 완료 상태이고 연결된 마스코트가 있으면 경험치 부여
         if (completedTodo.isCompleted && completedTodo.linkedMascotId != null) {
-          final expResult =
-              await _gainMascotExpUseCase(completedTodo.linkedMascotId!);
+          final expResult = await _gainMascotExpUseCase(
+            completedTodo.linkedMascotId!,
+          );
 
           expResult.fold(
             (_) {}, // 경험치 업데이트 실패는 조용히 무시 (UI 차단 불필요)
@@ -250,6 +253,9 @@ class HomeViewModel extends _$HomeViewModel {
             celebrationTrigger: state.celebrationTrigger + 1,
           );
         }
+
+        // 유저 정보(경험치, 콤보 등) 및 전체 상태 최신화를 위해 백그라운드 새로고침
+        await loadHomeData(silent: true);
       },
     );
   }

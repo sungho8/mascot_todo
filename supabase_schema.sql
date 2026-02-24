@@ -133,61 +133,62 @@ ALTER TABLE public.user_stats ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_achievements ENABLE ROW LEVEL SECURITY;
 
 -- Users: 자신의 데이터만 조회/수정 가능
-CREATE POLICY "Users can view own profile" ON public.users
-  FOR SELECT USING (auth.uid() = id);
+DROP POLICY IF EXISTS "Users can view own profile" ON public.users;
+CREATE POLICY "Users can view own profile" ON public.users FOR SELECT USING (auth.uid() = id);
 
-CREATE POLICY "Users can update own profile" ON public.users
-  FOR UPDATE USING (auth.uid() = id);
+DROP POLICY IF EXISTS "Users can update own profile" ON public.users;
+CREATE POLICY "Users can update own profile" ON public.users FOR UPDATE USING (auth.uid() = id);
 
-CREATE POLICY "Users can insert own profile" ON public.users
-  FOR INSERT WITH CHECK (auth.uid() = id);
+DROP POLICY IF EXISTS "Users can insert own profile" ON public.users;
+CREATE POLICY "Users can insert own profile" ON public.users FOR INSERT WITH CHECK (auth.uid() = id);
 
 -- User Mascots: 자신의 마스코트만 조회/수정 가능
-CREATE POLICY "Users can view own mascots" ON public.user_mascots
-  FOR SELECT USING (auth.uid() = user_id);
+DROP POLICY IF EXISTS "Users can view own mascots" ON public.user_mascots;
+CREATE POLICY "Users can view own mascots" ON public.user_mascots FOR SELECT USING (auth.uid() = user_id);
 
-CREATE POLICY "Users can insert own mascots" ON public.user_mascots
-  FOR INSERT WITH CHECK (auth.uid() = user_id);
+DROP POLICY IF EXISTS "Users can insert own mascots" ON public.user_mascots;
+CREATE POLICY "Users can insert own mascots" ON public.user_mascots FOR INSERT WITH CHECK (auth.uid() = user_id);
 
-CREATE POLICY "Users can update own mascots" ON public.user_mascots
-  FOR UPDATE USING (auth.uid() = user_id);
+DROP POLICY IF EXISTS "Users can update own mascots" ON public.user_mascots;
+CREATE POLICY "Users can update own mascots" ON public.user_mascots FOR UPDATE USING (auth.uid() = user_id);
 
 -- Todos: 자신의 할 일만 조회/수정/삭제 가능
-CREATE POLICY "Users can view own todos" ON public.todos
-  FOR SELECT USING (auth.uid() = user_id);
+DROP POLICY IF EXISTS "Users can view own todos" ON public.todos;
+CREATE POLICY "Users can view own todos" ON public.todos FOR SELECT USING (auth.uid() = user_id);
 
-CREATE POLICY "Users can insert own todos" ON public.todos
-  FOR INSERT WITH CHECK (auth.uid() = user_id);
+DROP POLICY IF EXISTS "Users can insert own todos" ON public.todos;
+CREATE POLICY "Users can insert own todos" ON public.todos FOR INSERT WITH CHECK (auth.uid() = user_id);
 
-CREATE POLICY "Users can update own todos" ON public.todos
-  FOR UPDATE USING (auth.uid() = user_id);
+DROP POLICY IF EXISTS "Users can update own todos" ON public.todos;
+CREATE POLICY "Users can update own todos" ON public.todos FOR UPDATE USING (auth.uid() = user_id);
 
-CREATE POLICY "Users can delete own todos" ON public.todos
-  FOR DELETE USING (auth.uid() = user_id);
+DROP POLICY IF EXISTS "Users can delete own todos" ON public.todos;
+CREATE POLICY "Users can delete own todos" ON public.todos FOR DELETE USING (auth.uid() = user_id);
 
 -- User Stats: 자신의 통계만 조회/수정 가능
-CREATE POLICY "Users can view own stats" ON public.user_stats
-  FOR SELECT USING (auth.uid() = user_id);
+DROP POLICY IF EXISTS "Users can view own stats" ON public.user_stats;
+CREATE POLICY "Users can view own stats" ON public.user_stats FOR SELECT USING (auth.uid() = user_id);
 
-CREATE POLICY "Users can insert own stats" ON public.user_stats
-  FOR INSERT WITH CHECK (auth.uid() = user_id);
+DROP POLICY IF EXISTS "Users can insert own stats" ON public.user_stats;
+CREATE POLICY "Users can insert own stats" ON public.user_stats FOR INSERT WITH CHECK (auth.uid() = user_id);
 
-CREATE POLICY "Users can update own stats" ON public.user_stats
-  FOR UPDATE USING (auth.uid() = user_id);
+DROP POLICY IF EXISTS "Users can update own stats" ON public.user_stats;
+CREATE POLICY "Users can update own stats" ON public.user_stats FOR UPDATE USING (auth.uid() = user_id);
 
 -- User Achievements: 자신의 업적만 조회/수정 가능
-CREATE POLICY "Users can view own achievements" ON public.user_achievements
-  FOR SELECT USING (auth.uid() = user_id);
+DROP POLICY IF EXISTS "Users can view own achievements" ON public.user_achievements;
+CREATE POLICY "Users can view own achievements" ON public.user_achievements FOR SELECT USING (auth.uid() = user_id);
 
-CREATE POLICY "Users can insert own achievements" ON public.user_achievements
-  FOR INSERT WITH CHECK (auth.uid() = user_id);
+DROP POLICY IF EXISTS "Users can insert own achievements" ON public.user_achievements;
+CREATE POLICY "Users can insert own achievements" ON public.user_achievements FOR INSERT WITH CHECK (auth.uid() = user_id);
 
 -- Mascots & Achievements: 모두 조회 가능 (마스터 데이터)
-CREATE POLICY "Anyone can view mascots" ON public.mascots
-  FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Anyone can view mascots" ON public.mascots;
+CREATE POLICY "Anyone can view mascots" ON public.mascots FOR SELECT USING (true);
 
-CREATE POLICY "Anyone can view achievements" ON public.achievements
-  FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Anyone can view achievements" ON public.achievements;
+CREATE POLICY "Anyone can view achievements" ON public.achievements FOR SELECT USING (true);
+
 
 -- ============================================
 -- Trigger Functions
@@ -203,18 +204,21 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- users 테이블 updated_at 트리거
+DROP TRIGGER IF EXISTS update_users_updated_at ON public.users;
 CREATE TRIGGER update_users_updated_at
   BEFORE UPDATE ON public.users
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
 
 -- todos 테이블 updated_at 트리거
+DROP TRIGGER IF EXISTS update_todos_updated_at ON public.todos;
 CREATE TRIGGER update_todos_updated_at
   BEFORE UPDATE ON public.todos
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
 
 -- user_stats 테이블 updated_at 트리거
+DROP TRIGGER IF EXISTS update_user_stats_updated_at ON public.user_stats;
 CREATE TRIGGER update_user_stats_updated_at
   BEFORE UPDATE ON public.user_stats
   FOR EACH ROW
