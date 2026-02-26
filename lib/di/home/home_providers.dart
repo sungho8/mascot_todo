@@ -20,6 +20,7 @@ import '../../domain/usecases/home/create_todo_usecase.dart';
 import '../../domain/usecases/home/delete_todo_usecase.dart';
 import '../../domain/usecases/home/update_todo_usecase.dart';
 import '../../domain/usecases/mascot/gain_mascot_exp_usecase.dart';
+import '../../domain/usecases/user/get_user_stats_usecase.dart';
 
 part 'home_providers.g.dart';
 
@@ -122,4 +123,10 @@ UpdateTodoUseCase updateTodoUseCase(Ref ref) {
 GainMascotExpUseCase gainMascotExpUseCase(Ref ref) {
   final mascotRepository = ref.watch(mascotRepositoryProvider);
   return GainMascotExpUseCase(mascotRepository);
+}
+
+@riverpod
+GetUserStatsUseCase getUserStatsUseCase(Ref ref) {
+  final userRepository = ref.watch(userRepositoryProvider);
+  return GetUserStatsUseCase(userRepository);
 }

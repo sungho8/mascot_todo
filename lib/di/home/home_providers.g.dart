@@ -291,5 +291,24 @@ final gainMascotExpUseCaseProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef GainMascotExpUseCaseRef = AutoDisposeProviderRef<GainMascotExpUseCase>;
+String _$getUserStatsUseCaseHash() =>
+    r'63502011639fa03fa289b10cc9caed81996fcee6';
+
+/// See also [getUserStatsUseCase].
+@ProviderFor(getUserStatsUseCase)
+final getUserStatsUseCaseProvider =
+    AutoDisposeProvider<GetUserStatsUseCase>.internal(
+      getUserStatsUseCase,
+      name: r'getUserStatsUseCaseProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$getUserStatsUseCaseHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef GetUserStatsUseCaseRef = AutoDisposeProviderRef<GetUserStatsUseCase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -23,3 +23,4 @@ export 'usecases/auth/get_current_user_usecase.dart';
 export 'usecases/auth/sign_in_with_kakao_usecase.dart';
 export 'usecases/auth/sign_out_usecase.dart';
 export 'usecases/statistics/get_statistics_data_usecase.dart';
+export 'usecases/user/get_user_stats_usecase.dart';
